@@ -131,18 +131,15 @@
     style="width:100%;padding:10px;border:none;border-top:1px solid #ccc;"
   />
 </div>
-
-           <script>
+<script>
 /* ===== CRIAR ID DO USUÁRIO ===== */
 let userId = localStorage.getItem("myaky_user");
 if (!userId) {
   userId = "user_" + Date.now();
   localStorage.setItem("myaky_user", userId);
 }
-
 /* ===== ENDEREÇO DO BACKEND ===== */
-const API = "https://SEU-LINK.ngrok-free.dev/chat";
-
+const API = "https://claudio-capitative-venally.ngrok-free.dev/chat";
 /* ===== FUNÇÃO QUE USA FETCH ===== */
 function enviar() {
   const input = document.getElementById("msg");
@@ -170,12 +167,13 @@ function enviar() {
     msgs.innerHTML += `<div style="color:red">Erro de conexão</div>`;
   });
 }
-
 /* ===== ENTER PARA ENVIAR ===== */
 document.getElementById("msg").addEventListener("keydown", e => {
   if (e.key === "Enter") enviar();
 });
-       </script>
+</script>
+ 
 </body>
 </html>
+
 
