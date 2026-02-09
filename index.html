@@ -179,8 +179,42 @@
         <p>Colégio Estadual Professor José Carlos Pinotti - Londrina/PR</p>
     </footer>
 
+<script>
+const MYAKY_API = "https://SUA-URL-DO-NGROK/chat";
+
+function myakySend() {
+  const input = document.getElementById("myaky-input");
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  addMyakyMsg("user", msg);
+  input.value = "";
+
+  fetch(MYAKY_API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: msg })
+  })
+  .then(r => r.json())
+  .then(d => addMyakyMsg("bot", d.reply))
+  .catch(() =>
+    addMyakyMsg("bot", "No momento não consegui responder. Tente novamente.")
+  );
+}
+
+function addMyakyMsg(type, text) {
+  const div = document.createElement("div");
+  div.className = type === "user" ? "myaky-user" : "myaky-bot";
+  div.innerText =
+    (type === "user" ? "Você: " : "Myaky Bot: ") + text;
+
+  document.getElementById("myaky-msgs").appendChild(div);
+  document.getElementById("myaky-msgs").scrollTop = 9999;
+}
+</script>
 </body>
 </html>
+
 
 
 
