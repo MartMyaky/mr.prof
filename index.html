@@ -1,279 +1,674 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professores do Paraná - Recursos Educacionais</title>
-    <style>
-        :root {
-            --azul-pr: #004080;
-            --azul-claro: #0066cc;
-            --verde-sust: #2e7d32;
-            --vermelho-pr: #c8102e;
-            --cinza-claro: #f4f4f4;
-            --branco: #ffffff;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background: var(--cinza-claro); 
-            color: #333; 
-            line-height: 1.6; 
-            margin: 0; 
-        }
-        header { 
-            background: linear-gradient(to right, var(--azul-pr), var(--verde-sust)); 
-            color: white; 
-            text-align: center; 
-            padding: 2.5rem 1rem; 
-        }
-        header h1 { font-size: clamp(2rem, 8vw, 3rem); margin-bottom: 0.5rem; }
-        header p { font-size: clamp(1rem, 4vw, 1.4rem); max-width: 90%; margin: 0 auto; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professores do Paraná • Portal Docente</title>
 
-        /* Menu mobile-friendly */
-        nav { 
-            background: var(--azul-pr); 
-            padding: 1rem; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2); 
-        }
-        .nav-container { 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-        }
-        .menu-icon { 
-            font-size: 2rem; 
-            cursor: pointer; 
-            color: white; 
-            display: none; 
-        }
-        .nav-links { 
-            display: flex; 
-            gap: 1.5rem; 
-            list-style: none; 
-        }
-        .nav-links a { 
-            color: white; 
-            text-decoration: none; 
-            font-weight: bold; 
-            font-size: clamp(0.95rem, 3vw, 1.1rem); 
-        }
-        .nav-links a:hover { color: var(--vermelho-pr); }
+  <style>
+    :root{
+      --bg0:#070A12;
+      --bg1:#0B1020;
+      --text:rgba(255,255,255,.90);
+      --muted:rgba(255,255,255,.68);
+      --card:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.12);
 
-        .container { 
-            max-width: 1100px; 
-            margin: 2rem auto; 
-            padding: 0 1rem; 
-        }
-        section { 
-            background: white; 
-            padding: 2rem; 
-            margin-bottom: 2rem; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-        }
-        h2 { 
-            color: var(--verde-sust); 
-            font-size: clamp(1.8rem, 6vw, 2.4rem); 
-            text-align: center; 
-            margin-bottom: 1.5rem; 
-        }
-        .cards { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 1.5rem; 
-            margin-top: 2rem; 
-        }
-        .card { 
-            background: var(--cinza-claro); 
-            padding: 1.5rem; 
-            border-radius: 12px; 
-            text-align: center; 
-            transition: transform 0.3s; 
-        }
-        .card:hover { transform: translateY(-5px); }
-        footer { 
-            background: var(--azul-pr); 
-            color: white; 
-            text-align: center; 
-            padding: 2.5rem 1rem; 
-            margin-top: 4rem; 
-        }
-        footer a { color: var(--azul-claro); text-decoration: none; margin: 0 0.8rem; }
+      --brand:#60A5FA;    /* azul */
+      --brand2:#A78BFA;   /* roxo */
+      --brand3:#22C55E;   /* verde */
+      --warning:#F59E0B;
 
-        /* Mobile adjustments */
-        @media (max-width: 768px) {
-            .menu-icon { display: block; }
-            .nav-links { 
-                display: none; 
-                flex-direction: column; 
-                background: var(--azul-pr); 
-                position: absolute; 
-                top: 100%; 
-                left: 0; 
-                width: 100%; 
-                padding: 1rem 0; 
-            }
-            .nav-links.active { display: flex; }
-            .nav-links a { margin: 1rem 0; font-size: 1.2rem; text-align: center; }
-            .container { padding: 0 0.8rem; }
-            section { padding: 1.5rem; }
-        }
-    </style>
-</head>
-<body>
+      --shadow: 0 22px 70px rgba(0,0,0,.55);
+      --shadow2: 0 16px 40px rgba(0,0,0,.35);
 
-    <header>
-        <h1>Professores do Paraná</h1>
-        <p>Recursos gratuitos, planos de aula, dicas de inclusão, tecnologia educacional, saúde mental docente e muito mais – tudo feito pensando na realidade da sala de aula paranaense.</p>
-    </header>
+      --r16:16px;
+      --r20:20px;
+      --r28:28px;
 
-    <nav>
-        <div class="nav-container">
-            <div class="menu-icon" onclick="toggleMenu()">☰</div>
-            <ul class="nav-links" id="navMenu">
-                <li><a href="index.html">Início</a></li>
-                <li><a href="calendario.html">Calendário 2026</a></li>
-                <li><a href="ia-geral.html">IA Geral</a></li>
-                <li><a href="ia-chat.html">IA chat</a></li>
-                <li><a href="assistentes.html">Assistentes IA</a></li>
-                <li><a href="bncc.html">Recursos BNCC</a></li>
-                <li><a href="planos-bncc.html">Planos BNCC</a></li>
-                <li><a href="inclusao.html">Inclusão</a></li>
-                <li><a href="google-classroom-ia.html">Google Classroom + IA</a></li>
-                <li><a href="tutoriais-ia.html">Tutoriais IA</a></li>
-                <li><a href="educacao-financeira-sustentavel.html">Educação Financeira Sustentável</a></li>
-                <li><a href="ods-na-escola.html">ODS na Escola</a></li>
-                <li><a href="recursos-gratuitos.html">Recursos Gratuitos</a></li>
-                <li><a href="projetos-interdisciplinares.html">Projetos Interdisciplinares</a></li>
-                <li><a href="saude-mental-professor.html">Saúde Mental do Professor</a></li>
-                <li><a href="avaliacao-formativa.html">Avaliação Formativa</a></li>
-                <li><a href="recuperacao-paralela.html">Recuperação Paralela</a></li>
-                <li><a href="tecnologia-na-sala.html">Tecnologia na Sala</a></li>
-                <li><a href="atualidades-2026.html">Atualidades 2026</a></li>
-                <li><a href="carreira-docente.html">Carreira Docente</a></li>
-                <li><a href="dicas-para-professor-iniciante.html">Professor Iniciante</a></li>
-                <li><a href="contato.html">Contato</a></li>
-            </ul>
-        </div>
-    </nav>
+      --max: 1160px;
+    }
 
-    <div class="container">
-        <section>
-            <h2>Bem-vindo ao portal dos Professores do Paraná</h2>
-            <p style="font-size: 1.3rem; text-align: center;">
-                Aqui você encontra tudo que precisa para o dia a dia na sala de aula: planos alinhados à BNCC, dicas de inclusão, projetos prontos, ferramentas de IA gratuitas, apoio à saúde mental docente, calendário escolar, atualidades 2026 e muito mais.
-            </p>
-            <p style="text-align: center; font-weight: bold; font-size: 1.4rem; color: var(--verde-sust); margin-top: 1.5rem;">
-                Feito por alunos e professores, para professores e alunos.
-            </p>
-        </section>
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 650px at 12% 8%, rgba(96,165,250,.22), transparent 60%),
+        radial-gradient(980px 560px at 86% 22%, rgba(167,139,250,.18), transparent 60%),
+        radial-gradient(760px 440px at 50% 92%, rgba(34,197,94,.14), transparent 58%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
 
-        <section>
-            <h2>Principais seções do site</h2>
-            <div class="cards">
-                <div class="card">
-                    <h3>IA na Educação</h3>
-                    <p>Tutoriais, assistentes e como usar IA sem complicação.</p>
-                </div>
-                <div class="card">
-                    <h3>Recursos BNCC</h3>
-                    <p>Planos alinhados, competências e sequências didáticas.</p>
-                </div>
-                <div class="card">
-                    <h3>Inclusão</h3>
-                    <p>Estratégias para TDAH, TEA, dislexia e mais.</p>
-                </div>
-                <div class="card">
-                    <h3>Saúde Mental</h3>
-                    <p>Dicas contra burnout e estresse docente.</p>
-                </div>
-            </div>
-        </section>
-    </div>
+    a{ color:inherit; text-decoration:none; }
+    .container{ width:min(var(--max), 92%); margin:0 auto; }
 
-    <!-- MYAKYBOT - adicionado exatamente como você enviou -->
-    <div id="myakybot" style="
+    /* ===== Topbar (glass) ===== */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      background: rgba(7,10,18,.55);
+      backdrop-filter: blur(14px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .topbar-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:900;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .mark{
+      width:38px; height:38px; border-radius:14px;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 16px 46px rgba(96,165,250,.25);
+      position:relative;
+      overflow:hidden;
+      flex:0 0 auto;
+    }
+    .mark:after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.45), transparent 56%);
+      transform: rotate(18deg);
+    }
+    .brand small{
+      display:block;
+      margin-top:-2px;
+      font-weight:700;
+      color:rgba(255,255,255,.65);
+      font-size:12px;
+      letter-spacing:.3px;
+    }
+
+    .nav{
+      display:flex; align-items:center; gap:8px;
+      color:rgba(255,255,255,.70);
+      font-weight:700;
+      font-size:14px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .nav a{
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid transparent;
+      transition: background .2s ease, border-color .2s ease, transform .2s ease, color .2s ease;
+    }
+    .nav a:hover{
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.92);
+      transform: translateY(-1px);
+    }
+
+    .actions{ display:flex; align-items:center; gap:10px; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 16px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight:800;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.09); }
+    .btn.primary{
+      border:none;
+      color:#07101f;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 18px 54px rgba(96,165,250,.26);
+    }
+    .btn.primary:hover{ transform: translateY(-2px); }
+
+    /* Mobile menu */
+    .hamb{
+      display:none;
+      width:42px; height:42px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      cursor:pointer;
+    }
+    .mobile-menu{
+      display:none;
+      padding: 0 0 14px;
+    }
+    .mobile-menu a{
+      display:block;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      margin-top:10px;
+      color: rgba(255,255,255,.80);
+      font-weight:800;
+    }
+    .mobile-menu a:hover{ background: rgba(255,255,255,.07); }
+
+    /* ===== Hero ===== */
+    header.hero{
+      padding: 78px 0 42px;
+      position:relative;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:24px;
+      align-items:center;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      width: fit-content;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:50%;
+      background: var(--brand3);
+      box-shadow: 0 0 0 6px rgba(34,197,94,.14);
+    }
+    h1{
+      margin:16px 0 10px;
+      font-size: clamp(34px, 4.4vw, 58px);
+      line-height:1.05;
+      letter-spacing:-.9px;
+    }
+    .lead{
+      margin:0 0 18px;
+      color: var(--muted);
+      font-size: 1.10rem;
+      line-height:1.65;
+      max-width: 60ch;
+    }
+    .cta{
+      display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+      margin-top: 16px;
+    }
+    .meta{
+      margin-top:14px;
+      color: rgba(255,255,255,.62);
+      font-size:.92rem;
+      line-height:1.5;
+    }
+
+    /* Hero panel */
+    .panel{
+      border-radius: var(--r28);
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+      transform: translateZ(0);
+    }
+    .panel:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(700px 260px at 15% 18%, rgba(96,165,250,.22), transparent 55%),
+        radial-gradient(520px 260px at 92% 26%, rgba(167,139,250,.18), transparent 60%),
+        radial-gradient(540px 300px at 60% 110%, rgba(34,197,94,.14), transparent 60%);
+      opacity:.95;
+      pointer-events:none;
+    }
+    .panel > *{ position:relative; }
+
+    .panel-top{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      margin-bottom: 12px;
+    }
+    .chip{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: rgba(255,255,255,.78);
+      font-weight:800;
+      font-size:.88rem;
+    }
+    .chip.ok{
+      border-color: rgba(34,197,94,.28);
+      color: rgba(34,197,94,.95);
+      background: rgba(34,197,94,.10);
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:12px;
+      margin-top: 12px;
+    }
+    .stat{
+      border-radius: var(--r20);
+      padding:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      box-shadow: var(--shadow2);
+      transition: transform .22s ease, border-color .22s ease;
+    }
+    .stat:hover{ transform: translateY(-4px); border-color: rgba(255,255,255,.18); }
+    .stat b{ display:block; font-size: 1.04rem; }
+    .stat span{ display:block; margin-top:6px; color: rgba(255,255,255,.68); font-size:.92rem; }
+
+    .pill-row{ margin-top: 12px; display:flex; flex-wrap:wrap; gap:10px; }
+    .pill{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.75);
+      font-weight:700;
+      font-size:.88rem;
+    }
+
+    /* ===== Sections ===== */
+    section{
+      padding: 58px 0;
+    }
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:16px;
+      margin-bottom: 22px;
+    }
+    h2{
+      margin:0;
+      font-size: clamp(22px, 2.3vw, 32px);
+      letter-spacing:-.35px;
+    }
+    .sub{
+      margin:0;
+      color: var(--muted);
+      max-width: 72ch;
+      line-height:1.65;
+    }
+
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:16px;
+    }
+    .grid2{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:16px;
+    }
+
+    .card{
+      border-radius: var(--r20);
+      padding: 18px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: 0 12px 40px rgba(0,0,0,.22);
+      transition: transform .25s ease, border-color .25s ease, background .25s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .card:hover{
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.07);
+    }
+    .icon{
+      width:46px; height:46px;
+      border-radius: 16px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, rgba(96,165,250,.20), rgba(167,139,250,.18));
+      border:1px solid rgba(255,255,255,.14);
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+    .card h3{ margin: 4px 0 8px; font-size: 1.06rem; }
+    .card p{ margin:0; color: var(--muted); line-height:1.65; font-size: .98rem; }
+
+    .list{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height:1.75;
+    }
+
+    /* CTA band */
+    .band{
+      border-radius: 26px;
+      padding: 22px;
+      background: linear-gradient(135deg, rgba(96,165,250,.18), rgba(167,139,250,.15));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    /* FAQ */
+    .faq{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+    }
+    details{
+      border-radius: var(--r20);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      padding: 14px 16px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.18);
+    }
+    summary{
+      cursor:pointer;
+      font-weight:900;
+      color: rgba(255,255,255,.88);
+      list-style:none;
+    }
+    summary::-webkit-details-marker{ display:none; }
+    details p{
+      margin:10px 0 0;
+      color: var(--muted);
+      line-height:1.7;
+    }
+
+    /* Footer */
+    footer{
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 26px 0;
+      color: rgba(255,255,255,.65);
+    }
+
+    /* Floating quick actions */
+    .float{
       position:fixed;
-      bottom:20px;
-      right:20px;
-      width:300px;
-      background:#fff;
-      border-radius:10px;
-      box-shadow:0 4px 12px rgba(0,0,0,.3);
-      font-family:Arial;
-      z-index:9999;
-    ">
-      <div style="background:#004080;color:#fff;padding:10px;border-radius:10px 10px 0 0;">
-        🤖 MyakyBot
+      right: 16px;
+      bottom: 16px;
+      z-index: 80;
+      display:flex; gap:10px; align-items:center;
+    }
+    .float a{
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      font-weight:900;
+      transition: transform .2s ease;
+    }
+    .float a:hover{ transform: translateY(-2px); }
+
+    /* ===== Reveal on scroll ===== */
+    .reveal{
+      opacity:0;
+      transform: translateY(18px);
+      transition: opacity .7s ease, transform .7s ease;
+      will-change: opacity, transform;
+    }
+    .reveal.show{
+      opacity:1;
+      transform: translateY(0);
+    }
+    .stagger > *{
+      opacity:0;
+      transform: translateY(14px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .stagger.show > *{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .grid3{ grid-template-columns: 1fr; }
+      .grid2{ grid-template-columns: 1fr; }
+      .faq{ grid-template-columns: 1fr; }
+      .nav{ display:none; }
+      .hamb{ display:inline-flex; align-items:center; justify-content:center; }
+      header.hero{ padding-top: 62px; }
+    }
+  </style>
+</head>
+
+<body id="top">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="index.html">
+        <span class="mark"></span>
+        <span>
+          Professores do Paraná
+          <small>BNCC • IA • Inclusão • Recursos gratuitos</small>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="calendario.html">Calendário 2026</a>
+        <a href="assistentes.html">Assistentes IA</a>
+        <a href="bncc.html">Recursos BNCC</a>
+        <a href="planos-bncc.html">Planos BNCC</a>
+        <a href="inclusao.html">Inclusão</a>
+        <a href="contato.html">Contato</a>
+      </nav>
+
+      <div class="actions">
+        <button class="hamb" id="hamb" aria-label="Abrir menu">☰</button>
+        <a class="btn primary" href="planos-bncc.html">Começar agora</a>
       </div>
-      <div id="msgs" style="height:200px;overflow:auto;padding:10px;font-size:14px;"></div>
-      <input
-        id="msg"
-        placeholder="Digite aqui..."
-        style="width:100%;padding:10px;border:none;border-top:1px solid #ccc;"
-      />
     </div>
 
-    <script>
-    /* ===== CRIAR ID DO USUÁRIO ===== */
-    let userId = localStorage.getItem("myaky_user");
-    if (!userId) {
-      userId = "user_" + Date.now();
-      localStorage.setItem("myaky_user", userId);
-    }
-    /* ===== ENDEREÇO DO BACKEND ===== */
-    const API = "https://claudio-capitative-venally.ngrok-free.dev/chat";
-    /* ===== FUNÇÃO QUE USA FETCH ===== */
-    function enviar() {
-      const input = document.getElementById("msg");
-      const texto = input.value.trim();
-      if (!texto) return;
-      const msgs = document.getElementById("msgs");
-      msgs.innerHTML += `<div><b>Você:</b> ${texto}</div>`;
-      input.value = "";
-      fetch(API, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: texto,
-          user_id: userId
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        msgs.innerHTML += `<div><b>MyakyBot:</b> ${data.reply}</div>`;
-        msgs.scrollTop = msgs.scrollHeight;
-      })
-      .catch(() => {
-        msgs.innerHTML += `<div style="color:red">Erro de conexão</div>`;
-      });
-    }
-    /* ===== ENTER PARA ENVIAR ===== */
-    document.getElementById("msg").addEventListener("keydown", e => {
-      if (e.key === "Enter") enviar();
-    });
-    </script>
+    <!-- mobile menu -->
+    <div class="container mobile-menu" id="mobileMenu">
+      <a href="calendario.html">📅 Calendário 2026</a>
+      <a href="ia-geral.html">🤖 IA Geral</a>
+      <a href="assistentes.html">⚡ Assistentes IA</a>
+      <a href="bncc.html">📘 Recursos BNCC</a>
+      <a href="planos-bncc.html">✏️ Planos BNCC</a>
+      <a href="inclusao.html">🌱 Inclusão</a>
+      <a href="google-classroom-ia.html">🏫 Google Classroom + IA</a>
+      <a href="tutoriais-ia.html">🎓 Tutoriais IA</a>
+      <a href="recursos-gratuitos.html">🧰 Recursos Gratuitos</a>
+      <a href="saude-mental-professor.html">🧠 Saúde Mental</a>
+      <a href="contato.html">📎 Contato</a>
+    </div>
+  </div>
 
-    <script>
-        function toggleMenu() {
-            document.getElementById('navMenu').classList.toggle('active');
-        }
-    </script>
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div class="reveal">
+        <div class="badge">
+          <span class="dot"></span>
+          <span>Feito para professor: rápido, organizado e gratuito</span>
+        </div>
 
-    <footer>
-        <p>© 2026 Professores do Paraná - Feito com carinho por alunos e para professores</p>
-        <p><strong>Criador:</strong> Super (Matheus Rogério Alves Myaky Cenne)</p>
-        <p>Colégio Estadual Professor José Carlos Pinotti - Londrina/PR</p>
-    </footer>
+        <h1>
+          Um portal premium para <span style="color:var(--brand)">planejar melhor</span>,
+          ensinar com <span style="color:var(--brand2)">tecnologia</span> e ganhar
+          <span style="color:var(--brand3)">tempo</span>.
+        </h1>
 
-</body>
-</html>
+        <p class="lead">
+          Recursos por disciplina e série, planos alinhados à BNCC, tutoriais de IA, inclusão,
+          saúde mental docente e projetos prontos — tudo reunido em um só lugar.
+        </p>
 
+        <div class="cta">
+          <a class="btn primary" href="planos-bncc.html">Ver Planos BNCC</a>
+          <a class="btn" href="assistentes.html">Abrir Assistentes IA</a>
+          <a class="btn" href="recursos-gratuitos.html">Recursos Gratuitos</a>
+        </div>
 
+        <div class="meta">
+          <span style="color:rgba(255,255,255,.78); font-weight:900;">Criado por aluno do Ensino Médio</span>
+          • “um projeto feito com amor para ajudar professores”.
+        </div>
+      </div>
 
+      <aside class="panel reveal" aria-label="Painel de atalhos">
+        <div class="panel-top">
+          <div>
+            <div style="font-weight:950; font-size:1.06rem;">Painel rápido</div>
+            <div style="color:var(--muted); font-size:.95rem; margin-top:4px;">Atalhos para o que mais importa</div>
+          </div>
+          <span class="chip ok">Online</span>
+        </div>
+
+        <div class="stats">
+          <a class="stat" href="ia-geral.html">
+            <b>🤖 IA na Educação</b>
+            <span>Tutoriais e usos práticos</span>
+          </a>
+          <a class="stat" href="bncc.html">
+            <b>📘 BNCC</b>
+            <span>Competências e materiais</span>
+          </a>
+          <a class="stat" href="inclusao.html">
+            <b>🌱 Inclusão</b>
+            <span>TEA, TDAH, dislexia…</span>
+          </a>
+          <a class="stat" href="saude-mental-professor.html">
+            <b>🧠 Saúde Mental</b>
+            <span>Rotina e equilíbrio</span>
+          </a>
+        </div>
+
+        <div class="pill-row">
+          <span class="pill">Fundamental</span>
+          <span class="pill">Médio</span>
+          <span class="pill">Projetos</span>
+          <span class="pill">Avaliação</span>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <!-- Features -->
+  <section>
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <h2>O que você encontra aqui</h2>
+          <p class="sub">
+            Organização, qualidade e foco no que ajuda de verdade: aula pronta, adaptação, tecnologia e rotina.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid3 stagger">
+        <div class="card">
+          <div class="icon">⚡</div>
+          <h3>Rápido de usar</h3>
+          <p>Atalhos diretos para páginas e recursos. Menos cliques, mais resultado.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🎯</div>
+          <h3>Prático e aplicável</h3>
+          <p>Planos BNCC, modelos e tutoriais para aplicar na sala sem enrolação.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🛡️</div>
+          <h3>Feito com cuidado</h3>
+          <p>Conteúdo pensado para apoiar professores e respeitar o tempo de quem ensina.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Links -->
+  <section>
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <h2>Atalhos principais</h2>
+          <p class="sub">Transforme seu site em “hub”: o professor entra, clica e resolve.</p>
+        </div>
+      </div>
+
+      <div class="grid3 stagger">
+        <a class="card" href="calendario.html">
+          <div class="icon">📅</div>
+          <h3>Calendário 2026</h3>
+          <p>Datas importantes, organização do ano e planejamento.</p>
+        </a>
+
+        <a class="card" href="tutoriais-ia.html">
+          <div class="icon">🎓</div>
+          <h3>Tutoriais IA</h3>
+          <p>Como usar IA na prática com exemplos rápidos.</p>
+        </a>
+
+        <a class="card" href="projetos-interdisciplinares.html">
+          <div class="icon">🧩</div>
+          <h3>Projetos Interdisciplinares</h3>
+          <p>Ideias prontas para escola e projetos integrados.</p>
+        </a>
+      </div>
+
+      <div style="height:14px;"></div>
+
+      <div class="grid3 stagger">
+        <a class="card" href="avaliacao-formativa.html">
+          <div class="icon">📊</div>
+          <h3>Avaliação Formativa</h3>
+          <p>Estratégias, registros e acompanhamento do aluno.</p>
+        </a>
+
+        <a class="card" href="recuperacao-paralela.html">
+          <div class="icon">🔁</div>
+          <h3>Recuperação Paralela</h3>
+          <p>Planos e práticas para recuperar aprendizagem.</p>
+        </a>
+
+        <a class="card" href="tecnologia-na-sala.html">
+          <div class="icon">💻</div>
+          <h3>Tecnologia na Sala</h3>
+          <p>Ferramentas e ideias para aulas mais modernas.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community CTA -->
+  <section>
+    <div class="container">
+      <div class="band reveal">
+        <div>
+          <div style="font-weight:950; font-size:1.15rem;">Quer deixar o portal ainda maior?</div>
+          <div style="color:var(--muted); margin-top:6px; line-height:1.6;">
+            Crie uma página “Envie um recurso” (Google Forms) e adicione no menu.
+            Isso transforma seu site em comunidade.
+          </div>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn primary" href="contato.html">Contato</a>
+          <a class="btn" href="recursos-gratuitos.html">Ver Recursos</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <h2>Dúvidas rápidas</h2>
+          <p class="sub">FAQ simples aumenta confiança e deixa o site com cara de produt
