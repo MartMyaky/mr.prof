@@ -1,651 +1,112 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Professores do Paraná • Portal Docente</title>
-
-  <style>
-    :root{
-      --bg:#070A12;
-      --bg2:#0B1020;
-      --card: rgba(255,255,255,.06);
-      --stroke: rgba(255,255,255,.12);
-      --text: rgba(255,255,255,.88);
-      --muted: rgba(255,255,255,.65);
-      --brand:#60A5FA;
-      --brand2:#A78BFA;
-      --ok:#22c55e;
-      --shadow: 0 20px 60px rgba(0,0,0,.55);
-      --radius: 18px;
-    }
-
-    *{ box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--text);
-      background:
-        radial-gradient(1200px 600px at 20% 10%, rgba(96,165,250,.22), transparent 60%),
-        radial-gradient(900px 500px at 80% 30%, rgba(167,139,250,.18), transparent 60%),
-        radial-gradient(700px 400px at 50% 90%, rgba(34,197,94,.12), transparent 60%),
-        linear-gradient(180deg, var(--bg), var(--bg2));
-      overflow-x:hidden;
-    }
-
-    a{ color:inherit; text-decoration:none; }
-    .container{ width:min(1120px, 92%); margin:0 auto; }
-
-    /* Topbar */
-    .topbar{
-      position:sticky; top:0; z-index:50;
-      background: rgba(7,10,18,.55);
-      backdrop-filter: blur(14px);
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-    .topbar-inner{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:14px 0;
-    }
-    .logo{
-      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
-    }
-    .mark{
-      width:36px; height:36px; border-radius:12px;
-      background: linear-gradient(135deg, var(--brand), var(--brand2));
-      box-shadow: 0 10px 30px rgba(96,165,250,.22);
-      position:relative;
-      overflow:hidden;
-    }
-    .mark:after{
-      content:"";
-      position:absolute; inset:-30%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.45), transparent 55%);
-      transform: rotate(20deg);
-    }
-    .nav{
-      display:flex; gap:18px; align-items:center;
-      font-weight:600;
-      color: var(--muted);
-    }
-    .nav a{ padding:10px 12px; border-radius:12px; }
-    .nav a:hover{ background: rgba(255,255,255,.06); color:var(--text); }
-
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:12px 16px; border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      font-weight:700;
-      box-shadow: 0 12px 30px rgba(0,0,0,.25);
-      transition: transform .2s ease, background .2s ease, border-color .2s ease;
-    }
-    .btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.09); }
-    .btn.primary{
-      border:none;
-      background: linear-gradient(135deg, var(--brand), var(--brand2));
-      color:#07101f;
-      box-shadow: 0 18px 50px rgba(96,165,250,.24);
-    }
-    .btn.primary:hover{ transform: translateY(-2px); }
-
-    /* Hero */
-    .hero{
-      padding: 86px 0 38px;
-      position:relative;
-    }
-    .hero-grid{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:28px;
-      align-items:center;
-    }
-    .badge{
-      display:inline-flex; gap:10px; align-items:center;
-      padding:10px 12px; border-radius:999px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.12);
-      color: var(--muted);
-      width: fit-content;
-    }
-    .dot{
-      width:10px; height:10px; border-radius:50%;
-      background: var(--ok);
-      box-shadow: 0 0 0 6px rgba(34,197,94,.14);
-    }
-    h1{
-      margin:16px 0 10px;
-      font-size: clamp(34px, 4.2vw, 56px);
-      line-height:1.05;
-      letter-spacing:-.8px;
-    }
-    .lead{
-      margin: 0 0 20px;
-      color: var(--muted);
-      font-size: 1.08rem;
-      line-height:1.6;
-      max-width: 56ch;
-    }
-
-    .cta{
-      display:flex; gap:12px; flex-wrap:wrap; align-items:center;
-      margin-top: 18px;
-    }
-    .mini{
-      color: var(--muted);
-      font-size:.92rem;
-      margin-top: 14px;
-    }
-
-    /* Hero Card */
-    .hero-card{
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: var(--radius);
-      padding: 18px;
-      box-shadow: var(--shadow);
-      position:relative;
-      overflow:hidden;
-      transform: translateZ(0);
-    }
-    .hero-card:before{
-      content:"";
-      position:absolute; inset:-2px;
-      background: radial-gradient(600px 240px at 10% 20%, rgba(96,165,250,.22), transparent 50%),
-                  radial-gradient(420px 220px at 90% 30%, rgba(167,139,250,.18), transparent 55%);
-      opacity:.9;
-      pointer-events:none;
-    }
-    .hero-card > *{ position:relative; }
-    .stat-grid{
-      display:grid;
-      grid-template-columns: repeat(2,1fr);
-      gap:12px;
-      margin-top: 12px;
-    }
-    .stat{
-      background: rgba(0,0,0,.18);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius: 16px;
-      padding: 14px;
-      transition: transform .2s ease, border-color .2s ease;
-    }
-    .stat:hover{ transform: translateY(-3px); border-color: rgba(255,255,255,.2); }
-    .stat b{ display:block; font-size: 1.05rem; }
-    .stat span{ color: var(--muted); font-size:.92rem; }
-
-    /* Sections */
-    .section{
-      padding: 56px 0;
-    }
-    .section-head{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom: 22px;
-    }
-    .section h2{
-      font-size: clamp(22px, 2.2vw, 30px);
-      margin:0;
-      letter-spacing:-.3px;
-    }
-    .sub{
-      margin:0;
-      color: var(--muted);
-      max-width: 60ch;
-      line-height:1.6;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:16px;
-    }
-
-    .card{
-      border-radius: var(--radius);
-      padding: 18px;
-      background: rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow: 0 12px 40px rgba(0,0,0,.25);
-      transition: transform .25s ease, border-color .25s ease, background .25s ease;
-      position:relative;
-      overflow:hidden;
-    }
-    .card:hover{
-      transform: translateY(-6px);
-      border-color: rgba(255,255,255,.18);
-      background: rgba(255,255,255,.07);
-    }
-    .icon{
-      width:44px; height:44px;
-      border-radius: 16px;
-      display:grid; place-items:center;
-      background: linear-gradient(135deg, rgba(96,165,250,.20), rgba(167,139,250,.18));
-      border:1px solid rgba(255,255,255,.14);
-      margin-bottom: 12px;
-    }
-    .card h3{
-      margin: 4px 0 8px;
-      font-size: 1.05rem;
-    }
-    .card p{
-      margin:0;
-      color: var(--muted);
-      line-height:1.6;
-      font-size: .98rem;
-    }
-
-    /* Lists */
-    .list{
-      margin: 10px 0 0;
-      padding-left: 18px;
-      color: var(--muted);
-      line-height:1.75;
-    }
-    .pill-row{
-      margin-top: 12px;
-      display:flex; flex-wrap:wrap; gap:10px;
-    }
-    .pill{
-      padding: 8px 10px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      color: rgba(255,255,255,.75);
-      font-size:.9rem;
-    }
-
-    /* CTA band */
-    .cta-band{
-      border-radius: 24px;
-      padding: 22px;
-      background: linear-gradient(135deg, rgba(96,165,250,.18), rgba(167,139,250,.15));
-      border:1px solid rgba(255,255,255,.14);
-      box-shadow: var(--shadow);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-    }
-
-    /* Footer */
-    footer{
-      padding: 26px 0;
-      border-top: 1px solid rgba(255,255,255,.08);
-      color: rgba(255,255,255,.65);
-    }
-
-    /* Floating button */
-    .float{
-      position:fixed;
-      right: 16px;
-      bottom: 16px;
-      z-index: 80;
-      display:flex; gap:10px; align-items:center;
-    }
-    .float a{
-      padding: 12px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 14px 40px rgba(0,0,0,.35);
-      font-weight:800;
-      transition: transform .2s ease;
-    }
-    .float a:hover{ transform: translateY(-2px); }
-
-    /* Reveal animations */
-    .reveal{
-      opacity:0;
-      transform: translateY(16px);
-      transition: opacity .7s ease, transform .7s ease;
-    }
-    .reveal.show{
-      opacity:1;
-      transform: translateY(0);
-    }
-
-    /* Mobile */
-    @media (max-width: 920px){
-      .hero-grid{ grid-template-columns: 1fr; }
-      .grid{ grid-template-columns: 1fr; }
-      .nav{ display:none; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professores do Paraná - MyakyBot & Recursos Educacionais</title>
+    <style>
+        :root {
+            --azul-pr: #004080;
+            --azul-claro: #0066cc;
+            --branco: #ffffff;
+            --cinza-claro: #f4f4f4;
+            --verde-sust: #2e7d32;
+            --vermelho-pr: #c8102e;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--cinza-claro); color: #333; line-height: 1.6; }
+        header { background: linear-gradient(to right, var(--azul-pr), var(--verde-sust)); color: white; text-align: center; padding: 4rem 1rem; }
+        header h1 { font-size: 3.5rem; margin-bottom: 0.5rem; }
+        nav { background: var(--azul-pr); padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        nav a { color: white; margin: 0 1rem; text-decoration: none; font-weight: bold; font-size: 1.1rem; }
+        nav a:hover { color: var(--vermelho-pr); }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+        section { background: white; padding: 2.5rem; margin-bottom: 2rem; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+        h2 { color: var(--verde-sust); font-size: 2.4rem; margin-bottom: 1.5rem; text-align: center; }
+        footer { background: var(--azul-pr); color: white; text-align: center; padding: 3rem 1rem; margin-top: 4rem; }
+        footer a { color: var(--azul-claro); text-decoration: none; margin: 0 1rem; }
+        footer a:hover { text-decoration: underline; }
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            nav a { margin: 0.6rem; font-size: 1rem; display: block; }
+        }
+    </style>
 </head>
-<meta name="google-site-verification" content="xEPobCvaBR2L1N8R66L--4g6uRePDEkq6KLC4P2XexA" />
 <body>
 
-  <!-- TOPBAR -->
-  <div class="topbar">
-    <div class="container topbar-inner">
-      <div class="logo">
-        <div class="mark"></div>
-        <div>
-          <div style="font-size:14px; color:rgba(255,255,255,.7); font-weight:700;">Portal</div>
-          <div style="margin-top:-2px;">Professores do Paraná</div>
-        </div>
-      </div>
+    <header>
+        <h1>Professores do Paraná</h1>
+        <p>Recursos educacionais, MyakyBot, BNCC, inclusão, IA na sala de aula e muito mais – tudo gratuito!</p>
+        <p>este site foi criado por um unico aluno em 3semanas e 5dias nome do aluno matheus rogerio alves myaky cenne aluno do ensino medio</p>
+    </header>
 
-      <div class="nav">
-        <a href="#sobre">Sobre</a>
-        <a href="#recursos">Recursos</a>
-        <a href="#planos">Planos BNCC</a>
-        <a href="#ia">IA</a>
-        <a href="#comunidade">Comunidade</a>
-        <a href="#contato">Contato</a>
-      </div>
+    <nav>
+        <a href="index.html">Início</a>
+        <a href="calendario.html">Calendário 2026</a>
+        <a href="ia-geral.html">IA Geral</a>
+        <a href="assistentes.html">Assistentes IA</a>
+        <a href="bncc.html">Recursos BNCC</a>
+        <a href="planos-bncc.html">Planos BNCC</a>
+        <a href="inclusao.html">Inclusão</a>
+        <a href="google-classroom-ia.html">Google Classroom + IA</a>
+        <a href="tutoriais-ia.html">Tutoriais IA</a>
+        <a href="educacao-financeira-sustentavel.html">Educação Financeira Sustentável</a>
+        <a href="recursos-gratuitos.html">Recursos Gratuitos</a>
+        <a href="projetos-interdisciplinares.html">Projetos Interdisciplinares</a>
+        <a href="saude-mental-professor.html">Saúde Mental do Professor</a>
+        <a href="avaliacao-formativa.html">Avaliação Formativa</a>
+        <a href="recuperacao-paralela.html">Recuperação Paralela</a>
+        <a href="tecnologia-na-sala.html">Tecnologia na Sala</a>
+        <a href="atualidades-2026.html">Atualidades 2026</a>
+        <a href="carreira-docente.html">Carreira Docente</a>
+        <a href="ods-na-escola.html">ODS na Escola</a>
+        <a href="dicas-para-professor-iniciante.html">Professor Iniciante</a>
+        <a href="contato.html">Contato</a>
+    </nav>
 
-      <a class="btn primary" href="#recursos">Começar</a>
-    </div>
-  </div>
-
-  <!-- HERO -->
-  <header class="hero">
-    <div class="container hero-grid">
-      <div class="reveal">
-        <div class="badge">
-          <span class="dot"></span>
-          <span>Recursos prontos • Planejamento rápido • Apoio docente</span>
-        </div>
-
-        <h1>Seu portal moderno para <span style="color:var(--brand)">aulas melhores</span> e <span style="color:var(--brand2)">menos estresse</span>.</h1>
-
-        <p class="lead">
-          Materiais organizados por disciplina e série, planos de aula alinhados à BNCC, ferramentas com IA e um espaço
-          colaborativo para fortalecer a prática docente no Paraná.
-        </p>
-
-        <div class="cta">
-          <a class="btn primary" href="#planos">Ver Planos BNCC</a>
-          <a class="btn" href="#ia">Ferramentas de IA</a>
-          <a class="btn" href="#contato">Falar comigo</a>
-        </div>
-
-        <p class="mini">💡 Dica: mantenha seus recursos em links simples e atualize semanalmente para crescer tráfego.</p>
-      </div>
-
-      <div class="hero-card reveal">
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:14px;">
-          <div>
-            <div style="font-weight:900; font-size:1.05rem;">Painel rápido</div>
-            <div style="color:var(--muted); font-size:.95rem; margin-top:4px;">Atalhos para o que o professor mais usa</div>
-          </div>
-          <div class="pill" style="border-color:rgba(34,197,94,.30); color:rgba(34,197,94,.95);">Online</div>
-        </div>
-
-        <div class="stat-grid">
-          <div class="stat">
-            <b>📚 Biblioteca</b>
-            <span>Filtrar por série & disciplina</span>
-          </div>
-          <div class="stat">
-            <b>✏️ BNCC</b>
-            <span>Modelos editáveis + PDF</span>
-          </div>
-          <div class="stat">
-            <b>🤖 IA</b>
-            <span>Gerar atividades em minutos</span>
-          </div>
-          <div class="stat">
-            <b>🌱 Bem-estar</b>
-            <span>Rotina & autocuidado</span>
-          </div>
-        </div>
-
-        <div class="pill-row">
-          <span class="pill">Matemática</span>
-          <span class="pill">Português</span>
-          <span class="pill">Ciências</span>
-          <span class="pill">Inclusão</span>
-          <span class="pill">Tecnologia</span>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- SOBRE -->
-  <section id="sobre" class="section">
     <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <h2>📘 Sobre o projeto</h2>
-          <p class="sub">Um portal prático, leve e organizado para apoiar o professor: menos tempo no burocrático, mais tempo no essencial.</p>
-        </div>
-      </div>
+        <section>
+            <h2>Bem-vindo ao portal dos Professores do Paraná</h2>
+            <p style="font-size: 1.3rem; text-align: center;">
+                Aqui você encontra ferramentas, planos de aula, recursos BNCC, dicas de inclusão, tutoriais de IA, saúde mental docente, projetos prontos e o MyakyBot – seu assistente pessoal no canto da tela.
+            </p>
+            <p style="text-align: center; margin: 2rem 0; font-size: 1.4rem; font-weight: bold; color: var(--verde-sust);">
+                Tudo criado por um unico aluno, para professores com amor
+            </p>
+        </section>
 
-      <div class="grid">
-        <div class="card reveal">
-          <div class="icon">🎯</div>
-          <h3>Missão</h3>
-          <p>Ajudar professores com recursos prontos, organizados e fáceis de aplicar.</p>
-        </div>
-
-        <div class="card reveal">
-          <div class="icon">👁️</div>
-          <h3>Visão</h3>
-          <p>Ser referência em apoio pedagógico no Paraná e inspirar boas práticas.</p>
-        </div>
-
-        <div class="card reveal">
-          <div class="icon">💙</div>
-          <h3>Valores</h3>
-          <p>Inclusão, colaboração, inovação e respeito ao tempo do professor.</p>
-        </div>
-      </div>
+        <section>
+            <h2>O que você encontra aqui?</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3>IA na Educação</h3>
+                    <p>Tutoriais, assistentes prontos, MyakyBot e como usar IA sem complicação.</p>
+                </div>
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3>Recursos BNCC</h3>
+                    <p>Planos de aula alinhados, competências, sequências didáticas e materiais prontos.</p>
+                </div>
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3>Inclusão e Diversidade</h3>
+                    <p>Dicas para TDAH, TEA, dislexia, altas habilidades e educação inclusiva.</p>
+                </div>
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h3>Saúde Mental</h3>
+                    <p>Como lidar com burnout, estresse e manter o equilíbrio na profissão.</p>
+                </div>
+            </div>
+        </section>
     </div>
-  </section>
 
-  <!-- RECURSOS -->
-  <section id="recursos" class="section">
-    <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <h2>📚 Biblioteca de recursos</h2>
-          <p class="sub">Organize seus links por categorias. (Você pode trocar os textos por botões que apontam para páginas internas.)</p>
-        </div>
-      </div>
+    <!-- MyakyBot completo – cole aqui -->
+    <!-- Cole o código inteiro do MyakyBot abaixo -->
 
-      <div class="grid">
-        <div class="card reveal">
-          <div class="icon">🧩</div>
-          <h3>Por disciplina</h3>
-          <p>Matemática, Português, Ciências, História, Geografia, Arte...</p>
-          <div class="pill-row">
-            <span class="pill">Ens. Fundamental</span><span class="pill">Ens. Médio</span>
-          </div>
-        </div>
+    <footer>
+        <p>© 2026 Professores do Paraná - Feito por alunos e para professores</p>
+        <p><strong>Criador principal:</strong> Super (Matheus Rogério Alves Myaky Cenne)</p>
+        <p>Colégio Estadual Professor José Carlos Pinotti - Londrina/PR</p>
+    </footer>
 
-        <div class="card reveal">
-          <div class="icon">📌</div>
-          <h3>Por série</h3>
-          <p>Educação infantil, 1º ao 9º, Ensino médio. Tudo em um clique.</p>
-          <div class="pill-row">
-            <span class="pill">Infantil</span><span class="pill">1–5</span><span class="pill">6–9</span><span class="pill">Médio</span>
-          </div>
-        </div>
-
-        <div class="card reveal">
-          <div class="icon">🌍</div>
-          <h3>Temas transversais</h3>
-          <p>Sustentabilidade, cidadania, cultura, inclusão, projetos interdisciplinares.</p>
-          <div class="pill-row">
-            <span class="pill">Inclusão</span><span class="pill">Cidadania</span><span class="pill">Projetos</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PLANOS BNCC -->
-  <section id="planos" class="section">
-    <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <h2>✏️ Planos de aula BNCC</h2>
-          <p class="sub">Transforme isso em uma página com botões (Docs/Drive/PDF). Dá para ter “copiar modelo” e “baixar PDF”.</p>
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="card reveal">
-          <div class="icon">📝</div>
-          <h3>Modelos editáveis</h3>
-          <p>Google Docs/Slides prontos para copiar e adaptar.</p>
-          <ul class="list">
-            <li>Objetivos e habilidades</li>
-            <li>Metodologia e avaliação</li>
-            <li>Adaptações por turma</li>
-          </ul>
-        </div>
-
-        <div class="card reveal">
-          <div class="icon">📄</div>
-          <h3>Downloads em PDF</h3>
-          <p>Arquivos leves para imprimir ou enviar no grupo da escola.</p>
-          <ul class="list">
-            <li>Planos semanais</li>
-            <li>Sequências didáticas</li>
-            <li>Atividades prontas</li>
-          </ul>
-        </div>
-
-        <div class="card reveal">
-          <div class="icon">📊</div>
-          <h3>Autoavaliação</h3>
-          <p>Planilhas e checklists para acompanhamento do trabalho docente.</p>
-          <ul class="list">
-            <li>Registro de aula</li>
-            <li>Rubricas simples</li>
-            <li>Acompanhamento de turma</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- IA -->
-  <section id="ia" class="section">
-    <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <h2>🤖 Ferramentas com IA</h2>
-          <p class="sub">Ideias de ferramentas prontas para virar botões e páginas: “gerar plano BNCC”, “criar atividade”, “avaliar texto”.</p>
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="card reveal">
-          <div class="icon">⚡</div>
-          <h3>IA em 5 minutos</h3>
-          <p>Mini tutoriais rápidos para aplicar hoje mesmo.</p>
-          <ul class="list">
-            <li>Prompt pronto para plano de aula</li>
-            <li>Prompt para atividade + gabarito</li>
-            <li>Prompt para adaptação inclusiva</li>
-          </ul>
-        </div>
-
-        <div class="card reveal">
-          <div class="icon">🧠</div>
-          <h3>Assistentes de materiais</h3>
-          <p>Crie atividades, resumos, avaliações e projetos.</p>
-          <div class="pill-row">
-            <span class="pill">Atividades</span><span class="pill">Avaliações</span><span class="pill">Projetos</span>
-          </div>
-        </div>
-
-        <div class="card reveal">
-          <div class="icon">🛡️</div>
-          <h3>Boas práticas</h3>
-          <p>Como usar IA com responsabilidade e clareza na escola.</p>
-          <ul class="list">
-            <li>Checagem de conteúdo</li>
-            <li>Privacidade</li>
-            <li>Adaptação pedagógica</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMUNIDADE -->
-  <section id="comunidade" class="section">
-    <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <h2>🧑‍🏫 Comunidade</h2>
-          <p class="sub">Aqui você pode colocar um formulário do Google para professores enviarem recursos e sugestões.</p>
-        </div>
-      </div>
-
-      <div class="cta-band reveal">
-        <div>
-          <div style="font-weight:900; font-size:1.1rem;">Quer contribuir com o portal?</div>
-          <div style="color:var(--muted); margin-top:6px;">Envie um recurso, um plano de aula ou uma dica para ajudar outros professores.</div>
-        </div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <a class="btn primary" href="#contato">Enviar sugestão</a>
-          <a class="btn" href="#recursos">Ver recursos</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTATO -->
-  <section id="contato" class="section">
-    <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <h2>📎 Contato</h2>
-          <p class="sub">Coloque seu e-mail, redes sociais e (opcional) um formulário simples.</p>
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="card reveal">
-          <div class="icon">📧</div>
-          <h3>Email</h3>
-          <p>contato@seudominio.com</p>
-          <p style="margin-top:10px; color:var(--muted)">Troque pelo seu email real.</p>
-        </div>
-
-        <div class="card reveal">
-          <div class="icon">📱</div>
-          <h3>Redes</h3>
-          <p>Instagram • YouTube • TikTok</p>
-          <p style="margin-top:10px; color:var(--muted)">Se não tiver, deixe só 1 ou 2.</p>
-        </div>
-
-        <div class="card reveal">
-          <div class="icon">📝</div>
-          <h3>Formulário</h3>
-          <p>Use Google Forms e coloque o link aqui.</p>
-          <p style="margin-top:10px; color:var(--muted)">Ex.: “Enviar sugestão / pedir conteúdo”.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="container" style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;">
-      <div>© 2026 • Professores do Paraná • Portal Docente</div>
-      <div style="color:rgba(255,255,255,.55)">Feito por Mart • GitHub Pages</div>
-    </div>
-  </footer>
-
-  <!-- FLOAT -->
-  <div class="float">
-    <a href="#top" title="Voltar ao topo">↑</a>
-    <a href="#contato" title="Contato">✉️</a>
-  </div>
-
-  <!-- JS: reveal animation on scroll -->
-  <script>
-    // Reveal on 
+</body>
+</html>
 
