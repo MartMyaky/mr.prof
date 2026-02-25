@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tempo Livre do Professor | Professores do Paraná</title>
+  <meta name="description" content="Ideias e recursos para o tempo livre dos professores: relaxar, crescer, criar e se conectar." />
+
+  <style>
+    :root{
+      --bg: #0b1020;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.10);
+      --border: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --muted2: rgba(255,255,255,.55);
+      --brand: #7c3aed; /* roxo */
+      --brand2: #22c55e; /* verde */
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --radius: 18px;
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --shadow2: 0 10px 24px rgba(0,0,0,.25);
+      --max: 1100px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 15% 10%, rgba(124,58,237,.35), transparent 50%),
+        radial-gradient(900px 500px at 90% 0%, rgba(34,197,94,.22), transparent 55%),
+        radial-gradient(700px 400px at 70% 85%, rgba(245,158,11,.18), transparent 55%),
+        linear-gradient(180deg, #070a14, var(--bg));
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    .container{ width: min(var(--max), calc(100% - 40px)); margin:0 auto; }
+
+    /* Topbar */
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(12px);
+      background: rgba(11,16,32,.65);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:14px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:.2px;
+    }
+    .logo{
+      width:34px; height:34px; border-radius:12px;
+      background:
+        radial-gradient(12px 12px at 30% 30%, rgba(255,255,255,.85), transparent 50%),
+        linear-gradient(135deg, rgba(124,58,237,.95), rgba(34,197,94,.85));
+      box-shadow: 0 10px 18px rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.22);
+    }
+    nav{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .navlink{
+      padding:10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+      transition: .2s;
+    }
+    .navlink:hover{ transform: translateY(-1px); background: rgba(255,255,255,.08); color: var(--text); }
+
+    /* Hero */
+    .hero{
+      padding: 34px 0 14px;
+    }
+    .heroCard{
+      border-radius: calc(var(--radius) + 8px);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .heroInner{
+      padding: 28px;
+      display:grid;
+      grid-template-columns: 1.4fr .9fr;
+      gap: 18px;
+      align-items: center;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(124,58,237,.20);
+      border: 1px solid rgba(124,58,237,.35);
+      color: rgba(255,255,255,.90);
+      font-weight: 700;
+      font-size: 13px;
+      width: fit-content;
+    }
+    h1{
+      margin: 10px 0 8px;
+      font-size: clamp(26px, 3.2vw, 42px);
+      line-height: 1.08;
+      letter-spacing: -0.6px;
+    }
+    .lead{
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .ctaRow{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      box-shadow: var(--shadow2);
+      font-weight: 800;
+      transition: .18s;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.09); }
+    .btnPrimary{
+      background: linear-gradient(135deg, rgba(124,58,237,.92), rgba(34,197,94,.75));
+      border: 1px solid rgba(255,255,255,.18);
+    }
+    .btnPrimary:hover{ filter: brightness(1.03); }
+    .heroSide{
+      display:grid;
+      gap: 10px;
+    }
+    .mini{
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+    }
+    .mini strong{ display:block; font-size:14px; margin-bottom:4px; }
+    .mini span{ color: var(--muted2); font-size: 13px; line-height:1.35; }
+    .heroBg{
+      position:absolute;
+      inset:-120px -120px auto auto;
+      width: 320px; height:320px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.3), transparent 55%),
+                  radial-gradient(circle at 70% 60%, rgba(34,197,94,.28), transparent 55%),
+                  radial-gradient(circle at 30% 70%, rgba(124,58,237,.32), transparent 55%);
+      filter: blur(2px);
+      opacity: .7;
+      pointer-events:none;
+      transform: rotate(15deg);
+    }
+
+    /* Controls */
+    .controls{
+      margin: 18px 0 0;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .search{
+      flex: 1 1 320px;
+      display:flex;
+      gap:10px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+    }
+    .search input{
+      width:100%;
+      border:none;
+      outline:none;
+      background: transparent;
+      color: var(--text);
+      font-size: 15px;
+    }
+    .search input::placeholder{ color: rgba(255,255,255,.45); }
+    .chips{
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .chip{
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 13px;
+      cursor:pointer;
+      transition:.18s;
+    }
+    .chip:hover{ transform: translateY(-1px); background: rgba(255,255,255,.07); color: var(--text); }
+    .chip.active{
+      background: rgba(124,58,237,.20);
+      border-color: rgba(124,58,237,.35);
+      color: rgba(255,255,255,.92);
+    }
+
+    /* Sections / Cards */
+    main{ padding: 18px 0 50px; }
+
+    .grid{
+      margin-top: 16px;
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .card{
+      grid-column: span 6;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      transition:.18s;
+    }
+    .card:hover{ transform: translateY(-2px); background: rgba(255,255,255,.07); }
+    .cardHead{
+      padding: 16px 16px 10px;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      align-items:flex-start;
+    }
+    .icon{
+      width:38px; height:38px; border-radius: 14px;
+      display:grid; place-items:center;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      flex: 0 0 auto;
+      font-size: 18px;
+    }
+    .cardTitle{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: -0.2px;
+    }
+    .cardSub{
+      margin:4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .cardBody{
+      padding: 0 16px 14px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .list{
+      margin: 10px 0 0;
+      padding: 0 0 0 18px;
+    }
+    .list li{ margin: 6px 0; color: rgba(255,255,255,.78); }
+    .tagRow{
+      padding: 0 16px 16px;
+      display:flex; flex-wrap:wrap; gap:8px;
+    }
+    .tag{
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.72);
+    }
+    .tag.green{ border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.12); }
+    .tag.purple{ border-color: rgba(124,58,237,.38); background: rgba(124,58,237,.12); }
+    .tag.amber{ border-color: rgba(245,158,11,.35); background: rgba(245,158,11,.12); }
+
+    /* Footer */
+    footer{
+      border-top: 1px solid rgba(255,255,255,.10);
+      background: rgba(11,16,32,.55);
+      padding: 22px 0;
+      color: rgba(255,255,255,.65);
+    }
+    .foot{
+      display:flex; gap:12px; flex-wrap:wrap;
+      align-items:center; justify-content:space-between;
+      font-size: 13px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .heroInner{ grid-template-columns: 1fr; }
+      .card{ grid-column: span 12; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <div class="topbar">
+        <a class="brand" href="#">
+          <span class="logo" aria-hidden="true"></span>
+          <span>Professores do Paraná</span>
+        </a>
+
+        <nav aria-label="Menu">
+          <a class="navlink" href="#relaxar">Relaxar</a>
+          <a class="navlink" href="#crescer">Crescer</a>
+          <a class="navlink" href="#criar">Criar</a>
+          <a class="navlink" href="#conectar">Conectar</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="heroCard">
+        <div class="heroBg" aria-hidden="true"></div>
+
+        <div class="heroInner">
+          <div>
+            <div class="badge">⏳ Tempo Livre do Professor</div>
+            <h1>Um espaço leve para recarregar, aprender e se inspirar.</h1>
+            <p class="lead">
+              Sugestões rápidas e úteis para o seu tempo livre: bem-estar, formação,
+              criatividade e comunidade — tudo em um lugar.
+            </p>
+
+            <div class="ctaRow">
+              <a class="btn btnPrimary" href="#relaxar">Começar por Relaxar →</a>
+              <a class="btn" href="#destaques">Ver Destaques</a>
+            </div>
+          </div>
+
+          <div class="heroSide" id="destaques">
+            <div class="mini">
+              <strong>🎧 5 minutos de pausa</strong>
+              <span>Respiração guiada + playlist curta pra descompressão.</span>
+            </div>
+            <div class="mini">
+              <strong>📚 Formação sem estresse</strong>
+              <span>Links e trilhas rápidas para continuar evoluindo.</span>
+            </div>
+            <div class="mini">
+              <strong>💡 Ideias “pra amanhã”</strong>
+              <span>Atividades prontas e templates para acelerar seu dia.</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="search" role="search">
+          🔎
+          <input id="searchInput" type="search" placeholder="Buscar: playlist, respiração, curso, template..." />
+        </div>
+
+        <div class="chips" aria-label="Filtro por categoria">
+          <button class="chip active" data-filter="all">Tudo</button>
+          <button class="chip" data-filter="relaxar">Relaxar</button>
+          <button class="chip" data-filter="crescer">Crescer</button>
+          <button class="chip" data-filter="criar">Criar</button>
+          <button class="chip" data-filter="conectar">Conectar</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <main>
+    <div class="container">
+      <div class="grid" id="cards">
+
+        <!-- RELAXAR -->
+        <article class="card" data-category="relaxar" id="relaxar" data-keywords="relaxar pausa respiração meditação playlist bem-estar">
+          <div class="cardHead">
+            <div>
+              <h3 class="cardTitle">Relaxar & Descompressão</h3>
+              <p class="cardSub">Recupere energia com pequenas pausas.</p>
+            </div>
+            <div class="icon" aria-hidden="true">🌿</div>
+          </div>
+          <div class="cardBody">
+            Sugestões rápidas para aliviar a mente e o corpo.
+            <ul class="list">
+              <li>⏱️ Pausa de 5 minutos (respiração guiada)</li>
+              <li>🎧 Playlist “corrigir provas sem estresse”</li>
+              <li>🧠 Micro-hábito: alongar ombros e pescoço</li>
+            </ul>
+          </div>
+          <div class="tagRow">
+            <span class="tag green">bem-estar</span>
+            <span class="tag">5 minutos</span>
+            <span class="tag">rotina</span>
+          </div>
+        </article>
+
+        <!-- CRESCER -->
+        <article class="card" data-category="crescer" id="crescer" data-keywords="crescer formação curso leitura tecnologia educação">
+          <div class="cardHead">
+            <div>
+              <h3 class="cardTitle">Crescer & Formação</h3>
+              <p class="cardSub">Aprenda no seu ritmo (sem sobrecarga).</p>
+            </div>
+            <div class="icon" aria-hidden="true">📚</div>
+          </div>
+          <div class="cardBody">
+            Trilhas curtas e recursos para evolução contínua.
+            <ul class="list">
+              <li>🎓 Cursos gratuitos e certificação</li>
+              <li>🤖 Ferramentas digitais que economizam tempo</li>
+              <li>📖 Lista de leituras leves e úteis</li>
+            </ul>
+          </div>
+          <div class="tagRow">
+            <span class="tag purple">formação</span>
+            <span class="tag">tecnologia</span>
+            <span class="tag">certificados</span>
+          </div>
+        </article>
+
+        <!-- CRIAR -->
+        <article class="card" data-category="criar" id="criar" data-keywords="criar criatividade template atividade plano aula ideias">
+          <div class="cardHead">
+            <div>
+              <h3 class="cardTitle">Criar & Inspirar</h3>
+              <p class="cardSub">Ideias prontas e templates para agilizar.</p>
+            </div>
+            <div class="icon" aria-hidden="true">💡</div>
+          </div>
+          <div class="cardBody">
+            Recursos para você se inspirar sem gastar horas.
+            <ul class="list">
+              <li>📄 Templates: plano de aula, checklist, rubrica</li>
+              <li>✨ “Ideia pra amanhã”: atividades rápidas</li>
+              <li>🎨 Murais e decoração simples de sala</li>
+            </ul>
+          </div>
+          <div class="tagRow">
+            <span class="tag amber">templates</span>
+            <span class="tag">atividades</span>
+            <span class="tag">pronto para usar</span>
+          </div>
+        </article>
+
+        <!-- CONECTAR -->
+        <article class="card" data-category="conectar" id="conectar" data-keywords="conectar comunidade paraná eventos troca experiências professores">
+          <div class="cardHead">
+            <div>
+              <h3 class="cardTitle">Conectar & Comunidade</h3>
+              <p class="cardSub">Troca de experiências com professores do PR.</p>
+            </div>
+            <div class="icon" aria-hidden="true">🤝</div>
+          </div>
+          <div class="cardBody">
+            Um espaço para compartilhar e se sentir acompanhado(a).
+            <ul class="list">
+              <li>🧩 Mural de boas práticas</li>
+              <li>📣 Eventos e encontros educativos</li>
+              <li>🏅 Professor destaque do mês</li>
+            </ul>
+          </div>
+          <div class="tagRow">
+            <span class="tag">comunidade</span>
+            <span class="tag">Paraná</span>
+            <span class="tag green">colaboração</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="foot">
+        <span>© <span id="year"></span> Professores do Paraná — feito para apoiar quem ensina.</span>
+        <span>💬 Sugestões? Adicione um formulário aqui.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Ano automático
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Filtro por chips + busca simples
+    const chips = Array.from(document.querySelectorAll(".chip"));
+    const cards = Array.from(document.querySelectorAll(".card"));
+    const searchInput = document.getElementById("searchInput");
+
+    let activeFilter = "all";
+
+    function applyFilters() {
+      const q = (searchInput.value || "").trim().toLowerCase();
+
+      cards.forEach(card => {
+        const cat = card.getAttribute("data-category");
+        const keys = (card.getAttribute("data-keywords") || "").toLowerCase();
+        const text = card.innerText.toLowerCase();
+
+        const matchesFilter = (activeFilter === "all") || (cat === activeFilter);
+        const matchesSearch = !q || keys.includes(q) || text.includes(q);
+
+        card.style.display = (matchesFilter && matchesSearch) ? "" : "none";
+      });
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        chips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        activeFilter = chip.getAttribute("data-filter");
+        applyFilters();
+      });
+    });
+
+    searchInput.addEventListener("input", applyFilters);
+  </script>
+</body>
+</html>
