@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saúde Mental do Professor</title>
+
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#0f172a,#1e293b);
+  color:white;
+}
+
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:60px 20px;
+}
+
+h1{
+  font-size:36px;
+  margin-bottom:10px;
+}
+
+.card{
+  background:rgba(255,255,255,0.08);
+  padding:25px;
+  border-radius:15px;
+  margin-bottom:25px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+button{
+  padding:12px 20px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.btn-primary{
+  background:#22c55e;
+  color:black;
+}
+
+.btn-danger{
+  background:#ef4444;
+  color:white;
+}
+
+.result{
+  margin-top:15px;
+  font-weight:bold;
+}
+
+.emergency{
+  background:#7f1d1d;
+}
+
+.pause-box{
+  font-size:18px;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>🧠 Saúde Mental do Professor</h1>
+<p>Cuidar de quem ensina é prioridade.</p>
+
+<div class="card emergency">
+<h2>🚨 Precisa de Ajuda Agora?</h2>
+<p>Ligue gratuitamente:</p>
+<p><strong>CVV – 188 (24h)</strong></p>
+<p>Disque Saúde – 136</p>
+<button class="btn-danger" onclick="window.location.href='tel:188'">Ligar 188</button>
+</div>
+
+<div class="card">
+<h2>📊 Teste Rápido de Estresse</h2>
+<p>Responda com sinceridade:</p>
+
+<label><input type="checkbox" class="q"> Estou me sentindo constantemente cansado(a)</label><br>
+<label><input type="checkbox" class="q"> Tenho dificuldade para dormir</label><br>
+<label><input type="checkbox" class="q"> Sinto irritação frequente</label><br>
+<label><input type="checkbox" class="q"> Tenho dificuldade de concentração</label><br>
+
+<button class="btn-primary" onclick="calcular()">Ver Resultado</button>
+
+<div class="result" id="resultado"></div>
+</div>
+
+<div class="card">
+<h2>🌿 Preciso de uma Pausa</h2>
+<div class="pause-box" id="pauseText">
+Clique abaixo e respire comigo por 30 segundos.
+</div>
+<button class="btn-primary" onclick="pausa()">Iniciar Pausa</button>
+</div>
+
+<div class="card">
+<h2>📚 Plano Anti-Burnout</h2>
+<ul>
+<li>Definir 3 tarefas essenciais por dia</li>
+<li>Não levar trabalho emocional para casa</li>
+<li>Separar 20 minutos semanais para si</li>
+<li>Buscar apoio quando necessário</li>
+</ul>
+</div>
+
+</div>
+
+<script>
+function calcular(){
+  const checks = document.querySelectorAll('.q:checked');
+  let total = checks.length;
+  let msg = "";
+
+  if(total <= 1){
+    msg = "✅ Nível de estresse baixo.";
+  } else if(total <= 3){
+    msg = "⚠️ Atenção: você pode estar sobrecarregado(a).";
+  } else {
+    msg = "🚨 Alto nível de estresse. Considere buscar apoio profissional.";
+  }
+
+  document.getElementById("resultado").innerText = msg;
+}
+
+function pausa(){
+  let texto = document.getElementById("pauseText");
+  texto.innerText = "Inspire... 4 segundos";
+  
+  setTimeout(()=>{ texto.innerText="Segure... 4 segundos"; },4000);
+  setTimeout(()=>{ texto.innerText="Expire... 4 segundos"; },8000);
+  setTimeout(()=>{ texto.innerText="Repita por 3 ciclos."; },12000);
+}
+</script>
+
+</body>
+</html>
