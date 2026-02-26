@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<title>Mini Impact V2 – 3ª pessoa (GLTF por personagem)</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;overflow:hidden;background:#050510;color:#fff;font-family:Segoe UI,system-ui}
+  canvas{display:block}
+
+  #ui{position:fixed;inset:0;pointer-events:none}
+  #hint{position:fixed;left:50%;top:10px;transform:translateX(-50%);font-size:12px;color:#aaa;
+    background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.12);padding:7px 10px;border-radius:12px;pointer-events:none;max-width:95vw;text-align:center}
+
+  #portraits{position:fixed;top:10px;left:10px;display:flex;gap:8px}
+  .portrait{width:60px;height:60px;border-radius:50%;border:3px solid #444;cursor:pointer;pointer-events:all;
+    display:flex;align-items:center;justify-content:center;font-size:20px;background:#111;position:relative;transition:.18s}
+  .portrait.active{border-color:#ffd700;box-shadow:0 0 12px rgba(255,215,0,.65);transform:scale(1.06)}
+  .portrait .hpb{position:absolute;bottom:-7px;left:0;width:100%;height:4px;background:#333;border-radius:2px}
+  .portrait .hpf{height:100%;border-radius:2px;transition:width .12s}
+  .portrait .eb{position:absolute;top:-7px;left:6px;right:6px;height:4px;background:#222;border-radius:2px;overflow:hidden}
+  .portrait .ef{height:100%;border-radius:2px;background:linear-gradient(90deg,#66aaff,#aa44ff);width:0%}
+
+  #topright{position:fixed;top:10px;right:10px;display:flex;gap:8px;align-items:center;pointer-events:all}
+  #gems{background:rgba(0,0,0,.7);border:1px solid #444;border-radius:20px;padding:6px 12px;font-size:13px;cursor:pointer}
+  .tbtn{padding:6px 10px;background:rgba(0,0,0,.6);border:1px solid #555;border-radius:10px;cursor:pointer;font-size:11px;color:#fff}
+
+  #bars{position:fixed;left:10px;bottom:12px;width:280px;pointer-events:none}
+  .barwrap{margin-bottom:8px}
+  .label{font-size:11px;color:#aaa;margin-bottom:4px;display:flex;justify-content:space-between}
+  .bar{height:10px;background:rgba(255,255,255,.09);border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.12)}
+  .fill{height:100%;width:100%}
+  .hp{background:linear-gradient(90deg,#f44,#f80)}
+  .stam{background:linear-gradient(90deg,#66ff99,#00cc66)}
+
+  #joystick{position:fixed;bottom:90px;left:20px;width:120px;height:120px;pointer-events:all;z-index:50}
+  .jbase{width:100%;height:100%;border-radius:50%;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.18);position:relative}
+  .jstick{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.38);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none}
+
+  #skillbar{position:fixed;bottom:10px;right:10px;display:flex;gap:10px;align-items:flex-end;z-index:60}
+  .sbtn{width:62px;height:62px;border-radius:50%;border:3px solid #555;background:rgba(0,0,0,.85);
+    cursor:pointer;pointer-events:all;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:20px;position:relative;transition:.12s;user-select:none}
+  .sbtn:active{transform:scale(.9)}
+  .sbtn.ready{border-color:#ffd700;box-shadow:0 0 10px rgba(255,215,0,.35)}
+  .sbtn .lbl{font-size:8px;color:#aaa}
+  .sbtn .cdo{position:absolute;inset:0;border-radius:50%;background:rgba(0,0,0,.70);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold}
+
+  #ultbtn{width:70px;height:70px;border-radius:50%;border:3px solid #f60;background:radial-gradient(#300,#100);
+    cursor:pointer;pointer-events:all;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:24px;position:relative;overflow:hidden;user-select:none}
+  #ultbtn.ready{box-shadow:0 0 20px #f60;animation:pls 1s infinite}
+  @keyframes pls{0%,100%{box-shadow:0 0 20px #f60}50%{box-shadow:0 0 40px #f60,0 0 60px #f40}}
+  .ufill{position:absolute;bottom:0;left:0;width:100%;background:rgba(255,102,0,.35);transition:height .12s}
+
+  #notifs{position:fixed;top:130px;right:10px;display:flex;flex-direction:column;gap:4px;pointer-events:none;z-index:999}
+  .notif{background:rgba(0,0,0,.8);border-left:3px solid #ffd700;padding:6px 10px;border-radius:6px;font-size:12px;animation:si .25s ease;max-width:260px}
+  .notif.r{border-color:#f84}
+  @keyframes si{from{transform:translateX(40%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+  /* minimap */
+  #minimapWrap{position:fixed;right:10px;bottom:95px;width:150px;height:150px;border-radius:16px;overflow:hidden;
+    border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.35);pointer-events:none;z-index:55}
+  #minimap{width:150px;height:150px;display:block}
+
+  /* overlays */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.86);display:none;align-items:center;justify-content:center;z-index:200;pointer-events:all}
+  .box{background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid #444;border-radius:16px;padding:18px;max-width:420px;width:92%;max-height:90vh;overflow:auto}
+  .box h2{text-align:center;margin-bottom:12px;color:#ffd700;font-size:1.25em}
+  .btn{padding:11px 14px;border:none;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;width:100%;margin:4px 0;transition:.15s}
+  .btnp{background:linear-gradient(135deg,#ffd700,#f80);color:#000}
+  .btns{background:rgba(255,255,255,.1);color:#fff;border:1px solid #555}
+  .btn:active{transform:scale(.98)}
+  .gcard{width:110px;height:145px;border-radius:12px;margin:0 auto 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:36px;border:3px solid;position:relative;overflow:hidden}
+  .gcard::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent)}
+  .r3{border-color:#888;background:linear-gradient(135deg,#2a2a3e,#1a1a2e)}
+  .r4{border-color:#a4f;background:linear-gradient(135deg,#2a1a3e,#1a0a2e);box-shadow:0 0 18px rgba(170,68,255,.45)}
+  .r5{border-color:#ffd700;background:linear-gradient(135deg,#3a2a0e,#2a1a00);box-shadow:0 0 26px rgba(255,215,0,.55)}
+  .stars{color:#ffd700;font-size:14px}
+
+  #title{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 80%,#0d1b2a,#030308);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:250}
+  #title h1{font-size:2.05em;color:#ffd700;text-shadow:0 0 30px rgba(255,215,0,.5);margin-bottom:8px}
+  .titlechars{display:flex;gap:18px;margin:16px 0 26px;font-size:46px}
+  #loading{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:260;background:rgba(0,0,0,.88)}
+  #loading .box{max-width:360px}
+</style>
+</head>
+
+<body>
+<div id="ui">
+  <div id="hint">
+    PC: WASD mover • Shift sprint • Espaço pular • Espaço no ar = Plunge • Clique/⚔️ combo • Segurar clique = Charged • E skill • Q burst • 1-4 troca • F interagir • J wish
+  </div>
+
+  <div id="portraits"></div>
+
+  <div id="topright">
+    <div class="tbtn" onclick="UI.open('gmenu')">🎲 Wish</div>
+    <div class="tbtn" onclick="UI.open('imenu')">🎒</div>
+    <div class="tbtn" onclick="UI.open('qmenu')">📜</div>
+    <div class="tbtn" onclick="UI.open('mmenu')">🗺️</div>
+    <div id="gems" onclick="UI.open('gmenu')">💎 <span id="gc">300</span></div>
+  </div>
+
+  <div id="bars">
+    <div class="barwrap">
+      <div class="label"><span id="pname">Hero</span><span id="pstats">ATK 0 • i-frames 0</span></div>
+      <div class="bar"><div class="fill hp" id="hpfill"></div></div>
+    </div>
+    <div class="barwrap">
+      <div class="label"><span>Stamina</span><span id="stxt">100</span></div>
+      <div class="bar"><div class="fill stam" id="stfill"></div></div>
+    </div>
+  </div>
+
+  <div id="joystick"><div class="jbase" id="jb"><div class="jstick" id="js"></div></div></div>
+
+  <div id="minimapWrap"><canvas id="minimap" width="150" height="150"></canvas></div>
+
+  <div id="skillbar">
+    <div class="sbtn ready" id="skbtn" onclick="Game.castSkill()">
+      <span id="skico">🔥</span><span class="lbl">SKILL (E)</span>
+      <div class="cdo" id="skcd" style="display:none"></div>
+    </div>
+    <div id="ultbtn" onclick="Game.castBurst()">
+      <div class="ufill" id="uf"></div>
+      <span style="position:relative;z-index:1;font-size:24px">💥</span>
+      <span style="font-size:8px;color:#f80;position:relative;z-index:1">BURST (Q)</span>
+    </div>
+    <div class="sbtn ready" id="atkbtn"><span>⚔️</span><span class="lbl">ATK</span></div>
+  </div>
+
+  <div id="notifs"></div>
+</div>
+
+<div id="title">
+  <h1>✨ Mini Impact V2</h1>
+  <p style="color:#888;text-align:center;max-width:360px">
+    Combos + charged + plunge + quick swap + i-frames<br/>
+    GLTF por personagem (1 modelo cada)
+  </p>
+  <div class="titlechars">🔥💧⚡❄️</div>
+  <button class="btn btnp" style="width:240px;font-size:16px" onclick="Game.start()">▶ JOGAR</button>
+  <button class="btn btns" style="width:240px;margin-top:8px" onclick="UI.open('gmenu')">🎲 WISH</button>
+</div>
+
+<div id="loading">
+  <div class="box">
+    <h2>Carregando modelos...</h2>
+    <div style="color:#aaa;font-size:13px;text-align:center" id="ltext">Aguarde</div>
+  </div>
+</div>
+
+<!-- WISH / GACHA -->
+<div class="overlay" id="gmenu">
+  <div class="box">
+    <h2>🎲 Wish V2 (Banner 50/50)</h2>
+    <p style="text-align:center;color:#888;margin-bottom:10px;font-size:13px">
+      Pity + 50/50 (5★ featured) • drops: armas/itens
+    </p>
+    <div id="gres"></div>
+    <div style="display:flex;gap:8px;margin-bottom:8px">
+      <button class="btn btnp" onclick="Gacha.pull(1)">💎 1x (160)</button>
+      <button class="btn btns" onclick="Gacha.pull(10)">💎 10x (1440)</button>
+    </div>
+    <div style="font-size:11px;color:#666;text-align:center;margin-bottom:10px">
+      ⭐⭐⭐ 60% | ⭐⭐⭐⭐ 33% | ⭐⭐⭐⭐⭐ 7% • pity 90 (5★ garantido) • 50/50 featured
+    </div>
+    <button class="btn btns" onclick="UI.close('gmenu')">✕ Fechar</button>
+  </div>
+</div>
+
+<!-- INVENTÁRIO -->
+<div class="overlay" id="imenu">
+  <div class="box">
+    <h2>🎒 Inventário</h2>
+    <div id="inv"></div>
+    <div style="margin-top:10px;font-size:12px;color:#aaa">
+      Equipado: <b id="eqname">Nenhum</b> • ATK total: <b id="atkval">0</b>
+    </div>
+    <button class="btn btns" onclick="UI.close('imenu')">✕ Fechar</button>
+  </div>
+</div>
+
+<!-- QUESTS -->
+<div class="overlay" id="qmenu">
+  <div class="box">
+    <h2>📜 Quests</h2>
+    <div id="qlist"></div>
+    <button class="btn btns" onclick="UI.close('qmenu')">✕ Fechar</button>
+  </div>
+</div>
+
+<!-- MAPA -->
+<div class="overlay" id="mmenu">
+  <div class="box">
+    <h2>🗺️ Mapa</h2>
+    <div style="font-size:12px;color:#aaa;margin-bottom:8px">POIs e NPCs (clique para rastrear)</div>
+    <div id="maplist"></div>
+    <button class="btn btns" onclick="UI.close('mmenu')">✕ Fechar</button>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
+
+/* =====================
+   UI helpers
+===================== */
+window.UI = {
+  open(id){ document.getElementById(id).style.display='flex'; },
+  close(id){ document.getElementById(id).style.display='none'; },
+  notif(msg,type=''){ const n=document.getElementById('notifs'); const d=document.createElement('div');
+    d.className='notif'+(type?' '+type:''); d.textContent=msg; n.appendChild(d);
+    setTimeout(()=>{d.style.opacity='0';d.style.transition='opacity .5s';setTimeout(()=>d.remove(),500);},2200);
+  },
+  updGems(){ document.getElementById('gc').textContent = State.gems; },
+  loading(show, text=''){ const el=document.getElementById('loading'); el.style.display=show?'flex':'none';
+    document.getElementById('ltext').textContent = text || 'Aguarde...';
+  }
+};
+
+/* =====================
+   Save/Load
+===================== */
+const State = {
+  phase:'title',
+  gems:300,
+  ac:0,
+  party:['pyro','hydro','electro','cryo'],
+  owned:['pyro','hydro','electro','cryo'],
+  hp:{pyro:120,hydro:110,electro:95,cryo:105},
+  stamina:100, stamMax:100,
+  inv:[],
+  equipped:null,
+  kills:0,
+  tracking:'arena',
+  iframes:0,      // invencível
+  swapI:0.35,     // i-frames ao trocar
+  gravity: -22,
+  yv: 0,
+  grounded: true,
+  wasAir:false,
+
+  // combate/combo
+  atkHold: false,
+  atkHoldT: 0,
+  comboStage: 0,
+  comboWindow: 0,
+  atkCd: 0,
+
+  // skill/burst
+  skcd:0,
+  burstCd:0, // opcional
+  // energia por personagem (igual genshin)
+  energy:{pyro:0,hydro:0,electro:0,cryo:0},
+  energyMax:60,
+};
+
+function save(){
+  try{
+    localStorage.setItem('miniimpact_v2_save', JSON.stringify({
+      gems:State.gems, hp:State.hp, stamina:State.stamina, inv:State.inv, equipped:State.equipped,
+      kills:State.kills, energy:State.energy
+    }));
+  }catch(e){}
+}
+function load(){
+  try{
+    const d=JSON.parse(localStorage.getItem('miniimpact_v2_save')||'{}');
+    if(d.gems!==undefined) State.gems=d.gems;
+    if(d.hp) State.hp=d.hp;
+    if(d.stamina!==undefined) State.stamina=d.stamina;
+    if(d.inv) State.inv=d.inv;
+    if(d.equipped!==undefined) State.equipped=d.equipped;
+    if(d.kills!==undefined) State.kills=d.kills;
+    if(d.energy) State.energy=d.energy;
+  }catch(e){}
+}
+load();
+UI.updGems();
+
+/* =====================
+   Elements + Reactions
+===================== */
+const E = {
+  pyro:{name:'Pyro',  col:0xff4422, em:'🔥'},
+  hydro:{name:'Hydro', col:0x2255ff, em:'💧'},
+  electro:{name:'Electro', col:0xaa44ff, em:'⚡'},
+  cryo:{name:'Cryo',  col:0x66ddff, em:'❄️'}
+};
+
+const REACT = {
+  'hydro+pyro': {n:'Vaporize', mult:2.0, col:0xff8800},
+  'pyro+hydro': {n:'Vaporize', mult:2.0, col:0xff8800},
+  'cryo+pyro':  {n:'Melt', mult:2.0, col:0xffaa55},
+  'pyro+cryo':  {n:'Melt', mult:2.0, col:0xffaa55},
+
+  'pyro+electro':   {n:'Overloaded', mult:1.4, col:0xff44aa, extra:'explode'},
+  'electro+pyro':   {n:'Overloaded', mult:1.4, col:0xff44aa, extra:'explode'},
+
+  'hydro+electro':  {n:'Electro-Charged', mult:1.2, col:0x44aaff, extra:'tick'},
+  'electro+hydro':  {n:'Electro-Charged', mult:1.2, col:0x44aaff, extra:'tick'},
+
+  'hydro+cryo':     {n:'Frozen', mult:1.0, col:0x99ddff, extra:'freeze'},
+  'cryo+hydro':     {n:'Frozen', mult:1.0, col:0x99ddff, extra:'freeze'},
+
+  'cryo+electro':   {n:'Superconduct', mult:1.3, col:0xccddff, extra:'aoe'},
+  'electro+cryo':   {n:'Superconduct', mult:1.3, col:0xccddff, extra:'aoe'},
+};
+
+/* =====================
+   Characters (kit V2)
+   - COMBO 1-3 + CHARGED + PLUNGE
+   - skill/burst por elemento
+===================== */
+const CH = {
+  pyro:{
+    name:'Ignis', em:'🔥', el:'pyro', col:E.pyro.col, mhp:120, baseAtk:18,
+    model:'./models/pyro.glb',
+    skill:{ico:'🔥', cd:8, dmg:54, range:8.0, type:'cone', energy:12},
+    burst:{dmg:130, radius:10.0, cost:60}
+  },
+  hydro:{
+    name:'Aqua', em:'💧', el:'hydro', col:E.hydro.col, mhp:110, baseAtk:16,
+    model:'./models/hydro.glb',
+    skill:{ico:'🌀', cd:10, dmg:48, range:9.5, type:'wave', energy:14},
+    burst:{dmg:118, radius:10.5, cost:60}
+  },
+  electro:{
+    name:'Volt', em:'⚡', el:'electro', col:E.electro.col, mhp:95, baseAtk:17,
+    model:'./models/electro.glb',
+    skill:{ico:'⚡', cd:6, dmg:44, range:10.0, type:'bolt', energy:16},
+    burst:{dmg:110, radius:11.0, cost:60}
+  },
+  cryo:{
+    name:'Frost', em:'❄️', el:'cryo', col:E.cryo.col, mhp:105, baseAtk:17,
+    model:'./models/cryo.glb',
+    skill:{ico:'❄️', cd:9, dmg:50, range:9.0, type:'line', energy:14},
+    burst:{dmg:116, radius:10.0, cost:60}
+  }
+};
+
+/* =====================
+   Banner / Gacha V2 (pity + 50/50 featured 5★)
+===================== */
+const BANNER = {
+  featured5: {id:'thunder_blade', n:'Lâmina Trovejante', em:'⚔️', r:5, t:'wep', atk:20, el:'electro'},
+  pool5: [
+    {id:'solar_sword', n:'Espada Solar', em:'🗡️', r:5, t:'wep', atk:20, el:'pyro'},
+    {id:'tidal_lance_5', n:'Lança Abissal', em:'🔱', r:5, t:'wep', atk:20, el:'hydro'},
+    {id:'frost_edge', n:'Fio Glacial', em:'🗡️', r:5, t:'wep', atk:20, el:'cryo'},
+  ],
+  pool4: [
+    {id:'flame_sword', n:'Espada Ígnea', em:'🗡️', r:4, t:'wep', atk:14, el:'pyro'},
+    {id:'tidal_spear', n:'Lança das Marés', em:'🔱', r:4, t:'wep', atk:13, el:'hydro'},
+    {id:'ice_rapier', n:'Rapieira Glacial', em:'🗡️', r:4, t:'wep', atk:14, el:'cryo'},
+    {id:'spark_blade', n:'Espada Faiscante', em:'⚔️', r:4, t:'wep', atk:13, el:'electro'},
+  ],
+  pool3: [
+    {id:'iron_sword', n:'Espada de Ferro', em:'🗡️', r:3, t:'wep', atk:9},
+    {id:'ess_pyro', n:'Essência Pyro', em:'🔴', r:3, t:'mat'},
+    {id:'ess_hydro', n:'Essência Hydro', em:'🔵', r:3, t:'mat'},
+    {id:'ess_elec', n:'Essência Electro', em:'💜', r:3, t:'mat'},
+    {id:'ess_cryo', n:'Essência Cryo', em:'🩵', r:3, t:'mat'},
+  ]
+};
+
+let pity5 = 0;
+let pity4 = 0;
+let lost5050 = false;
+
+function addItem(item){
+  const it = State.inv.find(x=>x.id===item.id);
+  if(it) it.q=(it.q||1)+1;
+  else State.inv.push({id:item.id,n:item.n,em:item.em,r:item.r,t:item.t,atk:item.atk||0,el:item.el||null,q:1});
+}
+
+window.Gacha = {
+  pull(n){
+    const cost=(n===1)?160:1440;
+    if(State.gems<cost){ UI.notif('💎 Gemas insuficientes!'); return; }
+    State.gems-=cost; UI.updGems();
+
+    const res=[];
+    for(let i=0;i<n;i++){
+      pity5++; pity4++;
+
+      // raridade (com pity)
+      let r=3;
+      const rv=Math.random();
+      if(pity5>=90 || rv<0.07){ r=5; pity5=0; pity4=0; }
+      else if(pity4>=10 || rv<0.40){ r=4; pity4=0; }
+
+      let item=null;
+
+      if(r===5){
+        // 50/50
+        if(!lost5050){
+          const win = Math.random()<0.5;
+          if(win){
+            item = BANNER.featured5;
+          }else{
+            lost5050=true;
+            const p=BANNER.pool5;
+            item = p[Math.floor(Math.random()*p.length)];
+          }
+        }else{
+          // garantido featured
+          lost5050=false;
+          item = BANNER.featured5;
+        }
+      }else if(r===4){
+        const p=BANNER.pool4;
+        item = p[Math.floor(Math.random()*p.length)];
+      }else{
+        const p=BANNER.pool3;
+        item = p[Math.floor(Math.random()*p.length)];
+      }
+
+      res.push(item);
+      addItem(item);
+    }
+
+    save();
+    UI.renderInv();
+    showGRes(res);
+    UI.notif('🎁 Itens adicionados!', 'r');
+  }
+};
+
+function showGRes(res){
+  const d=document.getElementById('gres');
+  if(res.length===1){
+    const it=res[0];
+    d.innerHTML=`<div style="text-align:center;margin-bottom:10px">
+      <div class="gcard r${it.r}"><span>${it.em}</span><span class="stars">${'★'.repeat(it.r)}</span></div>
+      <div style="font-weight:900">${it.n}</div>
+    </div>`;
+  }else{
+    d.innerHTML=`<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:10px">
+      ${res.map(it=>`
+        <div style="text-align:center">
+          <div class="gcard r${it.r}" style="width:56px;height:72px;font-size:22px">
+            ${it.em}<span class="stars" style="font-size:9px">${'★'.repeat(it.r)}</span>
+          </div>
+          <div style="font-size:9px;width:56px">${it.n}</div>
+        </div>`).join('')}
+    </div>`;
+  }
+}
+
+/* =====================
+   UI render
+===================== */
+UI.renderPortraits = function(){
+  const c=document.getElementById('portraits'); c.innerHTML='';
+  for(let i=0;i<State.party.length;i++){
+    const id=State.party[i], ch=CH[id];
+    const hp=State.hp[id] ?? ch.mhp;
+    const ePct = (State.energy[id]||0) / State.energyMax * 100;
+    const d=document.createElement('div');
+    d.className='portrait'+(i===State.ac?' active':'');
+    d.style.color='#'+ch.col.toString(16).padStart(6,'0');
+    d.innerHTML = `
+      ${ch.em}
+      <div class="eb"><div class="ef" style="width:${ePct}%"></div></div>
+      <div class="hpb"><div class="hpf" style="width:${(hp/ch.mhp)*100}%;background:#${ch.col.toString(16).padStart(6,'0')}"></div></div>
+    `;
+    d.onclick=()=>Game.switchC(i);
+    c.appendChild(d);
+  }
+  document.getElementById('skico').textContent = CH[State.party[State.ac]].skill.ico;
+};
+
+UI.updBars = functio
