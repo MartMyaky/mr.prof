@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Doar via PIX</title>
+  <style>
+    :root{
+      --bg:#070812; --card:#0e1026; --line:#23264a; --text:#ffffff; --muted:#b8b9d6;
+      --pix:#00e6a8; --btn:#ffd166; --btnText:#141414;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1000px 600px at 20% 10%, rgba(91,91,255,.20), transparent),
+                  radial-gradient(900px 500px at 80% 20%, rgba(0,230,168,.14), transparent),
+                  var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:22px;
+    }
+    .wrap{width:min(980px, 100%);}
+    .top{
+      display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    .brand{
+      display:flex; gap:10px; align-items:center;
+    }
+    .logo{
+      width:42px;height:42px;border-radius:14px;
+      background: linear-gradient(135deg, rgba(0,230,168,.95), rgba(91,91,255,.95));
+      box-shadow: 0 12px 30px rgba(0,0,0,.35);
+    }
+    .brand h1{font-size:18px;margin:0}
+    .brand p{margin:0;color:var(--muted);font-size:13px}
+    .back a{
+      color:var(--muted); text-decoration:none; border:1px solid var(--line);
+      padding:10px 12px; border-radius:12px; display:inline-flex; gap:8px; align-items:center;
+      background: rgba(255,255,255,.03);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+    }
+    @media (max-width: 860px){
+      .grid{grid-template-columns:1fr}
+    }
+    .card{
+      border:1px solid var(--line);
+      background: rgba(14,16,38,.85);
+      border-radius:18px;
+      padding:18px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+      backdrop-filter: blur(8px);
+    }
+    .card h2{margin:0 0 6px;font-size:20px}
+    .card .sub{margin:0 0 14px;color:var(--muted);line-height:1.45}
+    .pill{
+      display:inline-flex; gap:8px; align-items:center;
+      border:1px solid rgba(0,230,168,.35);
+      background: rgba(0,230,168,.08);
+      color: var(--pix);
+      padding:8px 10px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:13px;
+      margin: 10px 0 14px;
+    }
+    .keybox{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+    }
+    code{
+      flex:1;
+      min-width:220px;
+      color: #e7e7ff;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.10);
+      padding:10px 12px;
+      border-radius:12px;
+      word-break: break-all;
+      font-size: 13px;
+    }
+    button{
+      border:0;
+      cursor:pointer;
+      padding:11px 14px;
+      border-radius:12px;
+      font-weight:800;
+      background: var(--btn);
+      color: var(--btnText);
+      box-shadow: 0 10px 24px rgba(0,0,0,.30);
+      transition: transform .08s ease;
+      white-space:nowrap;
+    }
+    button:active{transform: scale(.98)}
+    .hint{margin:10px 0 0; color: var(--muted); font-size:13px}
+    .list{margin:14px 0 0; padding:0 0 0 18px; color:var(--muted); line-height:1.55}
+    .qr{
+      display:flex; flex-direction:column; gap:12px; align-items:center; justify-content:center;
+      text-align:center;
+    }
+    .qr img{
+      width:min(280px, 85%); height:auto; border-radius:18px;
+      border:1px dashed rgba(255,255,255,.20);
+      background: rgba(0,0,0,.25);
+      padding:12px;
+    }
+    .mini{
+      font-size:13px; color:var(--muted);
+    }
+    .thanks{
+      margin-top:14px;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(255,209,102,.35);
+      background: rgba(255,209,102,.08);
+      color: #ffe7b0;
+      font-size: 13px;
+      line-height:1.45;
+    }
+    .footer{
+      margin-top:14px;
+      color:rgba(255,255,255,.45);
+      font-size:12px;
+      text-align:center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Doação via PIX</h1>
+          <p>Ajude a manter o projeto gratuito pros professores do Paraná</p>
+        </div>
+      </div>
+      <div class="back">
+        <a href="index.html">⬅️ Voltar ao site</a>
+      </div>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h2>💛 Apoie com qualquer valor</h2>
+        <p class="sub">
+          Se o site ou o bot te ajudam, uma doação (mesmo pequena) já faz diferença pra manter o projeto vivo e melhorar as ferramentas.
+        </p>
+
+        <div class="pill">✅ Doação rápida • PIX</div>
+
+        <div class="keybox">
+          <code id="pixKey">130.300.299-05</code>
+          <button id="copyBtn">Copiar chave</button>
+        </div>
+
+        <p class="hint" id="copyStatus">Dica: cole a chave no app do seu banco em “PIX → Copia e Cola”.</p>
+
+        <ul class="list">
+          <li>R$ 5 ajuda bastante</li>
+          <li>R$ 10 apoia melhorias no bot</li>
+          <li>R$ 20 ou mais acelera novas ferramentas</li>
+        </ul>
+
+        <div class="thanks">
+          Obrigado por apoiar! 🙏 <br/>
+          Se quiser, mande um “oi” no WhatsApp do projeto e eu posso colocar seu nome na lista de apoiadores.
+        </div>
+      </section>
+
+      <aside class="card qr">
+        <h2>📷 QR Code (opcional)</h2>
+        <p class="mini">Se você tiver um QR do PIX, coloque uma imagem chamada <b>pix-qr.png</b> na mesma pasta deste arquivo.</p>
+        <img src="pix-qr.png" alt="QR Code do PIX (opcional)" onerror="this.style.display='none'; document.getElementById('noqr').style.display='block';" />
+        <p class="mini" id="noqr" style="display:none;">
+          Nenhum QR encontrado (normal). Se quiser, salve seu QR como <b>pix-qr.png</b> e recarregue a página.
+        </p>
+      </aside>
+    </div>
+
+    <div class="footer">© Projeto para professores • Doações voluntárias via PIX</div>
+  </div>
+
+  <script>
+    const btn = document.getElementById('copyBtn');
+    const key = document.getElementById('pixKey');
+    const status = document.getElementById('copyStatus');
+
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(key.textContent.trim());
+        status.textContent = "✅ Chave copiada! Agora é só colar no app do banco.";
+      } catch (e) {
+        // fallback: seleciona o texto
+        const range = document.createRange();
+        range.selectNodeContents(key);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        status.textContent = "⚠️ Não consegui copiar automaticamente. Selecionei a chave — toque e copie.";
+      }
+    });
+  </script>
+</body>
+</html>
