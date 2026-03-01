@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StreamFlix — assistir de verdade</title>
+  <style>
+    :root{
+      --bg:#0b0b10;
+      --panel:#12121a;
+      --text:#eaeaf2;
+      --muted:#a7a7bb;
+      --brand:#e50914;
+      --line:rgba(255,255,255,.08);
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(229,9,20,.18), transparent 60%),
+                  radial-gradient(900px 500px at 90% 0%, rgba(120,80,255,.14), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,11,16,.65);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:1150px;
+      margin:0 auto;
+      padding:14px 16px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .logo{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:.4px;
+      user-select:none;
+    }
+    .dot{
+      width:12px;height:12px;border-radius:4px;
+      background: var(--brand);
+      box-shadow: 0 0 18px rgba(229,9,20,.55);
+    }
+    .logo span{color:var(--brand)}
+    .search{
+      flex:1;
+      display:flex; gap:10px; align-items:center;
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      border-radius: 999px;
+      padding:10px 12px;
+      min-width:160px;
+    }
+    .search input{
+      width:100%;
+      border:0; outline:0;
+      background:transparent;
+      color:var(--text);
+      font-size:14px;
+    }
+    .btn{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius: 999px;
+      cursor:pointer;
+      transition:.18s transform, .18s background, .18s border;
+      user-select:none;
+      text-decoration:none;
+      display:inline-block;
+      line-height:1;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+    .btn.brand{
+      background: rgba(229,9,20,.12);
+      border-color: rgba(229,9,20,.35);
+    }
+    .btn.brand:hover{ background: rgba(229,9,20,.18); }
+
+    .wrap{ max-width:1150px; margin:0 auto; padding: 18px 16px 44px; }
+
+    .hero{
+      margin-top:10px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(110deg, rgba(229,9,20,.18), rgba(255,255,255,0) 55%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)),
+        rgba(18,18,26,.7);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero-inner{
+      padding: 22px 20px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:16px;
+      align-items:center;
+    }
+    .hero h1{margin:0 0 8px; font-size:28px; line-height:1.1}
+    .hero p{margin:0; color:var(--muted); max-width:62ch}
+    .pills{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px}
+    .pill{
+      font-size:12px; color:#fff;
+      background: rgba(255,255,255,.08);
+      border:1px solid var(--line);
+      padding:7px 10px;
+      border-radius:999px;
+    }
+    .hero-card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(0,0,0,.25);
+      padding:14px;
+    }
+    .hero-card strong{display:block; margin-bottom:6px}
+    .hero-card small{color:var(--muted)}
+    .note{ margin-top:12px; color:var(--muted); font-size:12px; line-height:1.45; opacity:.95; }
+    .note b{color:#fff}
+
+    .row-head{
+      display:flex; align-items:end; justify-content:space-between;
+      margin: 22px 0 10px;
+      gap:12px;
+    }
+    .row-head h2{margin:0; font-size:16px}
+    .row-head .hint{color:var(--muted); font-size:12px}
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap:12px;
+    }
+    @media (max-width: 1100px){ .grid{grid-template-columns: repeat(5,1fr);} }
+    @media (max-width: 920px){
+      .hero-inner{grid-template-columns:1fr;}
+      .grid{grid-template-columns: repeat(4,1fr);}
+    }
+    @media (max-width: 640px){ .grid{grid-template-columns: repeat(2,1fr);} }
+
+    .card{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: 16px;
+      overflow:hidden;
+      cursor:pointer;
+      transition: .18s transform, .18s background, .18s border;
+      min-height: 210px;
+      display:flex;
+      flex-direction:column;
+    }
+    .card:hover{
+      transform: translateY(-3px);
+      background: rgba(255,255,255,.07);
+      border-color: rgba(255,255,255,.16);
+    }
+    .thumb{
+      aspect-ratio: 16/9;
+      background:
+        radial-gradient(220px 140px at 30% 30%, rgba(229,9,20,.35), transparent 60%),
+        radial-gradient(260px 160px at 70% 10%, rgba(120,80,255,.30), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0)),
+        #111;
+      background-size: cover;
+      background-position: center;
+      position:relative;
+    }
+    .badge{
+      position:absolute; top:10px; left:10px;
+      font-size:11px;
+      padding:6px 9px;
+      border-radius:999px;
+      background: rgba(0,0,0,.55);
+      border:1px solid var(--line);
+    }
+    .meta{
+      padding:10px 10px 12px;
+      display:flex; flex-direction:column; gap:4px;
+    }
+    .title{
+      font-weight:700;
+      font-size:13px;
+      line-height:1.2;
+      overflow:hidden;
+      display:-webkit-box;
+      -webkit-line-clamp:2;
+      -webkit-box-orient: vertical;
+      min-height: 32px;
+    }
+    .sub{
+      color:var(--muted);
+      font-size:12px;
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+
+    /* Modal */
+    .modal{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.65);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      z-index:999;
+    }
+    .modal.show{display:flex}
+    .modal-card{
+      width:min(980px, 100%);
+      border:1px solid var(--line);
+      background: rgba(18,18,26,.92);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modal-top{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px 14px;
+      border-bottom:1px solid var(--line);
+      gap:10px;
+    }
+    .modal-top .left{
+      display:flex; flex-direction:column;
+      min-width: 0;
+      flex:1;
+    }
+    .modal-top b{
+      font-size:14px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 72vw;
+    }
+    .modal-top small{color:var(--muted)}
+    .modal-actions{display:flex; gap:10px; align-items:center;}
+    .close{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      width:38px;height:38px;
+      border-radius: 12px;
+      cursor:pointer;
+      display:grid; place-items:center;
+    }
+    .player{
+      background:#000;
+      aspect-ratio: 16/9;
+      width:100%;
+      position:relative;
+    }
+    video, iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+    }
+    .modal-body{
+      padding: 14px;
+      display:grid;
+      grid-template-columns: 1fr 320px;
+      gap:14px;
+    }
+    @media (max-width: 920px){
+      .modal-body{grid-template-columns: 1fr;}
+      .modal-actions{flex-wrap:wrap; justify-content:flex-end;}
+    }
+    .desc{
+      border:1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      padding:12px;
+    }
+    .desc p{margin:8px 0 0; color:var(--muted); line-height:1.45}
+    .side{
+      border:1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .side label{font-size:12px; color:var(--muted)}
+    .side input{
+      width:100%;
+      padding:10px 12px;
+      border-radius: 12px;
+      border:1px solid var(--line);
+      outline:none;
+      background: rgba(0,0,0,.25);
+      color:var(--text);
+    }
+    .side .mini{font-size:12px; color:var(--muted); line-height:1.35}
+    .file{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+
+    .error{
+      color:#ffd1d1;
+      background: rgba(229,9,20,.12);
+      border:1px solid rgba(229,9,20,.35);
+      padding:10px 12px;
+      border-radius: 14px;
+      font-size:12px;
+      display:none;
+      margin-top:10px;
+    }
+    .error.show{display:block}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="logo" title="StreamFlix">
+        <div class="dot"></div>
+        Stream<span>Flix</span>
+      </div>
+
+      <div class="search" title="Pesquisar">
+        🔎 <input id="q" placeholder="Pesquisar (ex.: aula, curitiba, playlist...)" autocomplete="off" />
+      </div>
+
+      <button class="btn brand" id="openAdd">+ Adicionar</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-inner">
+        <div>
+          <h1>Assistir de verdade (YouTube + MP4)</h1>
+          <p>
+            “Netflix em HTML” que toca vídeos reais:
+            <b>YouTube (vídeo/playlist/canal)</b>, <b>MP4 por link</b> e <b>arquivo do PC</b>.
+          </p>
+          <div class="pills">
+            <div class="pill">✅ Sem login</div>
+            <div class="pill">✅ Funciona no navegador</div>
+            <div class="pill">✅ Catálogo salvo no navegador</div>
+          </div>
+          <div class="note" id="fileNote" style="display:none;">
+            Você abriu em <b>file://</b>. Se algum embed do YouTube falhar, rode um servidor local:
+            <b>python -m http.server 8000</b> e abra <b>http://localhost:8000/streamflix.html</b>.
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <strong>Se der “erro no player”</strong>
+          <small>
+            Alguns vídeos/canais bloqueiam reprodução em outros sites.
+            Use o botão <b>“Abrir no YouTube”</b> no player.
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row-head">
+      <h2>Catálogo</h2>
+      <div class="hint">Clique pra abrir o player</div>
+    </div>
+
+    <div id="grid" class="grid"></div>
+  </div>
+
+  <!-- MODAL PLAYER -->
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <div class="modal-top">
+        <div class="left">
+          <b id="mTitle">Título</b>
+          <small id="mSub">tipo • ano</small>
+        </div>
+
+        <div class="modal-actions">
+          <a class="btn" id="openYT" target="_blank" rel="noopener" style="display:none;">Abrir no YouTube</a>
+          <button class="close" id="close" title="Fechar">✕</button>
+        </div>
+      </div>
+
+      <div class="player" id="player"></div>
+
+      <div class="modal-body">
+        <div class="desc">
+          <b>Descrição</b>
+          <p id="mDesc"></p>
+          <div class="error" id="err"></div>
+        </div>
+
+        <div class="side">
+          <b>Adicionar vídeo</b>
+
+          <label>Colar link (canal/playlist/vídeo YouTube ou MP4)</label>
+          <input id="addUrl" placeholder="Ex.: https://youtube.com/@aulaparana9301/videos  ou  https://.../video.mp4" />
+          <button class="btn brand" id="addBtn">Adicionar ao catálogo</button>
+
+          <div class="file">
+            <div>
+              <label>Ou escolher vídeo do seu PC</label><br/>
+              <input id="file" type="file" accept="video/mp4,video/webm,video/ogg" />
+            </div>
+          </div>
+
+          <div class="mini">
+            • YouTube: aceita link de <b>canal</b>, <b>playlist</b> ou <b>vídeo</b><br/>
+            • MP4: cole link direto terminando em <b>.mp4</b> (ou .webm/.ogg)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Para @handle (sem API), usamos um map handle -> Channel ID
+    const HANDLE_TO_CHANNEL_ID = {
+      "canaltvescolacuritiba6931": "UCNJWZ_JXiSnkAeYenC6nT0g",
+      "aulaparana9301": "UCfbFento2_mCEyUgeiwImiQ",
+    };
+
+    // Catálogo inicial (inclui os 2 canais + a playlist que você mandou)
+    const seed = [
+      {
+        title: "TV Escola Curitiba — Uploads (Canal)",
+        kind: "yt_playlist",
+        src: "UUNJWZ_JXiSnkAeYenC6nT0g", // UC -> UU
+        year: 2026,
+        tags: ["curitiba", "educação", "canal"],
+        desc: "Uploads do canal TV Escola Curitiba (playlist automática).",
+        thumb: ""
+      },
+      {
+        title: "Aula Paraná — Uploads (Canal)",
+        kind: "yt_playlist",
+        src: "UUfbFento2_mCEyUgeiwImiQ", // UC -> UU
+        year: 2026,
+        tags: ["paraná", "aulas", "canal"],
+        desc: "Uploads do canal Aula Paraná (playlist automática).",
+        thumb: ""
+      },
+      {
+        title: "Playlist adicionada — (começa no vídeo hfz4uDuicaQ)",
+        kind: "yt_playlist_video",
+        list: "PLxx26T2z6Kywk3faJsxeJTCoHse1h-fdJ",
+        video: "hfz4uDuicaQ",
+        year: 2026,
+        tags: ["playlist", "aulas"],
+        desc: "Playlist do YouTube (abre já no vídeo específico que você mandou).",
+        thumb: "https://i.ytimg.com/vi/hfz4uDuicaQ/hqdefault.jpg"
+      },
+
+      // Exemplo teste (YouTube)
+      {
+        title: "Big Buck Bunny (YouTube - teste)",
+        kind: "youtube",
+        src: "zAb5aCyzcYM",
+        year: 2008,
+        tags: ["teste", "blender"],
+        desc: "Vídeo de teste para ver se o embed tá funcionando.",
+        thumb: "https://i.ytimg.com/vi/zAb5aCyzcYM/hqdefault.jpg"
+      }
+    ];
+
+    // Troquei a chave pra você receber o seed atualizado mesmo se já tinha salvo antes
+    const LS_KEY = "streamflix.catalog.v4";
+    const LS_PROGRESS = "streamflix.progress.v1";
+
+    const modal = document.getElementById("modal");
+    const player = document.getElementById("player");
+    const grid = document.getElementById("grid");
+    const q = document.getElementById("q");
+
+    const mTitle = document.getElementById("mTitle");
+    const mSub = document.getElementById("mSub");
+    const mDesc = document.getElementById("mDesc");
+    const err = document.getElementById("err");
+
+    const openAdd = document.getElementById("openAdd");
+    const closeBtn = document.getElementById("close");
+    const addBtn = document.getElementById("addBtn");
+    const addUrl = document.getElementById("addUrl");
+    const fileInp = document.getElementById("file");
+    const openYT = document.getElementById("openYT");
+    const fileNote = document.getElementById("fileNote");
+
+    if (location.protocol === "file:") fileNote.style.display = "block";
+
+    let catalog = loadCatalog();
+    let current = null;
+
+    function loadCatalog(){
+      try{
+        const raw = localStorage.getItem(LS_KEY);
+        if(!raw) return seed;
+        const parsed = JSON.parse(raw);
+        if(!Array.isArray(parsed) || parsed.length === 0) return seed;
+        return parsed;
+      }catch(e){
+        return seed;
+      }
+    }
+    function saveCatalog(){
+      localStorage.setItem(LS_KEY, JSON.stringify(catalog));
+    }
+
+    function loadProgress(){
+      try{ return JSON.parse(localStorage.getItem(LS_PROGRESS) || "{}"); }
+      catch{ return {}; }
+    }
+    function saveProgress(map){
+      localStorage.setItem(LS_PROGRESS, JSON.stringify(map));
+    }
+
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, m=>({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    function makeCard(item, idx){
+      const el = document.createElement("div");
+      el.className = "card";
+
+      const badge = item.kind === "mp4"
+        ? "MP4"
+        : (item.kind === "youtube" ? "YouTube" : "Playlist");
+
+      const tags = (item.tags || []).slice(0,2).join(" • ");
+      const thumb = item.thumb || "";
+      const thumbStyle = thumb ? `style="background-image:url('${String(thumb).replace(/'/g,"%27")}')"` : "";
+
+      el.innerHTML = `
+        <div class="thumb" ${thumbStyle}>
+          <div class="badge">${badge}</div>
+        </div>
+        <div class="meta">
+          <div class="title">${escapeHtml(item.title || "Sem título")}</div>
+          <div class="sub">
+            <span>${escapeHtml(String(item.year || ""))}</span>
+            <span>${escapeHtml(tags)}</span>
+          </div>
+        </div>
+      `;
+      el.addEventListener("click", ()=> openPlayer(idx));
+      return el;
+    }
+
+    function render(){
+      grid.innerHTML = "";
+      const term = (q.value || "").trim().toLowerCase();
+      const filtered = catalog
+        .map((it,i)=>({it,i}))
+        .filter(({it})=>{
+          if(!term) return true;
+          const hay = [it.title, (it.tags||[]).join(" "), it.desc].join(" ").toLowerCase();
+          return hay.includes(term);
+        });
+
+      filtered.forEach(({it,i}) => grid.appendChild(makeCard(it,i)));
+    }
+
+    function showErr(msg){
+      err.textContent = msg;
+      err.classList.add("show");
+    }
+
+    // ---- Player
+    function openPlayer(index){
+      current = catalog[index];
+      err.classList.remove("show");
+      err.textContent = "";
+
+      mTitle.textContent = current.title || "Sem título";
+      mSub.textContent = `${(current.kind || "").toUpperCase()} • ${current.year || "—"}`;
+      mDesc.textContent = current.desc || "Sem descrição.";
+
+      player.innerHTML = "";
+
+      // Fallback "Abrir no YouTube"
+      openYT.style.display = "none";
+      openYT.href = "#";
+
+      const YT_EMBED_BASE = "https://www.youtube.com/embed/";
+      const YT_EMBED_PLAYLIST = "https://www.youtube.com/embed/videoseries?list=";
+
+      if(current.kind === "youtube"){
+        openYT.style.display = "inline-block";
+        openYT.href = `https://www.youtube.com/watch?v=${encodeURIComponent(current.src)}`;
+
+        const iframe = document.createElement("iframe");
+        iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+        iframe.allowFullscreen = true;
+        iframe.referrerPolicy = "strict-origin-when-cross-origin";
+        iframe.src = `${YT_EMBED_BASE}${encodeURIComponent(current.src)}?autoplay=1&rel=0`;
+        player.appendChild(iframe);
+
+      } else if(current.kind === "yt_playlist"){
+        openYT.style.display = "inline-block";
+        openYT.href = `https://www.youtube.com/playlist?list=${encodeURIComponent(current.src)}`;
+
+        const iframe = document.createElement("iframe");
+        iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+        iframe.allowFullscreen = true;
+        iframe.referrerPolicy = "strict-origin-when-cross-origin";
+        iframe.src = `${YT_EMBED_PLAYLIST}${encodeURIComponent(current.src)}&autoplay=1&rel=0`;
+        player.appendChild(iframe);
+
+      } else if(current.kind === "yt_playlist_video"){
+        // Abre a playlist já no vídeo específico
+        openYT.style.display = "inline-block";
+        openYT.href = `https://www.youtube.com/watch?v=${encodeURIComponent(current.video)}&list=${encodeURIComponent(current.list)}`;
+
+        const iframe = document.createElement("iframe");
+        iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+        iframe.allowFullscreen = true;
+        iframe.referrerPolicy = "strict-origin-when-cross-origin";
+        iframe.src = `${YT_EMBED_BASE}${encodeURIComponent(current.video)}?list=${encodeURIComponent(current.list)}&autoplay=1&rel=0`;
+        player.appendChild(iframe);
+
+      } else {
+        // MP4
+        const video = document.createElement("video");
+        video.controls = true;
+        video.playsInline = true;
+        video.preload = "metadata";
+
+        const prog = loadProgress();
+        const key = current.src;
+        video.src = current.src;
+
+        video.addEventListener("loadedmetadata", ()=>{
+          if(prog[key] && prog[key] < (video.duration - 2)){
+            video.currentTime = prog[key];
+          }
+          video.play().catch(()=>{});
+        });
+
+        video.addEventListener("timeupdate", ()=>{
+          const p = loadProgress();
+          p[key] = video.currentTime;
+          saveProgress(p);
+        });
+
+        video.addEventListener("error", ()=>{
+          showErr("Não consegui tocar esse MP4. Tenta outro link direto (.mp4) ou rode um servidor local (python -m http.server).");
+        });
+
+        player.appendChild(video);
+      }
+
+      modal.classList.add("show");
+    }
+
+    function closePlayer(){
+      modal.classList.remove("show");
+      player.innerHTML = "";
+      current = null;
+    }
+
+    // ---- YouTube helpers
+    function parseYouTubeId(url){
+      try{
+        const u = new URL(url);
+        if(u.hostname.includes("youtu.be")){
+          return u.pathname.replace("/","").trim();
+        }
+        if(u.hostname.includes("youtube.com")){
+          if(u.searchParams.get("v")) return u.searchParams.get("v");
+          const parts = u.pathname.split("/").filter(Boolean);
+          const last = parts[parts.length-1];
+          if(parts[0] === "shorts" && last) return last;
+          if(parts[0] === "embed" && last) return last;
+        }
+      }catch(e){}
+      if(/^[a-zA-Z0-9_-]{8,}$/.test(url.trim())) return url.trim();
+      return null;
+    }
+
+    function parsePlaylistIdFromUrl(url){
+      try{
+        const u = new URL(url);
+        if(!u.hostname.includes("youtube.com") && !u.hostname.includes("youtu.be")) return null;
+        return u.searchParams.get("list") || null;
+      }catch(e){}
+      return null;
+    }
+
+    function parseVideoAndList(url){
+      try{
+        const u = new URL(url);
+        if(!u.hostname.includes("youtube.com") && !u.hostname.includes("youtu.be")) return null;
+        const v = u.searchParams.get("v");
+        const list = u.searchParams.get("list");
+        if(v && list) return { v, list };
+      }catch(e){}
+      return null;
+    }
+
+    function parseChannelIdFromUrl(url){
+      try{
+        const u = new URL(url);
+        if(!u.hostname.includes("youtube.com")) return null;
+
+        const m = u.pathname.match(/\/channel\/(UC[a-zA-Z0-9_-]+)/);
+        if(m && m[1]) return m[1];
+
+        const h = u.pathname.match(/\/@([a-zA-Z0-9._-]+)/);
+        if(h && h[1]){
+          const handle = h[1].toLowerCase();
+          return HANDLE_TO_CHANNEL_ID[handle] || null;
+        }
+      }catch(e){}
+      return null;
+    }
+
+    function channelIdToUploadsList(channelId){
+      if(!channelId || !channelId.startsWith("UC")) return null;
+      // uploads padrão: UC -> UU
+      return "UU" + channelId.slice(2);
+    }
+
+    function isDirectVideo(url){
+      return /\.(mp4|webm|ogg)(\?.*)?$/i.test(url.trim());
+    }
+
+    function addFromUrl(){
+      const raw = (addUrl.value || "").trim();
+      if(!raw) return;
+
+      err.classList.remove("show");
+      err.textContent = "";
+
+      // 0) watch?v=...&list=... (vídeo dentro de playlist)
+      const vl = parseVideoAndList(raw);
+      if(vl){
+        const item = {
+          title: "Vídeo em playlist (YouTube)",
+          kind: "yt_playlist_video",
+          video: vl.v,
+          list: vl.list,
+          year: new Date().getFullYear(),
+          tags: ["playlist", "youtube"],
+          desc: "Abre já no vídeo e mantém a playlist.",
+          thumb: `https://i.ytimg.com/vi/${vl.v}/hqdefault.jpg`
+        };
+        catalog.unshift(item);
+        saveCatalog();
+        addUrl.value = "";
+        render();
+        openPlayer(0);
+        return;
+      }
+
+      // 1) Playlist (qualquer link com ?list=)
+      const pl = parsePlaylistIdFromUrl(raw);
+      if(pl){
+        const item = {
+          title: "Nova playlist (YouTube)",
+          kind: "yt_playlist",
+          src: pl,
+          year: new Date().getFullYear(),
+          tags: ["playlist", "youtube"],
+          desc: "Playlist do YouTube adicionada por link.",
+          thumb: ""
+        };
+        catalog.unshift(item);
+        saveCatalog();
+        addUrl.value = "";
+        render();
+        openPlayer(0);
+        return;
+      }
+
+      // 2) Canal ( /channel/UC... ou @handle conhecido no map )
+      const channelId = parseChannelIdFromUrl(raw);
+      if(channelId){
+        const uploads = channelIdToUploadsList(channelId);
+        if(!uploads){
+          showErr("Não consegui gerar playlist de uploads desse canal.");
+          return;
+        }
+        const item = {
+          title: "Canal (uploads) — YouTube",
+          kind: "yt_playlist",
+          src: uploads,
+          year: new Date().getFullYear(),
+          tags: ["canal", "uploads"],
+          desc: "Playlist automática com os uploads do canal.",
+          thumb: ""
+        };
+        catalog.unshift(item);
+        saveCatalog();
+        addUrl.value = "";
+        render();
+        openPlayer(0);
+        return;
+      }
+
+      // 3) Vídeo do YouTube
+      const yt = parseYouTubeId(raw);
+      if(yt){
+        const item = {
+          title: "Novo vídeo (YouTube)",
+          kind: "youtube",
+          src: yt,
+          year: new Date().getFullYear(),
+          tags: ["youtube"],
+          desc: "Adicionado por link/ID do YouTube.",
+          thumb: `https://i.ytimg.com/vi/${yt}/hqdefault.jpg`
+        };
+        catalog.unshift(item);
+        saveCatalog();
+        addUrl.value = "";
+        render();
+        openPlayer(0);
+        return;
+      }
+
+      // 4) MP4
+      if(isDirectVideo(raw)){
+        const item = {
+          title: "Novo vídeo (MP4)",
+          kind: "mp4",
+          src: raw,
+          year: new Date().getFullYear(),
+          tags: ["mp4"],
+          desc: "Adicionado por link direto de vídeo.",
+          thumb: ""
+        };
+        catalog.unshift(item);
+        saveCatalog();
+        addUrl.value = "";
+        render();
+        openPlayer(0);
+        return;
+      }
+
+      showErr("Link não reconhecido. Use: link de canal, playlist (?list=), vídeo (watch?v=) ou .mp4/.webm/.ogg.");
+    }
+
+    function addFromFile(file){
+      if(!file) return;
+      const url = URL.createObjectURL(file);
+      const item = {
+        title: file.name,
+        kind: "mp4",
+        src: url,
+        year: new Date().getFullYear(),
+        tags: ["arquivo local"],
+        desc: "Vídeo aberto do seu PC (não fica salvo depois de recarregar).",
+        thumb: ""
+      };
+      catalog.unshift(item);
+      render();
+      openPlayer(0);
+      fileInp.value = "";
+    }
+
+    // Events
+    q.addEventListener("input", render);
+
+    openAdd.addEventListener("click", ()=>{
+      modal.classList.add("show");
+      mTitle.textContent = "Adicionar vídeo";
+      mSub.textContent = "YouTube ou MP4";
+      mDesc.textContent = "Cole um link de canal/playlist/vídeo do YouTube ou um MP4 direto.";
+      player.innerHTML = "";
+      err.classList.remove("show");
+      err.textContent = "";
+      openYT.style.display = "none";
+      addUrl.focus();
+    });
+
+    closeBtn.addEventListener("click", closePlayer);
+    modal.addEventListener("click", (e)=>{ if(e.target === modal) closePlayer(); });
+    window.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closePlayer(); });
+
+    addBtn.addEventListener("click", addFromUrl);
+    addUrl.addEventListener("keydown", (e)=>{ if(e.key === "Enter") addFromUrl(); });
+
+    fileInp.addEventListener("change", (e)=> addFromFile(e.target.files[0]));
+
+    render();
+  </script>
+</body>
+</html>
