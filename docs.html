@@ -864,14 +864,31 @@ x⁻¹</div>
     }
 
     function salvarTexto() {
-      localStorage.setItem('docsMatematicaProfessor', document.getElementById('docArea').innerHTML);
-      alert('Texto salvo no navegador com sucesso.');
+      const conteudo = document.getElementById('docArea').innerHTML;
+      localStorage.setItem('docsMatematicaProfessor_caixaTexto', conteudo);
+      alert('Texto da caixa salvo no navegador com sucesso.');
     }
 
     function carregarTexto() {
-      const texto = localStorage.getItem('docsMatematicaProfessor');
-      document.getElementById('docArea').innerHTML = texto || '';
-      alert(texto ? 'Texto carregado.' : 'Nenhum texto salvo foi encontrado.');
+      const texto = localStorage.getItem('docsMatematicaProfessor_caixaTexto');
+      const area = document.getElementById('docArea');
+
+      if (!texto) {
+        area.innerHTML = '';
+        return;
+      }
+
+      const textoLimpo = texto.toLowerCase();
+      const parecePaginaInteira = textoLimpo.includes('<!doctype') || textoLimpo.includes('<html') || textoLimpo.includes('<head') || textoLimpo.includes('<body');
+
+      if (parecePaginaInteira) {
+        area.innerHTML = '';
+        localStorage.removeItem('docsMatematicaProfessor_caixaTexto');
+        alert('Foi encontrado um salvamento inválido da página inteira. A caixa de texto foi limpa.');
+        return;
+      }
+
+      area.innerHTML = texto;
     }
 
     carregarTexto();
