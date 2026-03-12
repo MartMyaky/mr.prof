@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geradores Educativos IA</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      background:linear-gradient(135deg,#081426,#0f2747,#12345f);
+      color:#fff;
+      min-height:100vh;
+    }
+    header{
+      padding:28px 20px;
+      text-align:center;
+      background:rgba(255,255,255,.05);
+      border-bottom:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(10px);
+      position:sticky;
+      top:0;
+      z-index:10;
+    }
+    header h1{
+      font-size:2rem;
+      margin-bottom:8px;
+      color:#7fd7ff;
+    }
+    header p{
+      max-width:820px;
+      margin:0 auto;
+      color:#dbeaff;
+      line-height:1.5;
+    }
+    .container{
+      width:min(1200px,92%);
+      margin:28px auto;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:22px;
+    }
+    .card{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:22px;
+      box-shadow:0 18px 40px rgba(0,0,0,.25);
+      padding:22px;
+      backdrop-filter:blur(10px);
+    }
+    .card h2{
+      color:#9de5ff;
+      margin-bottom:16px;
+      font-size:1.3rem;
+    }
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    label{
+      display:block;
+      margin-bottom:7px;
+      font-weight:700;
+      color:#dff4ff;
+    }
+    input,select,textarea,button{
+      width:100%;
+      border:none;
+      border-radius:14px;
+      padding:13px 14px;
+      font-size:1rem;
+    }
+    input,select,textarea{
+      background:#f3f8ff;
+      color:#10233d;
+      outline:none;
+    }
+    textarea{
+      resize:vertical;
+      min-height:110px;
+    }
+    .full{grid-column:1/-1}
+    .btns{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-top:16px;
+    }
+    button{
+      cursor:pointer;
+      font-weight:700;
+      transition:.2s ease;
+    }
+    .primary{background:linear-gradient(135deg,#00c2ff,#1976ff);color:#fff}
+    .secondary{background:linear-gradient(135deg,#00d38d,#00a66d);color:#fff}
+    .ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.12)}
+    button:hover{transform:translateY(-2px);filter:brightness(1.05)}
+    .tools{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-bottom:16px;
+    }
+    .tool-btn{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      color:#fff;
+      padding:14px;
+      border-radius:16px;
+      text-align:left;
+      font-weight:700;
+    }
+    .tool-btn small{
+      display:block;
+      font-weight:400;
+      color:#d9ecff;
+      margin-top:5px;
+    }
+    .tool-btn.active{
+      background:linear-gradient(135deg,#1678ff,#00b1ff);
+    }
+    .output{
+      background:#f7fbff;
+      color:#10233d;
+      border-radius:18px;
+      min-height:540px;
+      padding:18px;
+      white-space:pre-wrap;
+      line-height:1.65;
+      overflow:auto;
+    }
+    .topline{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:14px;
+      flex-wrap:wrap;
+    }
+    .badge{
+      background:#0e66ff;
+      color:#fff;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:.9rem;
+      font-weight:700;
+    }
+    .mini{
+      font-size:.9rem;
+      color:#d7ebff;
+      margin-top:8px;
+      line-height:1.5;
+    }
+    footer{
+      width:min(1200px,92%);
+      margin:0 auto 30px;
+      color:#d8e8ff;
+      opacity:.9;
+      text-align:center;
+      line-height:1.5;
+    }
+    @media (max-width: 980px){
+      .container{grid-template-columns:1fr}
+      .btns{grid-template-columns:1fr}
+      .grid-2,.tools{grid-template-columns:1fr}
+      header h1{font-size:1.5rem}
+      .output{min-height:420px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🧠 Geradores Educativos IA</h1>
+    <p>Uma central inteligente para criar conteúdos escolares em segundos: plano de aula, atividades, questões, resumo, redação, projeto e quiz. Ideal para seu site educacional.</p>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Configuração do gerador</h2>
+
+      <div class="tools">
+        <button class="tool-btn active" data-tool="plano">📘 Plano de Aula<small>Objetivos, metodologia e avaliação</small></button>
+        <button class="tool-btn" data-tool="prova">📑 Criador de Provas<small>Questões + gabarito automático</small></button>
+        <button class="tool-btn" data-tool="enem">🎓 Simulador ENEM<small>Questões estilo ENEM</small></button>
+        <button class="tool-btn" data-tool="slides">📊 Gerador de Slides<small>Estrutura para apresentação</small></button>
+        <button class="tool-btn" data-tool="jogo">🎮 Jogos Educativos<small>Ideias de jogos para aula</small></button>
+        <button class="tool-btn" data-tool="mapa">🧠 Mapas Mentais<small>Mapa mental organizado</small></button>
+        <button class="tool-btn" data-tool="experimento">🧪 Experimentos<small>Experimentos científicos</small></button>
+        <button class="tool-btn" data-tool="projeto">🚀 Projetos Escolares<small>Projeto interdisciplinar</small></button>
+        <button class="tool-btn" data-tool="bncc">📚 BNCC Automático<small>Habilidades da BNCC</small></button>
+        <button class="tool-btn" data-tool="inclusiva">♿ Atividades Inclusivas<small>Adaptação pedagógica</small></button>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <label for="tema">Tema</label>
+          <input id="tema" type="text" placeholder="Ex.: Sistema Solar" />
+        </div>
+        <div>
+          <label for="disciplina">Disciplina</label>
+          <select id="disciplina">
+            <option>Ciências</option>
+            <option>Matemática</option>
+            <option>Português</option>
+            <option>História</option>
+            <option>Geografia</option>
+            <option>Arte</option>
+            <option>Inglês</option>
+            <option>Física</option>
+            <option>Química</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="ano">Ano / Série</label>
+          <select id="ano">
+            <option>1º ano</option>
+            <option>2º ano</option>
+            <option>3º ano</option>
+            <option>4º ano</option>
+            <option>5º ano</option>
+            <option>6º ano</option>
+            <option>7º ano</option>
+            <option>8º ano</option>
+            <option>9º ano</option>
+            <option>Ensino Médio</option>
+          </select>
+        </div>
+        <div>
+          <label for="nivel">Nível</label>
+          <select id="nivel">
+            <option>Básico</option>
+            <option>Intermediário</option>
+            <option>Avançado</option>
+          </select>
+        </div>
+
+        <div class="full">
+          <label for="objetivo">Objetivo específico</label>
+          <textarea id="objetivo" placeholder="Ex.: Fazer os alunos compreenderem os planetas, suas características e diferenças."></textarea>
+        </div>
+
+        <div class="full">
+          <label for="extra">Instruções extras</label>
+          <textarea id="extra" placeholder="Ex.: incluir linguagem simples, 5 questões, gabarito no final e proposta lúdica."></textarea>
+        </div>
+      </div>
+
+      <div class="btns">
+        <button class="primary" id="gerarBtn">⚡ Gerar conteúdo</button>
+        <button class="secondary" id="copiarBtn">📋 Copiar resultado</button>
+        <button class="ghost" id="limparBtn">🧹 Limpar tudo</button>
+      </div>
+
+      <p class="mini">Dica: depois você pode ligar este formulário a uma API de IA real, como OpenAI, Gemini ou outro backend. Neste modelo, o HTML já gera estruturas automáticas no navegador para você testar no seu site.</p>
+    </section>
+
+    <section class="card">
+      <div class="topline">
+        <h2>Resultado gerado</h2>
+        <span class="badge" id="modoAtual">Plano de Aula</span>
+      </div>
+      <div class="output" id="saida">Seu conteúdo educacional vai aparecer aqui...</div>
+    </section>
+  </main>
+
+  <footer>
+    Geradores Educativos IA • Estrutura pronta em HTML, CSS e JavaScript • Pode ser integrada ao seu portal escolar
+  </footer>
+
+  <script>
+    const toolButtons = document.querySelectorAll('.tool-btn');
+    const modoAtual = document.getElementById('modoAtual');
+    const saida = document.getElementById('saida');
+    let ferramentaSelecionada = 'plano';
+
+    toolButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        toolButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        ferramentaSelecionada = btn.dataset.tool;
+        modoAtual.textContent = btn.textContent.trim().split('\n')[0];
+      });
+    });
+
+    function pegarDados(){
+      return {
+        tema: document.getElementById('tema').value.trim() || 'Tema não informado',
+        disciplina: document.getElementById('disciplina').value,
+        ano: document.getElementById('ano').value,
+        nivel: document.getElementById('nivel').value,
+        objetivo: document.getElementById('objetivo').value.trim() || 'Objetivo não informado',
+        extra: document.getElementById('extra').value.trim() || 'Sem instruções extras'
+      };
+    }
+
+    function gerarPlano(d){
+      return `PLANO DE AULA\n\nTema: ${d.tema}\nDisciplina: ${d.disciplina}\nAno/Série: ${d.ano}\nNível: ${d.nivel}\n\n1. Objetivo da aula\n${d.objetivo}\n\n2. Habilidades trabalhadas\n- Compreender os conceitos centrais sobre ${d.tema}.\n- Relacionar teoria e prática em sala de aula.\n- Desenvolver participação, análise e autonomia.\n\n3. Metodologia\n- Aula expositiva dialogada sobre ${d.tema}.\n- Uso de exemplos práticos e linguagem adaptada para ${d.ano}.\n- Atividade de fixação individual ou em grupo.\n\n4. Recursos\n- Quadro ou slides\n- Caderno/livro\n- Atividade impressa ou digital\n\n5. Avaliação\n- Participação em aula\n- Resolução da atividade\n- Verificação da compreensão do conteúdo\n\n6. Personalização solicitada\n${d.extra}`;
+    }
+
+    function gerarAtividade(d){
+      return `ATIVIDADE ESCOLAR\n\nTema: ${d.tema}\nDisciplina: ${d.disciplina}\nAno/Série: ${d.ano}\n\nInstruções: Leia com atenção e responda.\n\n1) Explique com suas palavras o que é ${d.tema}.\n2) Cite dois pontos importantes sobre ${d.tema}.\n3) Dê um exemplo relacionado a ${d.tema} no cotidiano.\n4) Faça uma comparação simples entre conceitos ligados ao tema.\n5) Produza uma pequena conclusão sobre o assunto estudado.\n\nObjetivo da atividade\n${d.objetivo}\n\nAdaptações e observações\n${d.extra}`;
+    }
+
+    function gerarQuiz(d){
+      return `QUIZ EDUCATIVO\n\nTema: ${d.tema}\nDisciplina: ${d.disciplina}\nAno/Série: ${d.ano}\n\n1) O que melhor define ${d.tema}?\nA) Alternativa 1\nB) Alternativa 2\nC) Alternativa 3\nD) Alternativa 4\n\n2) Qual opção está relacionada ao tema estudado?\nA) Alternativa 1\nB) Alternativa 2\nC) Alternativa 3\nD) Alternativa 4\n\n3) Em qual situação ${d.tema} pode ser observado?\nA) Alternativa 1\nB) Alternativa 2\nC) Alternativa 3\nD) Alternativa 4\n\nGabarito sugerido\n1) A\n2) C\n3) B\n\nObjetivo\n${d.objetivo}\n\nInstruções extras\n${d.extra}`;
+    }
+
+    function gerarResumo(d){
+      return `RESUMO DIDÁTICO\n\nTema: ${d.tema}\nDisciplina: ${d.disciplina}\nAno/Série: ${d.ano}\n\n${d.tema} é um conteúdo importante dentro da disciplina de ${d.disciplina}. Esse assunto ajuda os estudantes a compreender melhor conceitos fundamentais, aplicações práticas e relações com o dia a dia.\n\nPontos principais\n- Definição central do tema\n- Características principais\n- Exemplos práticos\n- Importância do conteúdo\n\nObjetivo do resumo\n${d.objetivo}\n\nObservações\n${d.extra}`;
+    }
+
+    function gerarRedacao(d){
+      return `PROPOSTA DE REDAÇÃO\n\nTema de redação: ${d.tema}\nAno/Série: ${d.ano}\nNível: ${d.nivel}\n\nTexto motivador\nO tema ${d.tema} pode ser discutido sob diferentes perspectivas, considerando seus impactos, desafios e possibilidades dentro da sociedade e da educação.\n\nComando\nProduza um texto dissertativo sobre ${d.tema}, apresentando introdução, desenvolvimento e conclusão.\n\nCritérios de avaliação\n- Clareza das ideias\n- Organização textual\n- Coerência e coesão\n- Adequação ao tema\n\nObjetivo pedagógico\n${d.objetivo}\n\nOrientações extras\n${d.extra}`;
+    }
+
+    function gerarProjeto(d){
+      return `PROJETO INTERDISCIPLINAR\n\nTema: ${d.tema}\nTurma: ${d.ano}\nNível: ${d.nivel}\n\nTítulo do projeto\nExplorando ${d.tema} de forma criativa\n\nObjetivo geral\n${d.objetivo}\n\nEtapas\n1. Apresentação do tema\n2. Pesquisa orientada\n3. Produção de cartaz, slide ou maquete\n4. Apresentação para a turma\n5. Avaliação coletiva\n\nDisciplinas envolvidas\n- ${d.disciplina}\n- Português\n- Arte\n\nProduto final\nUma apresentação ou exposição sobre ${d.tema}.\n\nInstruções extras\n${d.extra}`;
+    }
+
+    function gerarConteudo(){
+      const d = pegarDados();
+      let texto = '';
+
+      switch(ferramentaSelecionada){
+        case 'plano': texto = gerarPlano(d); break;
+        case 'atividade': texto = gerarAtividade(d); break;
+        case 'quiz': texto = gerarQuiz(d); break;
+        case 'resumo': texto = gerarResumo(d); break;
+        case 'redacao': texto = gerarRedacao(d); break;
+        case 'projeto': texto = gerarProjeto(d); break;
+      }
+
+      saida.textContent = texto;
+    }
+
+    document.getElementById('gerarBtn').addEventListener('click', gerarConteudo);
+
+    document.getElementById('copiarBtn').addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(saida.textContent);
+        alert('Conteúdo copiado com sucesso!');
+      }catch(e){
+        alert('Não foi possível copiar automaticamente.');
+      }
+    });
+
+    document.getElementById('limparBtn').addEventListener('click', () => {
+      document.getElementById('tema').value = '';
+      document.getElementById('objetivo').value = '';
+      document.getElementById('extra').value = '';
+      saida.textContent = 'Seu conteúdo educacional vai aparecer aqui...';
+    });
+  </script>
+  <script>
+    const toolButtons = document.querySelectorAll('.tool-btn');
+    const modoAtual = document.getElementById('modoAtual');
+    const saida = document.getElementById('saida');
+    let ferramentaSelecionada = 'plano';
+    let historico = [];
+
+    toolButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        toolButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        ferramentaSelecionada = btn.dataset.tool;
+        modoAtual.textContent = btn.textContent.trim().split('
+')[0];
+      });
+    });
+
+    function pegarDados(){
+      return {
+        tema: document.getElementById('tema').value.trim() || 'Tema não informado',
+        disciplina: document.getElementById('disciplina').value,
+        ano: document.getElementById('ano').value,
+        nivel: document.getElementById('nivel').value,
+        objetivo: document.getElementById('objetivo').value.trim() || 'Objetivo não informado',
+        extra: document.getElementById('extra').value.trim() || 'Sem instruções extras'
+      };
+    }
+
+    function gerarPlano(d){
+      return `PLANO DE AULA
+
+Tema: ${d.tema}
+Disciplina: ${d.disciplina}
+Ano/Série: ${d.ano}
+Nível: ${d.nivel}
+
+1. Objetivo da aula
+${d.objetivo}
+
+2. Habilidades trabalhadas
+- Compreender os conceitos centrais sobre ${d.tema}.
+- Relacionar teoria e prática em sala de aula.
+- Desenvolver participação, análise e autonomia.
+
+3. Metodologia
+- Aula expositiva dialogada sobre ${d.tema}.
+- Uso de exemplos práticos e linguagem adaptada para ${d.ano}.
+- Atividade de fixação individual ou em grupo.
+
+4. Recursos
+- Quadro ou slides
+- Caderno/livro
+- Atividade impressa ou digital
+
+5. Avaliação
+- Participação em aula
+- Resolução da atividade
+- Verificação da compreensão do conteúdo
+
+6. Personalização solicitada
+${d.extra}`;
+    }
+
+    function gerarAtividade(d){
+      return `ATIVIDADE ESCOLAR
+
+Tema: ${d.tema}
+Disciplina: ${d.disciplina}
+Ano/Série: ${d.ano}
+
+Instruções: Leia com atenção e responda.
+
+1) Explique com suas palavras o que é ${d.tema}.
+2) Cite dois pontos importantes sobre ${d.tema}.
+3) Dê um exemplo relacionado a ${d.tema} no cotidiano.
+4) Faça uma comparação simples entre conceitos ligados ao tema.
+5) Produza uma pequena conclusão sobre o assunto estudado.
+
+Objetivo da atividade
+${d.objetivo}
+
+Adaptações e observações
+${d.extra}`;
+    }
+
+    function gerarQuiz(d){
+      return `QUIZ EDUCATIVO
+
+Tema: ${d.tema}
+Disciplina: ${d.disciplina}
+Ano/Série: ${d.ano}
+
+1) O que melhor define ${d.tema}?
+A) Alternativa 1
+B) Alternativa 2
+C) Alternativa 3
+D) Alternativa 4
+
+2) Qual opção está relacionada ao tema estudado?
+A) Alternativa 1
+B) Alternativa 2
+C) Alternativa 3
+D) Alternativa 4
+
+3) Em qual situação ${d.tema} pode ser observado?
+A) Alternativa 1
+B) Alternativa 2
+C) Alternativa 3
+D) Alternativa 4
+
+Gabarito sugerido
+1) A
+2) C
+3) B
+
+Objetivo
+${d.objetivo}
+
+Instruções extras
+${d.extra}`;
+    }
+
+    function gerarResumo(d){
+      return `RESUMO DIDÁTICO
+
+Tema: ${d.tema}
+Disciplina: ${d.disciplina}
+Ano/Série: ${d.ano}
+
+${d.tema} é um conteúdo importante dentro da disciplina de ${d.disciplina}. Esse assunto ajuda os estudantes a compreender melhor conceitos fundamentais, aplicações práticas e relações com o dia a dia.
+
+Pontos principais
+- Definição central do tema
+- Características principais
+- Exemplos práticos
+- Importância do conteúdo
+
+Objetivo do resumo
+${d.objetivo}
+
+Observações
+${d.extra}`;
+    }
+
+    function gerarRedacao(d){
+      return `PROPOSTA DE REDAÇÃO
+
+Tema de redação: ${d.tema}
+Ano/Série: ${d.ano}
+Nível: ${d.nivel}
+
+Texto motivador
+O tema ${d.tema} pode ser discutido sob diferentes perspectivas, considerando seus impactos, desafios e possibilidades dentro da sociedade e da educação.
+
+Comando
+Produza um texto dissertativo sobre ${d.tema}, apresentando introdução, desenvolvimento e conclusão.
+
+Critérios de avaliação
+- Clareza das ideias
+- Organização textual
+- Coerência e coesão
+- Adequação ao tema
+
+Objetivo pedagógico
+${d.objetivo}
+
+Orientações extras
+${d.extra}`;
+    }
+
+    function gerarProjeto(d){
+      return `PROJETO INTERDISCIPLINAR
+
+Tema: ${d.tema}
+Turma: ${d.ano}
+Nível: ${d.nivel}
+
+Título do projeto
+Explorando ${d.tema} de forma criativa
+
+Objetivo geral
+${d.objetivo}
+
+Etapas
+1. Apresentação do tema
+2. Pesquisa orientada
+3. Produção de cartaz, slide ou maquete
+4. Apresentação para a turma
+5. Avaliação coletiva
+
+Disciplinas envolvidas
+- ${d.disciplina}
+- Português
+- Arte
+
+Produto final
+Uma apresentação ou exposição sobre ${d.tema}.
+
+Instruções extras
+${d.extra}`;
+    }
+
+    function gerarConteudo(){
+      const d = pegarDados();
+      let texto = '';
+
+      switch(ferramentaSelecionada){
+        case 'plano': texto = gerarPlano(d); break;
+        case 'atividade': texto = gerarAtividade(d); break;
+        case 'quiz': texto = gerarQuiz(d); break;
+        case 'resumo': texto = gerarResumo(d); break;
+        case 'redacao': texto = gerarRedacao(d); break;
+        case 'projeto': texto = gerarProjeto(d); break;
+      }
+
+      saida.textContent = texto;
+      salvarHistorico(texto, d);
+    }
+
+    function salvarHistorico(texto, dados){
+      historico.unshift({
+        tipo: ferramentaSelecionada,
+        tema: dados.tema,
+        data: new Date().toLocaleString('pt-BR'),
+        conteudo: texto
+      });
+      localStorage.setItem('historicoGeradoresIA', JSON.stringify(historico.slice(0,20)));
+    }
+
+    function carregarHistorico(){
+      const salvo = localStorage.getItem('historicoGeradoresIA');
+      if(salvo){
+        historico = JSON.parse(salvo);
+      }
+    }
+
+    function baixarArquivo(nome, conteudo, tipo){
+      const blob = new Blob([conteudo], { type: tipo });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = nome;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+
+    document.getElementById('gerarBtn').addEventListener('click', gerarConteudo);
+
+    document.getElementById('copiarBtn').addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(saida.textContent);
+        alert('Conteúdo copiado com sucesso!');
+      }catch(e){
+        alert('Não foi possível copiar automaticamente.');
+      }
+    });
+
+    document.getElementById('limparBtn').addEventListener('click', () => {
+      document.getElementById('tema').value = '';
+      document.getElementById('objetivo').value = '';
+      document.getElementById('extra').value = '';
+      saida.textContent = 'Seu conteúdo educacional vai aparecer aqui...';
+    });
+
+    const painelExtra = document.createElement('section');
+    painelExtra.className = 'card';
+    painelExtra.innerHTML = `
+      <h2>Recursos profissionais</h2>
+      <div class="btns" style="margin-top:0">
+        <button class="primary" id="pdfBtn">📄 Baixar PDF</button>
+        <button class="secondary" id="wordBtn">📝 Baixar Word</button>
+        <button class="ghost" id="historicoBtn">🕘 Ver histórico</button>
+      </div>
+      <div class="mini" style="margin-top:14px">
+        <strong>Login de professores:</strong> estrutura visual pronta para ser integrada ao seu backend.<br>
+        <strong>API real de IA:</strong> conecte esta interface a OpenAI, Gemini ou outro serviço.<br>
+        <strong>Histórico:</strong> as últimas gerações ficam salvas no navegador.
+      </div>
+    `;
+    document.querySelector('main').appendChild(painelExtra);
+
+    document.addEventListener('click', (e) => {
+      if(e.target && e.target.id === 'pdfBtn'){
+        const janela = window.open('', '_blank');
+        janela.document.write(`<pre style="white-space:pre-wrap;font-family:Arial;padding:24px">${saida.textContent.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`);
+        janela.document.close();
+        janela.print();
+      }
+
+      if(e.target && e.target.id === 'wordBtn'){
+        const conteudo = `Geradores Educativos IA
+
+${saida.textContent}`;
+        baixarArquivo('conteudo_educativo.doc', conteudo, 'application/msword');
+      }
+
+      if(e.target && e.target.id === 'historicoBtn'){
+        carregarHistorico();
+        if(!historico.length){
+          alert('Nenhum conteúdo salvo no histórico ainda.');
+          return;
+        }
+        saida.textContent = historico.map((item, i) => `${i+1}. [${item.data}] ${item.tipo.toUpperCase()} - ${item.tema}
+
+${item.conteudo}
+
+========================
+`).join('
+');
+      }
+    });
+
+    carregarHistorico();
+  </script>
+</body>
+</html>
