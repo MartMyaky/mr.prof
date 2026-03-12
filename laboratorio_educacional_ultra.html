@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Laboratório Educacional Ultra</title>
+<style>
+:root{--bg:#0b1e34;--card:#132a46;--line:rgba(255,255,255,.12);--txt:#f7fbff;--muted:#c7d8ef;--pri:#2a7fff;--pri2:#00b3ff}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#0b1e34,#081423);color:var(--txt)}
+header{position:sticky;top:0;z-index:10;background:rgba(11,30,52,.95);backdrop-filter:blur(8px);padding:14px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}h1{margin:0;font-size:1.2rem}.top button,.btn{padding:10px 12px;border:none;border-radius:10px;cursor:pointer;font-weight:700}.top button,.btn{background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff}.ghost{background:rgba(255,255,255,.08)!important;border:1px solid var(--line)!important}
+.wrap{max-width:1400px;margin:auto;padding:16px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.card{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:18px;padding:14px}.row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.full{grid-column:1/-1}label{display:block;margin-bottom:4px;font-weight:700}input,select,textarea{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);background:#fff;color:#0d2038}textarea{min-height:90px;resize:vertical}h2{margin:0 0 12px;font-size:1.05rem}h3{margin:12px 0 8px}.out{background:#fff;color:#0d2038;border-radius:14px;padding:14px;min-height:180px;white-space:pre-wrap;line-height:1.55;overflow:auto}.widget{margin-top:12px;padding:12px;border:1px dashed var(--line);border-radius:14px;min-height:90px}.small{color:var(--muted);font-size:.92rem}.wordgrid,.crossgrid{border-collapse:collapse;background:#fff;color:#0d2038}.wordgrid td,.crossgrid td{width:28px;height:28px;border:1px solid #d8e5f5;text-align:center;font-weight:700}.crossgrid td.block{background:#20344f}.memory{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:10px}.mcard{background:#fff;color:#0d2038;border:2px solid #d0e1f2;border-radius:12px;min-height:78px;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;cursor:pointer;font-weight:700}.mcard.done{background:#e1ffe8}.quizbox{background:#fff;color:#0d2038;border:1px solid #d8e5f5;border-radius:12px;padding:12px;margin:10px 0}.opt{display:block;width:100%;text-align:left;margin-top:8px;padding:9px;border-radius:10px;border:1px solid #cedceb;background:#f7fbff;color:#0d2038;cursor:pointer}.opt.ok{background:#dff7e2}.opt.bad{background:#ffe2e2}.bingo{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.cell{background:#fff;color:#0d2038;border:1px solid #d6e3f2;border-radius:10px;min-height:62px;padding:6px;text-align:center;display:flex;align-items:center;justify-content:center}.calc{max-width:330px;background:#fff;color:#0d2038;padding:12px;border-radius:12px}.calc input{width:100%;padding:12px;border:1px solid #d6e3f2;border-radius:10px;margin-bottom:10px}.calcgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.calcgrid button{padding:14px;border:none;border-radius:10px;background:#e9f3ff;cursor:pointer}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.timer{background:#fff;color:#0d2038;padding:18px;border-radius:14px;text-align:center;max-width:340px}.big{font-size:2rem;font-weight:800;margin:8px 0}.flash{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.flash .cardx{background:#fff;color:#0d2038;padding:16px;border-radius:14px;min-height:120px;cursor:pointer;border:1px solid #d7e5f5}.flash .ans{display:none;margin-top:8px;font-weight:700}table{border-collapse:collapse;width:100%;background:#fff;color:#0d2038}td,th{border:1px solid #d7e5f5;padding:8px;text-align:left}canvas{max-width:100%;background:#fff;border-radius:10px}.history .item{padding:8px;border:1px solid var(--line);border-radius:10px;margin-top:8px;background:rgba(255,255,255,.04)}@media(max-width:980px){.grid,.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🧠 Laboratório Educacional Ultra</h1>
+  <div class="top">
+    <button onclick="copyCurrent()">Copiar</button>
+    <button class="ghost" onclick="printCurrent()">PDF / Imprimir</button>
+    <button class="ghost" onclick="downloadWord()">Word</button>
+    <button class="ghost" onclick="downloadHistory()">Apostila</button>
+  </div>
+</header>
+<div class="wrap">
+  <div class="grid">
+    <section class="card">
+      <h2>📚 Geradores de Atividades, Avaliação e Planejamento</h2>
+      <div class="row">
+        <div><label>Ferramenta</label><select id="toolType"><option>Atividade</option><option>Lista de exercícios</option><option>Tarefa de casa</option><option>Atividade diagnóstica</option><option>Revisão de conteúdo</option><option>Reforço escolar</option><option>Prova</option><option>Simulado</option><option>Simulador ENEM</option><option>Simulador Vestibular</option><option>Banco de questões</option><option>Plano de aula</option><option>Sequência didática</option><option>Planejamento semanal</option><option>Planejamento anual</option><option>Projeto escolar</option><option>Plano interdisciplinar</option><option>Planejamento BNCC</option><option>Objetivos de aprendizagem</option><option>Habilidades BNCC</option><option>Conteúdo + BNCC</option><option>Atividades BNCC</option><option>Objetivos BNCC</option><option>Perguntas para aula</option><option>Exemplos</option><option>Analogias</option><option>Sugestões pedagógicas</option><option>Explicações simplificadas</option><option>Perguntas para debate</option><option>Explicador de conteúdo</option><option>Resumo automático</option><option>Exercícios resolvidos</option><option>Passo a passo</option><option>Guia de estudo</option><option>IA: atividades</option><option>IA: explicações</option><option>IA: planos</option><option>IA: projetos</option><option>IA: provas</option><option>Gerador de redação</option><option>Temas de redação</option><option>Interpretação de texto</option></select></div>
+        <div><label>Matéria / área</label><select id="subject"><option>Matemática</option><option>Português</option><option>Ciências</option><option>História</option><option>Geografia</option><option>Inglês</option><option>Física</option><option>Química</option><option>Biologia</option><option>Filosofia</option><option>Sociologia</option><option>Arte</option><option>Geral</option></select></div>
+        <div><label>Tema</label><input id="theme" placeholder="Ex.: frações, fotossíntese, modernismo" /></div>
+        <div><label>Ano / série</label><input id="year" placeholder="Ex.: 7º ano" /></div>
+        <div><label>Quantidade</label><input id="qty" type="number" value="8" /></div>
+        <div><label>Formato</label><select id="format"><option>abertas</option><option>múltipla escolha</option><option>misto</option></select></div>
+        <div class="full"><label>Texto base / observações</label><textarea id="baseText" placeholder="Cole texto, contexto ou instruções extras."></textarea></div>
+      </div>
+      <div class="toolbar">
+        <button class="btn" onclick="generateMain()">Gerar</button>
+        <button class="btn ghost" onclick="generateKey()">Gerar gabarito</button>
+        <button class="btn ghost" onclick="autoCorrect()">Correção automática</button>
+        <button class="btn ghost" onclick="generateRubric()">Rubrica</button>
+      </div>
+      <div class="row">
+        <div><label>Gabarito</label><input id="keyInput" placeholder="Ex.: A,B,C,D" /></div>
+        <div><label>Respostas do aluno</label><input id="studentInput" placeholder="Ex.: A,C,C,D" /></div>
+      </div>
+      <div id="mainOut" class="out"></div>
+    </section>
+
+    <section class="card">
+      <h2>🧩 Atividades Lúdicas, Jogos e Estudo</h2>
+      <div class="row">
+        <div><label>Palavras / itens</label><textarea id="words" placeholder="Ex.: escola, professor, aluno, ciência"></textarea></div>
+        <div><label>Tamanho da grade / itens</label><input id="gridSize" type="number" value="10" /></div>
+        <div><label>Pares de flashcards (frente=verso)</label><textarea id="flashData" placeholder="Ex.: célula=unidade básica da vida"></textarea></div>
+        <div><label>Perguntas / roleta / bingo</label><textarea id="questionData" placeholder="Ex.: água, solo, ar"></textarea></div>
+      </div>
+      <div class="toolbar">
+        <button class="btn" onclick="makeWordSearch()">Caça-palavras</button>
+        <button class="btn ghost" onclick="makeCrossword()">Cruzadinha</button>
+        <button class="btn ghost" onclick="makeMemory()">Jogo da memória</button>
+        <button class="btn ghost" onclick="makeQuiz()">Quiz / jogo educativo</button>
+        <button class="btn ghost" onclick="makeBingo()">Bingo</button>
+        <button class="btn ghost" onclick="makeChallenges()">Desafios matemáticos</button>
+        <button class="btn ghost" onclick="makeRiddles()">Enigmas</button>
+        <button class="btn ghost" onclick="makeGamified()">Gamificação</button>
+        <button class="btn ghost" onclick="makeFlashcards()">Flashcards</button>
+      </div>
+      <div id="playOut" class="out"></div>
+      <div id="playWidget" class="widget"></div>
+    </section>
+
+    <section class="card">
+      <h2>📊 Visual, Laboratório e Documentos</h2>
+      <div class="row">
+        <div><label>Ferramenta visual</label><select id="visualType"><option>Slides</option><option>Mapa mental</option><option>Resumo</option><option>Esquema</option><option>Diagrama</option><option>Experimento</option><option>Atividade de laboratório</option><option>Física experimental</option><option>Química experimental</option></select></div>
+        <div><label>Tema</label><input id="visualTheme" placeholder="Ex.: sistema solar" /></div>
+        <div class="full"><label>Texto base</label><textarea id="visualText" placeholder="Cole ideias ou conteúdo base."></textarea></div>
+        <div><label>Gráfico</label><select id="graphType"><option>barras</option><option>linha</option><option>função</option><option>simulação: movimento</option><option>simulação: queda livre</option></select></div>
+        <div><label>Dados / expressão</label><input id="graphData" placeholder="Ex.: 5,8,3,9 ou x*x-4" /></div>
+      </div>
+      <div class="toolbar">
+        <button class="btn" onclick="makeVisual()">Gerar visual</button>
+        <button class="btn ghost" onclick="drawGraph()">Gráfico / simulação</button>
+        <button class="btn ghost" onclick="downloadSlides()">Exportar slides</button>
+      </div>
+      <div id="visualOut" class="out"></div>
+      <div id="visualWidget" class="widget"></div>
+    </section>
+
+    <section class="card">
+      <h2>📈 Matemática, Idiomas e Sala de Aula</h2>
+      <div class="row">
+        <div><label>Calculadora / equações</label><div id="calcBox" class="calc"></div></div>
+        <div>
+          <label>Resolver equações</label>
+          <div class="row">
+            <div><input id="eqType" value="2" placeholder="1 ou 2" /></div>
+            <div><input id="eqA" placeholder="a" value="1" /></div>
+            <div><input id="eqB" placeholder="b" value="-3" /></div>
+            <div><input id="eqC" placeholder="c" value="2" /></div>
+          </div>
+          <div class="toolbar"><button class="btn" onclick="solveEq()">Resolver</button><button class="btn ghost" onclick="makePowers()">Potências</button></div>
+          <div class="row">
+            <div><label>Frações</label><input id="frac1" placeholder="1/2" value="1/2" /></div>
+            <div><label>Operação</label><select id="fracOp"><option>+</option><option>-</option><option>×</option><option>÷</option></select></div>
+            <div><label>Frações</label><input id="frac2" placeholder="1/3" value="1/3" /></div>
+            <div><label>% / trig</label><input id="pctVal" placeholder="Ex.: 200 e 15" value="200,15" /></div>
+          </div>
+          <div class="toolbar"><button class="btn ghost" onclick="calcFrac()">Frações</button><button class="btn ghost" onclick="calcPct()">Porcentagem</button><button class="btn ghost" onclick="calcTrig()">Trigonometria</button></div>
+          <div id="mathOut" class="out"></div>
+        </div>
+        <div><label>Tradução / dicionário</label><textarea id="langText" placeholder="Ex.: hello, school, book"></textarea><div class="toolbar"><button class="btn" onclick="translatePTEN()">Traduzir</button><button class="btn ghost" onclick="dictionaryLookup()">Dicionário</button></div><div id="langOut" class="out"></div></div>
+        <div><label>Sala de aula</label><textarea id="classData" placeholder="Nomes, perguntas ou temas separados por vírgula"></textarea><div class="toolbar"><button class="btn" onclick="pickStudent()">Sorteador</button><button class="btn ghost" onclick="makeGroups()">Grupos</button><button class="btn ghost" onclick="spinRoulette()">Roleta</button><button class="btn ghost" onclick="startTimer()">Cronômetro</button><button class="btn ghost" onclick="openBoard()">Quadro digital</button></div><div id="classOut" class="out"></div><div id="classWidget" class="widget"></div></div>
+      </div>
+    </section>
+  </div>
+  <section class="card history" style="margin-top:14px">
+    <h2>Histórico local</h2>
+    <div id="history"></div>
+  </section>
+</div>
+<script>
+const historyData=JSON.parse(localStorage.getItem('labUltraHistory')||'[]');
+let currentText=''; let currentTitle=''; let timerInt=null; let memState={first:null,lock:false};
+function saveHistory(title,text){currentTitle=title;currentText=text;historyData.unshift({title,text}); localStorage.setItem('labUltraHistory',JSON.stringify(historyData.slice(0,20))); renderHistory();}
+function renderHistory(){const el=document.getElementById('history'); if(!historyData.length){el.innerHTML='<div class="small">Sem histórico ainda.</div>'; return;} el.innerHTML=historyData.slice(0,8).map(h=>`<div class="item"><strong>${h.title}</strong><br>${h.text.slice(0,140).replace(/</g,'&lt;')}${h.text.length>140?'...':''}</div>`).join('')}
+function copyCurrent(){navigator.clipboard.writeText(currentText||'')}
+function printCurrent(){const w=window.open(''); w.document.write(`<pre style="white-space:pre-wrap;font-family:Arial;padding:24px">${(currentText||'').replace(/</g,'&lt;')}</pre>`); w.print()}
+function dl(name,content,type){const b=new Blob([content],{type}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),3000)}
+function downloadWord(){dl('material.doc',`<html><body><pre style="white-space:pre-wrap;font-family:Arial">${currentText}</pre></body></html>`,'application/msword')}
+function downloadSlides(){const blocks=(currentText||'Sem conteúdo').split(/\n{2,}/).map((b,i)=>`<section style="min-height:100vh;padding:40px;font-family:Arial;border-bottom:1px solid #ddd"><h1>Slide ${i+1}</h1><pre style="white-space:pre-wrap;font-size:22px">${b.replace(/</g,'&lt;')}</pre></section>`).join(''); dl('slides.html',`<!DOCTYPE html><html><body>${blocks}</body></html>`,'text/html')}
+function downloadHistory(){const txt=historyData.map((h,i)=>`${i+1}. ${h.title}\n\n${h.text}`).join('\n\n---------------------\n\n'); dl('apostila.txt',txt||'Sem histórico','text/plain')}
+function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function pick(arr){return arr[rand(0,arr.length-1)]}
+function words(s){return s.split(/[\n,;]+/).map(x=>x.trim()).filter(Boolean)}
+function lines(s){return s.split(/\n+/).map(x=>x.trim()).filter(Boolean)}
+function simplify(n,d){const g=(a,b)=>b?g(b,a%b):Math.abs(a); const gg=g(n,d); return `${n/gg}/${d/gg}`}
+function mathQuestion(topic,format){topic=(topic||'operações').toLowerCase(); if(topic.includes('pot')){let a=rand(2,9),b=rand(2,4); return {q:`Calcule ${a}^${b}.`,a:String(a**b)}} if(topic.includes('fra')){let a=rand(1,8),b=rand(2,9),c=rand(1,8),d=rand(2,9); return {q:`Resolva ${a}/${b} + ${c}/${d}.`,a:simplify(a*d+c*b,b*d)}} if(topic.includes('porc')){let p=rand(5,50),x=rand(20,500); return {q:`Calcule ${p}% de ${x}.`,a:String(x*p/100)}} if(topic.includes('equa')){let x=rand(1,12),a=rand(2,9),b=rand(1,10); return {q:`Resolva ${a}x + ${b} = ${a*x+b}.`,a:`x = ${x}`}} const ops=['+','-','×','÷']; const op=pick(ops); let a=rand(2,30),b=rand(2,20); if(op==='÷'){a=a*b; return {q:`Calcule ${a} ÷ ${b}.`,a:String(a/b)}} if(op==='×')return{q:`Calcule ${a} × ${b}.`,a:String(a*b)}; if(op==='+')return{q:`Calcule ${a} + ${b}.`,a:String(a+b)}; return{q:`Calcule ${Math.max(a,b)} - ${Math.min(a,b)}.`,a:String(Math.abs(a-b))}}
+function genericQuestion(subject,theme){const m={Português:['Explique com suas palavras','Escreva uma frase sobre','Identifique uma ideia principal de'],Ciências:['Defina','Cite um exemplo relacionado a','Explique a importância de'],História:['Contextualize','Cite um fato marcante ligado a','Explique consequências de'],Geografia:['Explique o conceito de','Relacione o espaço geográfico a','Dê um exemplo real de'],Inglês:['Escreva três palavras em inglês ligadas a','Monte uma frase em inglês sobre','Traduza uma frase sobre'],Física:['Defina','Cite uma aplicação de','Explique um fenômeno ligado a'],Química:['Explique o que é','Dê um exemplo relacionado a','Cite um uso prático de'],Biologia:['Defina','Cite uma característica de','Relacione'],Filosofia:['Explique uma ideia sobre','Apresente uma reflexão sobre','Relacione'],Sociologia:['Defina','Cite um exemplo social de','Explique a importância de debater'],Arte:['Crie uma proposta artística com','Explique como representar','Relacione linguagem artística e']}; const arr=m[subject]||['Explique','Cite um exemplo de','Comente']; const p=pick(arr); return {q:`${p} "${theme}".`,a:'Resposta pessoal coerente com o tema.'}}
+function generateMain(){const tool=document.getElementById('toolType').value; const subject=document.getElementById('subject').value; const theme=document.getElementById('theme').value||'conteúdo'; const year=document.getElementById('year').value||'turma'; const qty=+document.getElementById('qty').value||8; const format=document.getElementById('format').value; const base=document.getElementById('baseText').value; let t=`${tool.toUpperCase()}\nMatéria/área: ${subject}\nTema: ${theme}\nTurma: ${year}\nFormato: ${format}\n\n`; let g=[];
+  if(['Atividade','Lista de exercícios','Tarefa de casa','Atividade diagnóstica','Revisão de conteúdo','Reforço escolar','Prova','Simulado','Simulador ENEM','Simulador Vestibular','Banco de questões','IA: atividades','IA: provas'].includes(tool)){
+    for(let i=1;i<=qty;i++){ let q=subject==='Matemática'?mathQuestion(theme,format):genericQuestion(subject,theme); t+=`${i}) ${q.q}\n`; g.push(`${i}) ${q.a}`)}
+  } else if(['Plano de aula','Sequência didática','Planejamento semanal','Planejamento anual','Projeto escolar','Plano interdisciplinar','Planejamento BNCC','Objetivos de aprendizagem','IA: planos','IA: projetos'].includes(tool)){
+    t+=`Objetivo geral\n${base||'Desenvolver compreensão do tema e aplicação prática.'}\n\nEtapas\n1. Abertura e diagnóstico\n2. Desenvolvimento do conteúdo\n3. Atividade prática\n4. Fechamento e avaliação\n\nRecursos\nQuadro, caderno, material impresso ou digital.\n\nAvaliação\nParticipação, atividade e evidências de aprendizagem.`
+  } else if(['Habilidades BNCC','Conteúdo + BNCC','Atividades BNCC','Objetivos BNCC'].includes(tool)){
+    t+=`Sugestão alinhada à BNCC\n- habilidade descritiva relacionada a ${theme}\n- desenvolvimento de leitura, análise e aplicação\n- proposta de atividade contextualizada\n\nObservação\nConfirme o código oficial da BNCC manualmente antes de publicar.`
+  } else if(['Perguntas para aula','Exemplos','Analogias','Sugestões pedagógicas','Explicações simplificadas','Perguntas para debate','Explicador de conteúdo','Resumo automático','Exercícios resolvidos','Passo a passo','Guia de estudo','IA: explicações','Gerador de redação','Temas de redação','Interpretação de texto'].includes(tool)){
+    t+=supportText(tool,theme,base,subject)
+  }
+  if(g.length) t+=`\nGABARITO / RESPOSTAS SUGERIDAS\n${g.join('\n')}`;
+  document.getElementById('mainOut').textContent=t; saveHistory(tool,t)
+}
+function supportText(tool,theme,base,subject){
+  if(tool==='Perguntas para aula') return `1. O que você já sabe sobre ${theme}?\n2. Como esse tema aparece no cotidiano?\n3. Qual relação de ${theme} com ${subject}?\n4. Que dúvida importante ainda ficou?`;
+  if(tool==='Exemplos') return `Exemplos sobre ${theme}\n- exemplo simples\n- exemplo aplicado\n- exemplo comparativo\n${base?`\nBase do professor:\n${base}`:''}`;
+  if(tool==='Analogias') return `Analogias para ${theme}\n- compare ${theme} com algo do cotidiano\n- use imagem mental simples\n- destaque semelhanças e limites da analogia`;
+  if(tool==='Sugestões pedagógicas') return `Sugestões pedagógicas\n- começar com situação-problema\n- usar dupla ou trio\n- fechar com registro no caderno\n- avaliar com rubrica simples`;
+  if(tool==='Explicações simplificadas'||tool==='Explicador de conteúdo'||tool==='IA: explicações') return `Explicação simplificada\n${theme} pode ser entendido como um conteúdo que reúne conceito, exemplo e aplicação prática. Apresente primeiro a ideia central, depois um exemplo do cotidiano e finalize com uma atividade curta.`;
+  if(tool==='Perguntas para debate') return `Perguntas para debate\n1. Por que ${theme} é importante?\n2. Quais são os impactos de ${theme} na sociedade?\n3. Há diferentes pontos de vista sobre ${theme}?`;
+  if(tool==='Resumo automático'||tool==='Resumos de estudo') return `Resumo\nTema: ${theme}\n- ideia principal\n- conceitos-chave\n- exemplos\n- conclusão\n\n${base?`Síntese do texto base:\n${base.slice(0,300)}`:''}`;
+  if(tool==='Exercícios resolvidos'||tool==='Passo a passo') return `Passo a passo\n1. Leia o problema com atenção.\n2. Identifique dados e objetivo.\n3. Escolha a estratégia.\n4. Resolva.\n5. Confira o resultado.`;
+  if(tool==='Guia de estudo') return `Guia de estudo para ${theme}\nDia 1: conceito\nDia 2: exemplos\nDia 3: exercícios\nDia 4: revisão rápida\nDia 5: simulado curto`;
+  if(tool==='Gerador de redação') return `Proposta de redação\nTema: ${theme}\nProduza um texto dissertativo com introdução, desenvolvimento e conclusão.\nCritérios: clareza, coerência e argumento.`;
+  if(tool==='Temas de redação') return `Temas de redação\n- desafios ligados a ${theme}\n- impacto social de ${theme}\n- caminhos para melhorar a realidade relacionada a ${theme}`;
+  if(tool==='Interpretação de texto') return `Perguntas de interpretação\n1. Qual é a ideia principal do texto?\n2. Que informação apoia a ideia principal?\n3. Qual conclusão pode ser tirada?\n\nTexto base:\n${base||'[cole um texto acima para personalizar]'}`;
+  return `${tool}\nTema: ${theme}`
+}
+function generateKey(){const qty=+document.getElementById('qty').value||10; const alts=(document.getElementById('format').value==='múltipla escolha'||document.getElementById('format').value==='misto')?['A','B','C','D','E']:['C']; const k=[]; for(let i=1;i<=qty;i++) k.push(`${i}) ${pick(alts)}`); const txt=`GABARITO\n\n${k.join('\n')}`; document.getElementById('mainOut').textContent=txt; saveHistory('Gabarito',txt)}
+function autoCorrect(){const g=document.getElementById('keyInput').value.split(/[ ,;]+/).filter(Boolean); const r=document.getElementById('studentInput').value.split(/[ ,;]+/).filter(Boolean); let ok=0,res='CORREÇÃO AUTOMÁTICA\n\n'; for(let i=0;i<Math.max(g.length,r.length);i++){const gi=(g[i]||'-').toUpperCase(); const ri=(r[i]||'-').toUpperCase(); const hit=gi===ri; if(hit) ok++; res+=`${i+1}) gabarito ${gi} | aluno ${ri} | ${hit?'✅':'❌'}\n`} res+=`\nAcertos: ${ok}/${g.length||r.length}`; document.getElementById('mainOut').textContent=res; saveHistory('Correção automática',res)}
+function generateRubric(){const crit=lines(document.getElementById('baseText').value||'clareza\norganização\nconteúdo'); const levels=['Excelente','Bom','Regular','Precisa melhorar']; let html='<table><tr><th>Critério</th>'+levels.map(x=>`<th>${x}</th>`).join('')+'</tr>'; crit.forEach(c=>html+=`<tr><td>${c}</td><td>Atende totalmente</td><td>Atende bem</td><td>Atende parcialmente</td><td>Precisa de apoio</td></tr>`); html+='</table>'; document.getElementById('mainOut').innerHTML=html; saveHistory('Rubrica de avaliação',crit.join(', '))}
+function makeWordSearch(){const arr=words(document.getElementById('words').value).map(x=>x.toUpperCase()); const n=Math.max(+document.getElementById('gridSize').value||10,8); const g=Array.from({length:n},()=>Array.from({length:n},()=>'')); arr.forEach((w,idx)=>{if(!w)return; const horiz=idx%2===0; let tries=0; while(tries<60){tries++; let r=rand(0,n-1), c=rand(0,n-1); if(horiz){if(c+w.length>n) continue; let ok=true; for(let i=0;i<w.length;i++) if(g[r][c+i]&&g[r][c+i]!==w[i]) ok=false; if(!ok) continue; for(let i=0;i<w.length;i++) g[r][c+i]=w[i]; break;} else {if(r+w.length>n) continue; let ok=true; for(let i=0;i<w.length;i++) if(g[r+i][c]&&g[r+i][c]!==w[i]) ok=false; if(!ok) continue; for(let i=0;i<w.length;i++) g[r+i][c]=w[i]; break;}}}); const abc='ABCDEFGHIJKLMNOPQRSTUVWXYZ'; for(let r=0;r<n;r++) for(let c=0;c<n;c++) if(!g[r][c]) g[r][c]=abc[rand(0,25)]; let html='<table class="wordgrid">'; g.forEach(row=>{html+='<tr>'+row.map(x=>`<td>${x}</td>`).join('')+'</tr>'}); html+='</table>'; document.getElementById('playOut').textContent='CAÇA-PALAVRAS\n\nPalavras: '+arr.join(', '); document.getElementById('playWidget').innerHTML=html; saveHistory('Caça-palavras','Palavras: '+arr.join(', '))}
+function makeCrossword(){const pairs=lines(document.getElementById('words').value||document.getElementById('questionData').value).map(x=>x.includes(':')?x.split(':'):[x,'dica']); const size=15; const g=Array.from({length:size},()=>Array.from({length:size},()=>'')); const first=(pairs[0]?.[0]||'SOL').toUpperCase().replace(/[^A-ZÀ-Ú]/g,''); let r=7,c=2; for(let i=0;i<first.length&&c+i<size;i++) g[r][c+i]=first[i]; pairs.slice(1,6).forEach((p,idx)=>{const w=(p[0]||'LUA').toUpperCase().replace(/[^A-ZÀ-Ú]/g,''); const col=2+idx*2; for(let i=0;i<w.length&&r-1+i<size;i++) if(r-1+i>=0) g[r-1+i][col]=w[i]}); let html='<table class="crossgrid">'; for(let y=0;y<size;y++){html+='<tr>'; for(let x=0;x<size;x++){html+=g[y][x]?`<td>${g[y][x]}</td>`:'<td class="block"></td>'} html+='</tr>'} html+='</table><div class="small" style="margin-top:8px">Dicas:<br>'+pairs.map((p,i)=>`${i+1}. ${p[1]||'dica'}`).join('<br>')+'</div>'; document.getElementById('playOut').textContent='CRUZADINHA\n\nPreencha a grade com base nas dicas.'; document.getElementById('playWidget').innerHTML=html; saveHistory('Cruzadinha',pairs.map(p=>p[0]).join(', '))}
+function makeMemory(){const arr=words(document.getElementById('words').value).slice(0,8); const deck=[...arr,...arr].sort(()=>Math.random()-0.5); document.getElementById('playOut').textContent='JOGO DA MEMÓRIA\n\nClique nas cartas para encontrar os pares.'; document.getElementById('playWidget').innerHTML='<div class="memory">'+deck.map((w,i)=>`<div class="mcard" data-v="${w}" onclick="flipCard(this)">?</div>`).join('')+'</div>'; memState={first:null,lock:false}; saveHistory('Jogo da memória',arr.join(', '))}
+function flipCard(el){if(memState.lock||el.classList.contains('done')||el===memState.first) return; el.textContent=el.dataset.v; if(!memState.first){memState.first=el; return;} memState.lock=true; if(memState.first.dataset.v===el.dataset.v){memState.first.classList.add('done'); el.classList.add('done'); memState.first=null; memState.lock=false;} else {const a=memState.first; setTimeout(()=>{a.textContent='?'; el.textContent='?'; memState.first=null; memState.lock=false;},800)}}
+function makeQuiz(){quizCore('quiz_educativo')}
+function quizCore(kind){const theme=document.getElementById('theme').value||'conteúdo'; const subject=document.getElementById('subject').value; const qty=Math.min(+document.getElementById('qty').value||5,10); let score=0; let boxes=''; for(let i=1;i<=qty;i++){const correct=pick(['A','B','C','D']); boxes+=`<div class="quizbox"><strong>${i}) ${subject==='Matemática'?mathQuestion(theme,'múltipla escolha').q:genericQuestion(subject,theme).q}</strong>${['A','B','C','D'].map(l=>`<button class="opt" onclick="markOpt(this,'${l}','${correct}')">${l}) Alternativa ${l}</button>`).join('')}</div>`} document.getElementById('playOut').textContent='QUIZ INTERATIVO\n\nResponda clicando nas alternativas.'; document.getElementById('playWidget').innerHTML=boxes; saveHistory('Quiz interativo',theme)}
+function markOpt(btn,sel,cor){const box=btn.parentElement; if(box.dataset.done) return; box.dataset.done='1'; [...box.querySelectorAll('.opt')].forEach(b=>{if(b.textContent.startsWith(cor+')')) b.classList.add('ok')}); if(sel!==cor) btn.classList.add('bad')}
+function makeBingo(){const arr=words(document.getElementById('questionData').value||document.getElementById('words').value); const items=(arr.length?arr:Array.from({length:25},(_,i)=>String(i+1))).sort(()=>Math.random()-0.5).slice(0,25); document.getElementById('playOut').textContent='BINGO EDUCATIVO\n\nCartela gerada.'; document.getElementById('playWidget').innerHTML='<div class="bingo">'+items.map(x=>`<div class="cell">${x}</div>`).join('')+'</div>'; saveHistory('Bingo',items.join(', '))}
+function makeChallenges(){let q=+document.getElementById('gridSize').value||5, txt='DESAFIOS MATEMÁTICOS\n\n'; for(let i=1;i<=q;i++){txt+=`${i}) ${mathQuestion('potência').q}\n${i+q}) ${mathQuestion('porcentagem').q}\n`} document.getElementById('playOut').textContent=txt; document.getElementById('playWidget').innerHTML=''; saveHistory('Desafios matemáticos',txt)}
+function makeRiddles(){const theme=document.getElementById('theme').value||'lógica'; const txt=`ENIGMAS\n\n1) O que cresce quando compartilhado? Conhecimento.\n2) O que quanto mais se tira mais aumenta? Um buraco.\n3) Crie um enigma novo ligado a ${theme}.`; document.getElementById('playOut').textContent=txt; document.getElementById('playWidget').innerHTML=''; saveHistory('Enigmas',txt)}
+function makeGamified(){const theme=document.getElementById('theme').value||'tema'; const meta=document.getElementById('questionData').value||'cumprir missões de estudo'; const txt=`ATIVIDADE GAMIFICADA\n\nMissão: ${theme}\nMeta: ${meta}\nRegras: 1) cumprir tarefas; 2) ganhar pontos; 3) desbloquear bônus; 4) apresentar resultado final.`; document.getElementById('playOut').textContent=txt; document.getElementById('playWidget').innerHTML=''; saveHistory('Gamificação',txt)}
+function makeFlashcards(){const arr=lines(document.getElementById('flashData').value).map(x=>x.split('=')); document.getElementById('playOut').textContent='FLASHCARDS\n\nClique para mostrar a resposta.'; document.getElementById('playWidget').innerHTML='<div class="flash">'+arr.map(p=>`<div class="cardx" onclick="this.querySelector('.ans').style.display=this.querySelector('.ans').style.display==='block'?'none':'block'">${p[0]||''}<div class="ans">${p[1]||''}</div></div>`).join('')+'</div>'; saveHistory('Flashcards',arr.map(p=>p[0]).join(', '))}
+function makeVisual(){const type=document.getElementById('visualType').value; const theme=document.getElementById('visualTheme').value||'tema'; const base=document.getElementById('visualText').value; let txt=`${type.toUpperCase()}\nTema: ${theme}\n\n`; if(type==='Slides') txt+=`Slide 1: título\nSlide 2: introdução\nSlide 3: conceitos principais\nSlide 4: exemplos\nSlide 5: atividade`; else if(type==='Mapa mental') txt+=`Núcleo central: ${theme}\n- definição\n- características\n- exemplos\n- aplicações`; else if(type==='Resumo') txt+=`Resumo\n- ideia principal\n- conceitos-chave\n- exemplo\n- conclusão`; else if(type==='Esquema') txt+=`Esquema\n1. conceito\n2. detalhes\n3. aplicação`; else if(type==='Diagrama') txt+=`Fluxo\nInício → conceito → prática → avaliação`; else txt+=`Objetivo\nMateriais\nProcedimento\nRegistro\nCuidados`; if(base) txt+=`\n\nBase do professor:\n${base}`; document.getElementById('visualOut').textContent=txt; saveHistory(type,txt)}
+function drawGraph(){const type=document.getElementById('graphType').value; const data=document.getElementById('graphData').value||'5,8,3,9'; const wrap=document.getElementById('visualWidget'); wrap.innerHTML='<canvas id="gcan" width="520" height="260"></canvas>'; const c=document.getElementById('gcan'),ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height); ctx.strokeStyle='#123'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(40,220); ctx.lineTo(490,220); ctx.moveTo(40,20); ctx.lineTo(40,220); ctx.stroke(); if(type==='barras'||type==='linha'){const vals=data.split(',').map(x=>+x.trim()).filter(x=>!isNaN(x)); const max=Math.max(...vals,10); if(type==='barras'){vals.forEach((v,i)=>{const h=v/max*170; ctx.fillStyle='#2a7fff'; ctx.fillRect(60+i*70,220-h,40,h); ctx.fillStyle='#123'; ctx.fillText(String(v),70+i*70,210-h)})} else {ctx.strokeStyle='#2a7fff'; ctx.beginPath(); vals.forEach((v,i)=>{const x=60+i*70,y=220-v/max*170; if(i===0)ctx.moveTo(x,y); else ctx.lineTo(x,y); ctx.fillStyle='#2a7fff'; ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();}); ctx.stroke();}} else if(type==='função'){const expr=data.replaceAll('^','**'); ctx.strokeStyle='#2a7fff'; ctx.beginPath(); let first=true; for(let px=40;px<=490;px++){let x=(px-265)/25; let y; try{y=Function('x','return '+expr)(x)}catch(e){y=0} const py=130-y*25; if(first){ctx.moveTo(px,py); first=false}else ctx.lineTo(px,py)} ctx.stroke()} else if(type==='simulação: movimento'||type==='simulação: queda livre'){let pos=0,vel=+document.getElementById('graphData').value||2,g=type.includes('queda')?0.2:0; function tick(){ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle='#2a7fff'; ctx.fillRect(20,220,470,4); if(type.includes('queda')){vel+=g; pos+=vel; if(pos>180){pos=180;vel*=-0.65}} else {pos=(pos+vel)%420} ctx.beginPath(); ctx.arc(60+pos,200-pos*0.1,18,0,Math.PI*2); ctx.fill(); requestAnimationFrame(tick)} tick()} document.getElementById('visualOut').textContent='GRÁFICO / SIMULAÇÃO GERADO.'; saveHistory('Gráfico / simulação',type+' '+data)}
+function calcUI(){document.getElementById('calcBox').innerHTML=`<input id="calcDisp" placeholder="Digite ou use os botões"><div class="calcgrid">${['7','8','9','/','4','5','6','*','1','2','3','-','0','.','(',')','+','sqrt(','sin(','cos(','tan(','^','C','='].map(b=>`<button onclick="calcPress('${b.replace(/'/g,"\\'")}')">${b}</button>`).join('')}</div>`}
+function calcPress(v){const d=document.getElementById('calcDisp'); if(v==='C') d.value=''; else if(v==='='){try{const expr=d.value.replace(/sqrt\(/g,'Math.sqrt(').replace(/sin\(/g,'Math.sin(').replace(/cos\(/g,'Math.cos(').replace(/tan\(/g,'Math.tan(').replace(/\^/g,'**'); d.value=String(Function('return '+expr)())}catch(e){d.value='Erro'}} else d.value+=v}
+function solveEq(){const type=(document.getElementById('eqType').value||'2').trim(); const a=+document.getElementById('eqA').value||0,b=+document.getElementById('eqB').value||0,c=+document.getElementById('eqC').value||0; let txt=''; if(type==='1'){txt=b?`Equação: ${a}x + ${b} = 0\n\nx = ${(-b/a)}`:'Dados insuficientes';} else {const delta=b*b-4*a*c; txt=`Equação: ${a}x² + ${b}x + ${c} = 0\nDelta = ${delta}\n`; if(delta<0) txt+='Sem raízes reais.'; else txt+=`x1 = ${(-b+Math.sqrt(delta))/(2*a)}\nx2 = ${(-b-Math.sqrt(delta))/(2*a)}`;} document.getElementById('mathOut').textContent=txt; saveHistory('Equações',txt)}
+function makePowers(){let q=+document.getElementById('qty').value||8, txt='EXERCÍCIOS DE POTÊNCIA\n\n'; for(let i=1;i<=q;i++){let a=rand(2,9),b=rand(2,4); txt+=`${i}) ${a}^${b} = ____    gabarito: ${a**b}\n`} document.getElementById('mathOut').textContent=txt; saveHistory('Potências',txt)}
+function calcFrac(){const [a,b]=(document.getElementById('frac1').value||'1/2').split('/').map(Number); const [c,d]=(document.getElementById('frac2').value||'1/3').split('/').map(Number); const op=document.getElementById('fracOp').value; let n=0,m=1; if(op==='+'){n=a*d+c*b;m=b*d}else if(op==='-'){n=a*d-c*b;m=b*d}else if(op==='×'){n=a*c;m=b*d}else{n=a*d;m=b*c} const txt=`FRAÇÕES\n\nResultado: ${simplify(n,m)}\nDecimal: ${n/m}`; document.getElementById('mathOut').textContent=txt; saveHistory('Frações',txt)}
+function calcPct(){const [x,p]=(document.getElementById('pctVal').value||'200,15').split(',').map(Number); const txt=`PORCENTAGEM\n\n${p}% de ${x} = ${x*p/100}\nAumento: ${x*(1+p/100)}\nDesconto: ${x*(1-p/100)}`; document.getElementById('mathOut').textContent=txt; saveHistory('Porcentagem',txt)}
+function calcTrig(){const [ang,func]=(document.getElementById('pctVal').value||'30,sen').split(','); const a=(+ang||30)*Math.PI/180; const txt=`TRIGONOMETRIA\n\nsen(${+ang||30}°) = ${Math.sin(a)}\ncos(${+ang||30}°) = ${Math.cos(a)}\ntan(${+ang||30}°) = ${Math.tan(a)}`; document.getElementById('mathOut').textContent=txt; saveHistory('Trigonometria',txt)}
+const miniDict={school:'escola',teacher:'professor',student:'aluno',book:'livro',water:'água',sun:'sol',moon:'lua',hello:'olá',good:'bom',science:'ciência',history:'história',math:'matemática',escola:'school',professor:'teacher',aluno:'student',livro:'book',água:'water',sol:'sun',lua:'moon',olá:'hello',ciência:'science',história:'history',matemática:'math'};
+function translatePTEN(){const txt=document.getElementById('langText').value.toLowerCase(); const out=txt.split(/\s+/).map(w=>miniDict[w]||'['+w+']').join(' '); document.getElementById('langOut').textContent='TRADUÇÃO\n\n'+out; saveHistory('Tradução',out)}
+function dictionaryLookup(){const t=(document.getElementById('langText').value||'').trim().toLowerCase(); const r=miniDict[t]||'Termo não encontrado no mini dicionário local.'; document.getElementById('langOut').textContent=`DICIONÁRIO\n\n${t} = ${r}`; saveHistory('Dicionário',`${t} = ${r}`)}
+function pickStudent(){const arr=words(document.getElementById('classData').value); const s=arr.length?pick(arr):'Nenhum nome informado'; document.getElementById('classOut').textContent='SORTEADOR DE ALUNOS\n\nSorteado: '+s; saveHistory('Sorteador',s)}
+function makeGroups(){const arr=words(document.getElementById('classData').value); const size=3; const shuffle=[...arr].sort(()=>Math.random()-0.5); let txt='GERADOR DE GRUPOS\n\n'; for(let i=0,g=1;i<shuffle.length;i+=size,g++) txt+=`Grupo ${g}: ${shuffle.slice(i,i+size).join(', ')}\n`; document.getElementById('classOut').textContent=txt; saveHistory('Grupos',txt)}
+function spinRoulette(){const arr=words(document.getElementById('classData').value); const item=arr.length?pick(arr):'Nenhum item'; document.getElementById('classOut').textContent='ROLETA DE PERGUNTAS\n\nResultado: '+item; saveHistory('Roleta',item)}
+function startTimer(){const min=+prompt('Minutos do cronômetro?', '10')||10; const w=document.getElementById('classWidget'); w.innerHTML=`<div class="timer"><div>Cronômetro</div><div id="timerDisp" class="big">${String(min).padStart(2,'0')}:00</div><div class="toolbar"><button class="btn" onclick="toggleTimer()">Iniciar / pausar</button><button class="btn ghost" onclick="resetTimer(${min})">Resetar</button></div></div>`; window.timerRemain=min*60; if(timerInt) clearInterval(timerInt)}
+function toggleTimer(){if(timerInt){clearInterval(timerInt); timerInt=null; return;} timerInt=setInterval(()=>{window.timerRemain--; if(window.timerRemain<0){clearInterval(timerInt); timerInt=null; alert('Tempo encerrado!'); return;} const m=Math.floor(window.timerRemain/60),s=window.timerRemain%60; document.getElementById('timerDisp').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;},1000)}
+function resetTimer(min){window.timerRemain=min*60; document.getElementById('timerDisp').textContent=`${String(min).padStart(2,'0')}:00`; if(timerInt){clearInterval(timerInt); timerInt=null}}
+function openBoard(){const w=document.getElementById('classWidget'); w.innerHTML='<div class="toolbar"><button class="btn ghost" onclick="setPen(false)">Lápis</button><button class="btn ghost" onclick="setPen(true)">Borracha</button><button class="btn ghost" onclick="clearBoard()">Limpar</button></div><canvas id="board" width="520" height="260"></canvas>'; const c=document.getElementById('board'),ctx=c.getContext('2d'); ctx.lineCap='round'; window.board={c,ctx,draw:false,eraser:false}; c.onmousedown=e=>{board.draw=true; drawBoard(e)}; c.onmousemove=e=>{if(board.draw) drawBoard(e)}; window.onmouseup=()=>board.draw=false}
+function setPen(v){if(window.board) board.eraser=v}
+function drawBoard(e){const r=board.c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top; board.ctx.strokeStyle=board.eraser?'#ffffff':'#111111'; board.ctx.lineWidth=board.eraser?18:3; board.ctx.lineTo(x,y); board.ctx.stroke(); board.ctx.beginPath(); board.ctx.moveTo(x,y)}
+function clearBoard(){if(window.board){board.ctx.clearRect(0,0,board.c.width,board.c.height); board.ctx.beginPath()}}
+renderHistory(); calcUI();
+</script>
+</body>
+</html>
