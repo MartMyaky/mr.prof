@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laboratório Educacional PRO</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+body{
+    font-family:Arial, sans-serif;
+    background:linear-gradient(180deg,#0b1e34,#102845 40%,#0f2138);
+    color:white;
+}
+header{
+    background:linear-gradient(135deg,#142a46,#1e3c64);
+    padding:28px 20px;
+    font-size:32px;
+    text-align:center;
+    font-weight:bold;
+    box-shadow:0 4px 16px rgba(0,0,0,.3);
+}
+.subheader{
+    text-align:center;
+    padding:10px 20px 0;
+    color:#cfe3ff;
+    font-size:15px;
+}
+.container{
+    max-width:1450px;
+    margin:auto;
+    padding:25px;
+}
+.section{
+    margin-top:28px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.18);
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+    gap:20px;
+}
+h2{
+    margin-bottom:15px;
+    font-size:25px;
+}
+h3{
+    margin-bottom:12px;
+    font-size:18px;
+    color:#fff;
+}
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:10px;
+    background:#2a7fff;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    margin:5px 4px 0 0;
+    transition:.2s;
+}
+button:hover{
+    background:#1664da;
+    transform:translateY(-1px);
+}
+select,input,textarea{
+    width:100%;
+    padding:10px;
+    margin:6px 0;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    font-size:15px;
+}
+textarea{
+    resize:vertical;
+    min-height:90px;
+}
+.output{
+    background:white;
+    color:black;
+    padding:15px;
+    border-radius:12px;
+    margin-top:15px;
+    white-space:pre-wrap;
+    min-height:120px;
+    line-height:1.55;
+}
+canvas{
+    margin-top:15px;
+    background:white;
+    border-radius:12px;
+    max-width:100%;
+    border:1px solid #d8e3f3;
+}
+.lista-recursos{
+    background:rgba(255,255,255,0.07);
+    padding:18px;
+    border-radius:14px;
+    line-height:1.8;
+    border:1px solid rgba(255,255,255,0.08);
+}
+.lista-recursos h3{
+    margin-top:0;
+    margin-bottom:12px;
+    color:#ffffff;
+    font-size:20px;
+}
+.badge{
+    display:inline-block;
+    background:linear-gradient(135deg,#1f4ea3,#2a7fff);
+    padding:7px 12px;
+    border-radius:999px;
+    margin:4px 4px 0 0;
+    font-size:13px;
+    color:white;
+    box-shadow:0 3px 8px rgba(0,0,0,.18);
+    cursor:pointer;
+    user-select:none;
+}
+.badge:hover{
+    filter:brightness(1.08);
+    transform:translateY(-1px);
+}
+.small{
+    font-size:14px;
+    opacity:.92;
+}
+.top-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:10px;
+}
+.info-box{
+    background:rgba(20,42,70,.7);
+    border:1px solid rgba(255,255,255,.08);
+    padding:12px;
+    border-radius:12px;
+    color:#dce9ff;
+    margin-top:10px;
+}
+.highlight{
+    color:#ffe98d;
+    font-weight:bold;
+}
+.footer-note{
+    margin-top:18px;
+    font-size:13px;
+    color:#b9d1ef;
+}
+@media (max-width:700px){
+    header{font-size:25px;}
+    h2{font-size:22px;}
+}
+</style>
+</head>
+<body>
+
+<header>🧠 Laboratório Educacional para Professores</header>
+<div class="subheader">Plataforma educacional com geradores, conteúdos organizados por progressão, planejamento, avaliação e apoio pedagógico</div>
+
+<div class="container">
+
+    <div class="section">
+        <h2>📚 Recursos disponíveis no sistema</h2>
+        <div class="lista-recursos">
+            <div><strong>📚 Geradores de Atividades:</strong> matemática, português, ciências, história, geografia, inglês, física, química, biologia, filosofia, sociologia e arte.</div>
+            <div><strong>📑 Avaliação:</strong> provas, simulados, banco de questões, gabarito, correção automática, rubrica e avaliação diagnóstica.</div>
+            <div><strong>🧠 Planejamento:</strong> plano de aula, sequência didática, planejamento semanal, anual, projetos e BNCC.</div>
+            <div><strong>📚 Progressão por área:</strong> matemática, português, história e ciências com tópicos clicáveis.</div>
+            <div><strong>🧩 Atividades Lúdicas:</strong> caça-palavras, cruzadinha, quiz, bingo e memória.</div>
+            <div><strong>📊 Conteúdo Visual:</strong> resumos, mapas mentais, slides e gráficos.</div>
+            <div><strong>📄 Exportação:</strong> PDF, Word e impressão.</div>
+        </div>
+    </div>
+
+    <!-- MATEMÁTICA -->
+    <div class="section">
+        <h2>🧮 Conteúdos de Matemática por Progressão</h2>
+        <div class="info-box">
+            Clique em qualquer tópico para gerar <span class="highlight">explicação + exemplo + exercícios</span>.
+        </div>
+
+        <div class="grid" style="margin-top:18px;">
+            <div class="lista-recursos">
+                <h3>1️⃣ Matemática Inicial</h3>
+                <span class="badge" onclick="abrirTopico('matematica','Números naturais')">Números naturais</span>
+                <span class="badge" onclick="abrirTopico('matematica','Sequência numérica')">Sequência numérica</span>
+                <span class="badge" onclick="abrirTopico('matematica','Antecessor e sucessor')">Antecessor e sucessor</span>
+                <span class="badge" onclick="abrirTopico('matematica','Comparação de números')">Comparação de números</span>
+                <span class="badge" onclick="abrirTopico('matematica','Par e ímpar')">Par e ímpar</span>
+                <span class="badge" onclick="abrirTopico('matematica','Adição')">Adição</span>
+                <span class="badge" onclick="abrirTopico('matematica','Subtração')">Subtração</span>
+                <span class="badge" onclick="abrirTopico('matematica','Multiplicação')">Multiplicação</span>
+                <span class="badge" onclick="abrirTopico('matematica','Divisão')">Divisão</span>
+                <span class="badge" onclick="abrirTopico('matematica','Frações introdutórias')">Frações</span>
+                <span class="badge" onclick="abrirTopico('matematica','Números decimais')">Decimais</span>
+                <span class="badge" onclick="abrirTopico('matematica','Figuras geométricas básicas')">Figuras geométricas</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>2️⃣ Matemática Fundamental II</h3>
+                <span class="badge" onclick="abrirTopico('matematica','Conjuntos numéricos')">Conjuntos numéricos</span>
+                <span class="badge" onclick="abrirTopico('matematica','Potenciação')">Potenciação</span>
+                <span class="badge" onclick="abrirTopico('matematica','Radiciação')">Radiciação</span>
+                <span class="badge" onclick="abrirTopico('matematica','MMC e MDC')">MMC e MDC</span>
+                <span class="badge" onclick="abrirTopico('matematica','Frações completas')">Frações completas</span>
+                <span class="badge" onclick="abrirTopico('matematica','Razão e proporção')">Razão e proporção</span>
+                <span class="badge" onclick="abrirTopico('matematica','Regra de três simples')">Regra de três simples</span>
+                <span class="badge" onclick="abrirTopico('matematica','Porcentagem')">Porcentagem</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>3️⃣ Álgebra e Equações</h3>
+                <span class="badge" onclick="abrirTopico('matematica','Expressões algébricas')">Expressões algébricas</span>
+                <span class="badge" onclick="abrirTopico('matematica','Monômios e polinômios')">Monômios e polinômios</span>
+                <span class="badge" onclick="abrirTopico('matematica','Produtos notáveis')">Produtos notáveis</span>
+                <span class="badge" onclick="abrirTopico('matematica','Fatoração')">Fatoração</span>
+                <span class="badge" onclick="abrirTopico('matematica','Equação do 1º grau')">Equação do 1º grau</span>
+                <span class="badge" onclick="abrirTopico('matematica','Sistemas de equações')">Sistemas de equações</span>
+                <span class="badge" onclick="abrirTopico('matematica','Equação do 2º grau')">Equação do 2º grau</span>
+                <span class="badge" onclick="abrirTopico('matematica','Fórmula de Bhaskara')">Bhaskara</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>4️⃣ Funções e Geometria</h3>
+                <span class="badge" onclick="abrirTopico('matematica','Função afim')">Função afim</span>
+                <span class="badge" onclick="abrirTopico('matematica','Função quadrática')">Função quadrática</span>
+                <span class="badge" onclick="abrirTopico('matematica','Ângulos')">Ângulos</span>
+                <span class="badge" onclick="abrirTopico('matematica','Triângulos')">Triângulos</span>
+                <span class="badge" onclick="abrirTopico('matematica','Teorema de Pitágoras')">Pitágoras</span>
+                <span class="badge" onclick="abrirTopico('matematica','Área do círculo')">Área do círculo</span>
+                <span class="badge" onclick="abrirTopico('matematica','Volume da esfera')">Volume da esfera</span>
+                <span class="badge" onclick="abrirTopico('matematica','Trigonometria')">Trigonometria</span>
+            </div>
+        </div>
+
+        <div class="output" id="mathProgressOutput" style="margin-top:20px;">Clique em um tópico de matemática.</div>
+    </div>
+
+    <!-- PORTUGUÊS -->
+    <div class="section">
+        <h2>📚 Tudo que se aprende em Português / Linguagem</h2>
+        <div class="info-box">
+            Clique em um tópico de Português para gerar <span class="highlight">explicação + exemplo + exercícios</span>.
+        </div>
+
+        <div class="grid" style="margin-top:18px;">
+            <div class="lista-recursos">
+                <h3>🔤 1. Alfabetização</h3>
+                <span class="badge" onclick="abrirTopico('portugues','Alfabeto')">Alfabeto</span>
+                <span class="badge" onclick="abrirTopico('portugues','Letras maiúsculas e minúsculas')">Maiúsculas e minúsculas</span>
+                <span class="badge" onclick="abrirTopico('portugues','Vogais e consoantes')">Vogais e consoantes</span>
+                <span class="badge" onclick="abrirTopico('portugues','Sílabas')">Sílabas</span>
+                <span class="badge" onclick="abrirTopico('portugues','Separação silábica')">Separação silábica</span>
+                <span class="badge" onclick="abrirTopico('portugues','Encontros vocálicos')">Encontros vocálicos</span>
+                <span class="badge" onclick="abrirTopico('portugues','Encontros consonantais')">Encontros consonantais</span>
+                <span class="badge" onclick="abrirTopico('portugues','Dígrafos')">Dígrafos</span>
+                <span class="badge" onclick="abrirTopico('portugues','Formação de palavras')">Formação de palavras</span>
+                <span class="badge" onclick="abrirTopico('portugues','Leitura e escrita básica')">Leitura e escrita básica</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>📖 2. Leitura</h3>
+                <span class="badge" onclick="abrirTopico('portugues','Interpretação de texto')">Interpretação de texto</span>
+                <span class="badge" onclick="abrirTopico('portugues','Ideia principal')">Ideia principal</span>
+                <span class="badge" onclick="abrirTopico('portugues','Tema do texto')">Tema do texto</span>
+                <span class="badge" onclick="abrirTopico('portugues','Inferência')">Inferência</span>
+                <span class="badge" onclick="abrirTopico('portugues','Resumo')">Resumo</span>
+                <span class="badge" onclick="abrirTopico('portugues','Texto narrativo')">Narrativo</span>
+                <span class="badge" onclick="abrirTopico('portugues','Texto descritivo')">Descritivo</span>
+                <span class="badge" onclick="abrirTopico('portugues','Texto dissertativo')">Dissertativo</span>
+                <span class="badge" onclick="abrirTopico('portugues','Texto injuntivo')">Injuntivo</span>
+                <span class="badge" onclick="abrirTopico('portugues','Gêneros textuais')">Gêneros textuais</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>✍️ 3. Produção de Texto</h3>
+                <span class="badge" onclick="abrirTopico('portugues','Introdução, desenvolvimento e conclusão')">Estrutura do texto</span>
+                <span class="badge" onclick="abrirTopico('portugues','Narrativa')">Narrativa</span>
+                <span class="badge" onclick="abrirTopico('portugues','Descrição')">Descrição</span>
+                <span class="badge" onclick="abrirTopico('portugues','Dissertação')">Dissertação</span>
+                <span class="badge" onclick="abrirTopico('portugues','Argumentação')">Argumentação</span>
+                <span class="badge" onclick="abrirTopico('portugues','Coerência')">Coerência</span>
+                <span class="badge" onclick="abrirTopico('portugues','Coesão')">Coesão</span>
+                <span class="badge" onclick="abrirTopico('portugues','Paragrafação')">Paragrafação</span>
+                <span class="badge" onclick="abrirTopico('portugues','Conectivos')">Conectivos</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>📖 4. Gramática</h3>
+                <span class="badge" onclick="abrirTopico('portugues','Substantivo')">Substantivo</span>
+                <span class="badge" onclick="abrirTopico('portugues','Artigo')">Artigo</span>
+                <span class="badge" onclick="abrirTopico('portugues','Adjetivo')">Adjetivo</span>
+                <span class="badge" onclick="abrirTopico('portugues','Pronome')">Pronome</span>
+                <span class="badge" onclick="abrirTopico('portugues','Verbo')">Verbo</span>
+                <span class="badge" onclick="abrirTopico('portugues','Advérbio')">Advérbio</span>
+                <span class="badge" onclick="abrirTopico('portugues','Preposição')">Preposição</span>
+                <span class="badge" onclick="abrirTopico('portugues','Conjunção')">Conjunção</span>
+                <span class="badge" onclick="abrirTopico('portugues','Interjeição')">Interjeição</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>🧩 5. Sintaxe</h3>
+                <span class="badge" onclick="abrirTopico('portugues','Sujeito')">Sujeito</span>
+                <span class="badge" onclick="abrirTopico('portugues','Predicado')">Predicado</span>
+                <span class="badge" onclick="abrirTopico('portugues','Objeto direto e indireto')">Objeto direto e indireto</span>
+                <span class="badge" onclick="abrirTopico('portugues','Complemento nominal')">Complemento nominal</span>
+                <span class="badge" onclick="abrirTopico('portugues','Agente da passiva')">Agente da passiva</span>
+                <span class="badge" onclick="abrirTopico('portugues','Frase, oração e período')">Frase, oração e período</span>
+                <span class="badge" onclick="abrirTopico('portugues','Coordenação e subordinação')">Coordenação e subordinação</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>✏️ 6–12. Outros Eixos</h3>
+                <span class="badge" onclick="abrirTopico('portugues','Pontuação')">Pontuação</span>
+                <span class="badge" onclick="abrirTopico('portugues','Ortografia')">Ortografia</span>
+                <span class="badge" onclick="abrirTopico('portugues','Acentuação')">Acentuação</span>
+                <span class="badge" onclick="abrirTopico('portugues','Literatura')">Literatura</span>
+                <span class="badge" onclick="abrirTopico('portugues','Figuras de linguagem')">Figuras de linguagem</span>
+                <span class="badge" onclick="abrirTopico('portugues','Oralidade e debate')">Oralidade</span>
+                <span class="badge" onclick="abrirTopico('portugues','Linguagem formal e informal')">Formal e informal</span>
+                <span class="badge" onclick="abrirTopico('portugues','Variação linguística')">Variação linguística</span>
+                <span class="badge" onclick="abrirTopico('portugues','Fonética e fonologia')">Fonética e fonologia</span>
+                <span class="badge" onclick="abrirTopico('portugues','Semântica e pragmática')">Semântica e pragmática</span>
+            </div>
+        </div>
+
+        <div class="output" id="portuguesProgressOutput" style="margin-top:20px;">Clique em um tópico de Português.</div>
+    </div>
+
+    <!-- HISTÓRIA -->
+    <div class="section">
+        <h2>🏺 Tudo que se aprende em História</h2>
+        <div class="info-box">
+            Clique em um tópico de História para gerar <span class="highlight">explicação + exemplo + exercícios</span>.
+        </div>
+
+        <div class="grid" style="margin-top:18px;">
+            <div class="lista-recursos">
+                <h3>1️⃣ Pré-História</h3>
+                <span class="badge" onclick="abrirTopico('historia','Origem da humanidade')">Origem da humanidade</span>
+                <span class="badge" onclick="abrirTopico('historia','Evolução humana')">Evolução humana</span>
+                <span class="badge" onclick="abrirTopico('historia','Paleolítico')">Paleolítico</span>
+                <span class="badge" onclick="abrirTopico('historia','Neolítico')">Neolítico</span>
+                <span class="badge" onclick="abrirTopico('historia','Idade dos Metais')">Idade dos Metais</span>
+                <span class="badge" onclick="abrirTopico('historia','Nomadismo')">Nomadismo</span>
+                <span class="badge" onclick="abrirTopico('historia','Descoberta do fogo')">Descoberta do fogo</span>
+                <span class="badge" onclick="abrirTopico('historia','Agricultura e primeiras aldeias')">Agricultura e aldeias</span>
+                <span class="badge" onclick="abrirTopico('historia','Pinturas rupestres')">Pinturas rupestres</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>2️⃣ Antiguidade</h3>
+                <span class="badge" onclick="abrirTopico('historia','Mesopotâmia')">Mesopotâmia</span>
+                <span class="badge" onclick="abrirTopico('historia','Código de Hamurabi')">Código de Hamurabi</span>
+                <span class="badge" onclick="abrirTopico('historia','Egito Antigo')">Egito Antigo</span>
+                <span class="badge" onclick="abrirTopico('historia','Faraós e pirâmides')">Faraós e pirâmides</span>
+                <span class="badge" onclick="abrirTopico('historia','Hebreus')">Hebreus</span>
+                <span class="badge" onclick="abrirTopico('historia','Fenícios')">Fenícios</span>
+                <span class="badge" onclick="abrirTopico('historia','Persas')">Persas</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>3️⃣ Antiguidade Clássica</h3>
+                <span class="badge" onclick="abrirTopico('historia','Grécia Antiga')">Grécia Antiga</span>
+                <span class="badge" onclick="abrirTopico('historia','Atenas e Esparta')">Atenas e Esparta</span>
+                <span class="badge" onclick="abrirTopico('historia','Democracia ateniense')">Democracia ateniense</span>
+                <span class="badge" onclick="abrirTopico('historia','Filosofia grega')">Filosofia grega</span>
+                <span class="badge" onclick="abrirTopico('historia','Roma Antiga')">Roma Antiga</span>
+                <span class="badge" onclick="abrirTopico('historia','República Romana')">República Romana</span>
+                <span class="badge" onclick="abrirTopico('historia','Império Romano')">Império Romano</span>
+                <span class="badge" onclick="abrirTopico('historia','Queda de Roma')">Queda de Roma</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>4️⃣–6️⃣ Idade Média, Moderna e Revoluções</h3>
+                <span class="badge" onclick="abrirTopico('historia','Feudalismo')">Feudalismo</span>
+                <span class="badge" onclick="abrirTopico('historia','Igreja medieval')">Igreja medieval</span>
+                <span class="badge" onclick="abrirTopico('historia','Cruzadas')">Cruzadas</span>
+                <span class="badge" onclick="abrirTopico('historia','Renascimento')">Renascimento</span>
+                <span class="badge" onclick="abrirTopico('historia','Reforma Protestante')">Reforma Protestante</span>
+                <span class="badge" onclick="abrirTopico('historia','Grandes Navegações')">Grandes Navegações</span>
+                <span class="badge" onclick="abrirTopico('historia','Absolutismo')">Absolutismo</span>
+                <span class="badge" onclick="abrirTopico('historia','Revolução Francesa')">Revolução Francesa</span>
+                <span class="badge" onclick="abrirTopico('historia','Independência dos EUA')">Independência dos EUA</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>7️⃣–1️⃣1️⃣ Mundo Contemporâneo</h3>
+                <span class="badge" onclick="abrirTopico('historia','Revolução Industrial')">Revolução Industrial</span>
+                <span class="badge" onclick="abrirTopico('historia','Imperialismo')">Imperialismo</span>
+                <span class="badge" onclick="abrirTopico('historia','Primeira Guerra Mundial')">Primeira Guerra</span>
+                <span class="badge" onclick="abrirTopico('historia','Segunda Guerra Mundial')">Segunda Guerra</span>
+                <span class="badge" onclick="abrirTopico('historia','Guerra Fria')">Guerra Fria</span>
+                <span class="badge" onclick="abrirTopico('historia','Muro de Berlim')">Muro de Berlim</span>
+                <span class="badge" onclick="abrirTopico('historia','Globalização')">Globalização</span>
+                <span class="badge" onclick="abrirTopico('historia','Revolução digital')">Revolução digital</span>
+                <span class="badge" onclick="abrirTopico('historia','Inteligência artificial no mundo contemporâneo')">Inteligência artificial</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>🇧🇷 História do Brasil</h3>
+                <span class="badge" onclick="abrirTopico('historia','Brasil Pré-Colonial')">Brasil Pré-Colonial</span>
+                <span class="badge" onclick="abrirTopico('historia','Brasil Colonial')">Brasil Colonial</span>
+                <span class="badge" onclick="abrirTopico('historia','Escravidão no Brasil')">Escravidão</span>
+                <span class="badge" onclick="abrirTopico('historia','Independência do Brasil')">Independência</span>
+                <span class="badge" onclick="abrirTopico('historia','Brasil Império')">Brasil Império</span>
+                <span class="badge" onclick="abrirTopico('historia','República Velha')">República Velha</span>
+                <span class="badge" onclick="abrirTopico('historia','Era Vargas')">Era Vargas</span>
+                <span class="badge" onclick="abrirTopico('historia','Ditadura Militar no Brasil')">Ditadura Militar</span>
+                <span class="badge" onclick="abrirTopico('historia','Constituição de 1988')">Constituição de 1988</span>
+                <span class="badge" onclick="abrirTopico('historia','Brasil atual e democracia')">Brasil atual</span>
+            </div>
+        </div>
+
+        <div class="output" id="historiaProgressOutput" style="margin-top:20px;">Clique em um tópico de História.</div>
+    </div>
+
+    <!-- CIÊNCIAS -->
+    <div class="section">
+        <h2>🔬 Tudo que se aprende em Ciências</h2>
+        <div class="info-box">
+            Clique em um tópico de Ciências para gerar <span class="highlight">explicação + exemplo + exercícios</span>.
+        </div>
+
+        <div class="grid" style="margin-top:18px;">
+            <div class="lista-recursos">
+                <h3>🧪 1. Método Científico</h3>
+                <span class="badge" onclick="abrirTopico('ciencias','O que é ciência')">O que é ciência</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Observação científica')">Observação</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Hipóteses')">Hipóteses</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Experimentos')">Experimentos</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Coleta de dados')">Coleta de dados</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Conclusão científica')">Conclusão científica</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>🌍 2. Ciências da Terra</h3>
+                <span class="badge" onclick="abrirTopico('ciencias','Estrutura da Terra')">Estrutura da Terra</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Rochas e minerais')">Rochas e minerais</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Solo')">Solo</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Ciclo da água')">Ciclo da água</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Atmosfera')">Atmosfera</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Clima e tempo')">Clima e tempo</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Fenômenos naturais')">Fenômenos naturais</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>🌌 3. Astronomia</h3>
+                <span class="badge" onclick="abrirTopico('ciencias','Universo')">Universo</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Galáxias')">Galáxias</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Sistema Solar')">Sistema Solar</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Movimentos da Terra')">Movimentos da Terra</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Estações do ano')">Estações do ano</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Fases da Lua')">Fases da Lua</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Eclipses')">Eclipses</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>🧬 4. Biologia</h3>
+                <span class="badge" onclick="abrirTopico('ciencias','Origem da vida')">Origem da vida</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Evolução')">Evolução</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Células')">Células</span>
+                <span class="badge" onclick="abrirTopico('ciencias','DNA e genética')">DNA e genética</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Classificação dos seres vivos')">Classificação dos seres vivos</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Plantas')">Plantas</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Animais')">Animais</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Corpo humano')">Corpo humano</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Saúde e vacinas')">Saúde e vacinas</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>🌱 5. Ecologia</h3>
+                <span class="badge" onclick="abrirTopico('ciencias','Ecossistemas')">Ecossistemas</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Cadeia alimentar')">Cadeia alimentar</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Relações ecológicas')">Relações ecológicas</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Biomas')">Biomas</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Impacto ambiental')">Impacto ambiental</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Sustentabilidade')">Sustentabilidade</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Reciclagem')">Reciclagem</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>⚛️ 6. Química</h3>
+                <span class="badge" onclick="abrirTopico('ciencias','Matéria')">Matéria</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Estados físicos da matéria')">Estados físicos</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Mudanças físicas e químicas')">Mudanças físicas e químicas</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Átomos')">Átomos</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Tabela periódica')">Tabela periódica</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Ligações químicas')">Ligações químicas</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Reações químicas')">Reações químicas</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Soluções')">Soluções</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>⚡ 7. Física</h3>
+                <span class="badge" onclick="abrirTopico('ciencias','Movimento')">Movimento</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Velocidade e aceleração')">Velocidade e aceleração</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Força e gravidade')">Força e gravidade</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Leis de Newton')">Leis de Newton</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Energia')">Energia</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Calor e temperatura')">Calor e temperatura</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Ondas, som e luz')">Ondas, som e luz</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Eletricidade')">Eletricidade</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Magnetismo')">Magnetismo</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>🔬 8. Ciência Aplicada</h3>
+                <span class="badge" onclick="abrirTopico('ciencias','Biotecnologia')">Biotecnologia</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Engenharia genética')">Engenharia genética</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Nanotecnologia')">Nanotecnologia</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Inteligência artificial na ciência')">IA na ciência</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Medicina moderna')">Medicina moderna</span>
+                <span class="badge" onclick="abrirTopico('ciencias','Exploração espacial')">Exploração espacial</span>
+            </div>
+        </div>
+
+        <div class="output" id="cienciasProgressOutput" style="margin-top:20px;">Clique em um tópico de Ciências.</div>
+    </div>
+
+    <!-- FERRAMENTAS -->
+    <div class="grid">
+
+        <div class="section">
+            <h2>📚 Gerador de Atividades</h2>
+            <select id="materia">
+                <option>Matemática</option>
+                <option>Português</option>
+                <option>História</option>
+                <option>Geografia</option>
+                <option>Ciências</option>
+                <option>Biologia</option>
+                <option>Física</option>
+                <option>Química</option>
+                <option>Inglês</option>
+                <option>Filosofia</option>
+                <option>Sociologia</option>
+                <option>Arte</option>
+            </select>
+
+            <select id="tipoAtividade">
+                <option>Lista de exercícios</option>
+                <option>Tarefa de casa</option>
+                <option>Atividade diagnóstica</option>
+                <option>Revisão de conteúdo</option>
+                <option>Reforço escolar</option>
+            </select>
+
+            <select id="qtd">
+                <option>5</option>
+                <option>10</option>
+                <option>15</option>
+            </select>
+
+            <button onclick="gerarAtividade()">Gerar atividade</button>
+            <div class="output" id="saida"></div>
+        </div>
+
+        <div class="section">
+            <h2>📑 Avaliação</h2>
+            <select id="tipoAvaliacao">
+                <option>Prova</option>
+                <option>Simulado</option>
+                <option>Simulador ENEM</option>
+                <option>Simulador Vestibular</option>
+                <option>Avaliação Diagnóstica</option>
+            </select>
+            <input id="temaAvaliacao" placeholder="Tema da avaliação">
+            <button onclick="gerarAvaliacao()">Gerar avaliação</button>
+            <button onclick="gerarGabarito()">Gerar gabarito</button>
+            <div class="output" id="avaliacao"></div>
+        </div>
+
+        <div class="section">
+            <h2>🧠 Planejamento do Professor</h2>
+            <select id="tipoPlanejamento">
+                <option>Plano de aula</option>
+                <option>Sequência didática</option>
+                <option>Planejamento semanal</option>
+                <option>Planejamento anual</option>
+                <option>Projeto escolar</option>
+                <option>Plano interdisciplinar</option>
+                <option>Planejamento BNCC</option>
+            </select>
+            <input id="tema" placeholder="Tema da aula ou planejamento">
+            <button onclick="plano()">Gerar planejamento</button>
+            <div class="output" id="plano"></div>
+        </div>
+
+        <div class="section">
+            <h2>📚 BNCC</h2>
+            <input id="conteudoBncc" placeholder="Conteúdo / tema">
+            <button onclick="gerarBNCC()">Gerar BNCC</button>
+            <div class="output" id="bncc"></div>
+        </div>
+
+        <div class="section">
+            <h2>🧩 Atividades Lúdicas</h2>
+            <input id="palavras" placeholder="Ex: escola, professor, aluno">
+            <button onclick="gerarCaca()">Caça-palavras</button>
+            <button onclick="gerarCruzadinha()">Cruzadinha</button>
+            <button onclick="gerarMemoria()">Jogo da memória</button>
+            <button onclick="gerarBingo()">Bingo educativo</button>
+            <div class="output" id="caca"></div>
+        </div>
+
+        <div class="section">
+            <h2>🎮 Jogos Educativos</h2>
+            <button onclick="quiz()">Quiz interativo</button>
+            <button onclick="jogoPerguntas()">Jogo de perguntas</button>
+            <button onclick="jogoLogica()">Jogo de lógica</button>
+            <div class="output" id="quiz"></div>
+        </div>
+
+        <div class="section">
+            <h2>📊 Conteúdo Visual</h2>
+            <input id="temaVisual" placeholder="Tema para resumo / slide / mapa mental">
+            <button onclick="gerarSlides()">Gerar slides</button>
+            <button onclick="gerarMapaMental()">Mapa mental</button>
+            <button onclick="gerarResumo()">Resumo</button>
+            <div class="output" id="visual"></div>
+        </div>
+
+        <div class="section">
+            <h2>🧪 Laboratório Virtual</h2>
+            <select id="tipoExperimento">
+                <option>Ciências</option>
+                <option>Física experimental</option>
+                <option>Química experimental</option>
+            </select>
+            <button onclick="gerarExperimento()">Gerar experimento</button>
+            <div class="output" id="lab"></div>
+        </div>
+
+        <div class="section">
+            <h2>📚 Apoio ao Professor</h2>
+            <input id="temaProfessor" placeholder="Tema da aula">
+            <button onclick="gerarPerguntasAula()">Perguntas para aula</button>
+            <button onclick="gerarAnalogias()">Analogias</button>
+            <button onclick="gerarSugestoes()">Sugestões pedagógicas</button>
+            <div class="output" id="apoioProfessor"></div>
+        </div>
+
+        <div class="section">
+            <h2>📚 Apoio ao Aluno</h2>
+            <input id="temaAluno" placeholder="Conteúdo para explicação">
+            <button onclick="explicarConteudo()">Explicar conteúdo</button>
+            <button onclick="gerarExResolvido()">Exercício resolvido</button>
+            <button onclick="gerarGuiaEstudo()">Guia de estudo</button>
+            <div class="output" id="apoioAluno"></div>
+        </div>
+
+        <div class="section">
+            <h2>📈 Ferramentas Matemáticas</h2>
+            <input id="num1" placeholder="Número 1">
+            <input id="num2" placeholder="Número 2">
+            <input id="num3" placeholder="Número 3">
+            <button onclick="gerarGrafico()">Gerar gráfico</button>
+            <button onclick="resolverEquacao()">Resolver equação simples</button>
+            <button onclick="calcularPorcentagem()">Porcentagem</button>
+            <canvas id="grafico" width="420" height="240"></canvas>
+            <div class="output" id="matematica"></div>
+        </div>
+
+        <div class="section">
+            <h2>📄 Exportar</h2>
+            <div class="small">Exporta o conteúdo da página para impressão ou PDF pelo navegador.</div>
+            <div class="top-actions">
+                <button onclick="exportar()">Exportar / PDF</button>
+                <button onclick="exportarWord()">Exportar Word</button>
+                <button onclick="imprimirAtividades()">Imprimir atividades</button>
+            </div>
+            <div class="output" id="documentos"></div>
+        </div>
+
+    </div>
+
+    <div class="footer-note">
+        Essa versão já integra progressão de Matemática, Português, História e Ciências em uma única página.
+    </div>
+</div>
+
+<script>
+function rand(n){
+    return Math.floor(Math.random()*n)+1;
+}
+
+function textoPadraoMateria(materia, i){
+    if(materia==="Matemática"){
+        let a=rand(20), b=rand(20);
+        return i+") "+a+" + "+b+" = ___";
+    }
+    if(materia==="Português"){
+        return i+") Leia e responda uma questão de interpretação ou gramática.";
+    }
+    if(materia==="História"){
+        return i+") Explique um fato histórico importante relacionado ao tema estudado.";
+    }
+    if(materia==="Ciências"){
+        return i+") Explique um fenômeno científico com suas palavras.";
+    }
+    return i+") Pergunta sobre "+materia;
+}
+
+function gerarAtividade(){
+    let materia=document.getElementById("materia").value;
+    let qtd=parseInt(document.getElementById("qtd").value);
+    let tipo=document.getElementById("tipoAtividade").value;
+
+    let texto=tipo.toUpperCase()+" - "+materia+"\n\n";
+    for(let i=1;i<=qtd;i++){
+        texto+=textoPadraoMateria(materia,i)+"\n";
+    }
+    document.getElementById("saida").textContent=texto;
+}
+
+function gerarAvaliacao(){
+    let tipo=document.getElementById("tipoAvaliacao").value;
+    let tema=document.getElementById("temaAvaliacao").value || "Conteúdo geral";
+
+    let texto=tipo.toUpperCase()+"\n\nTema: "+tema+"\n\n";
+    texto+="1) Questão objetiva sobre "+tema+"\nA) Alternativa 1\nB) Alternativa 2\nC) Alternativa 3\nD) Alternativa 4\n\n";
+    texto+="2) Questão dissertativa sobre "+tema+"\n\n";
+    texto+="3) Relacione conceitos estudados em "+tema+"\n\n";
+    texto+="4) Explique com suas palavras um ponto importante do tema.\n";
+    document.getElementById("avaliacao").textContent=texto;
+}
+
+function gerarGabarito(){
+    document.getElementById("avaliacao").textContent += "\n\nGABARITO SUGERIDO\n1) B\n2) Resposta pessoal com base no conteúdo\n3) Conferir relações corretas\n4) Avaliar clareza e domínio do tema";
+}
+
+function plano(){
+    let tema=document.getElementById("tema").value || "Tema não informado";
+    let tipo=document.getElementById("tipoPlanejamento").value;
+
+    let texto=tipo.toUpperCase()+"\n\n";
+    texto+="Tema: "+tema+"\n";
+    texto+="Objetivo: desenvolver aprendizagem sobre "+tema+".\n";
+    texto+="Metodologia: aula expositiva, participação oral, atividade prática e revisão.\n";
+    texto+="Recursos: quadro, caderno, material digital e atividades impressas.\n";
+    texto+="Avaliação: participação, exercício e verificação da aprendizagem.\n";
+    texto+="Tempo estimado: 2 aulas.\n";
+    document.getElementById("plano").textContent=texto;
+}
+
+function gerarBNCC(){
+    let tema=document.getElementById("conteudoBncc").value || "Conteúdo não informado";
+    let texto="BNCC - SUGESTÃO\n\n";
+    texto+="Conteúdo: "+tema+"\n";
+    texto+="Habilidade sugerida: desenvolver compreensão, análise e aplicação do conteúdo em situações reais.\n";
+    texto+="Objetivo de aprendizagem: identificar, interpretar e utilizar conhecimentos sobre "+tema+".\n";
+    texto+="Sugestão de atividade BNCC: leitura, debate, exercício prático e produção final.\n";
+    document.getElementById("bncc").textContent=texto;
+}
+
+function gerarCaca(){
+    let palavras=document.getElementById("palavras").value || "escola, professor, aluno";
+    document.getElementById("caca").textContent="CAÇA-PALAVRAS\n\nPalavras usadas:\n"+palavras;
+}
+
+function gerarCruzadinha(){
+    let palavras=document.getElementById("palavras").value || "educação, aula, escola";
+    document.getElementById("caca").textContent="CRUZADINHA\n\nTermos base:\n"+palavras;
+}
+
+function gerarMemoria(){
+    document.getElementById("caca").textContent="JOGO DA MEMÓRIA\n\nPares sugeridos:\n- Palavra / significado\n- Conceito / definição\n- Autor / obra";
+}
+
+function gerarBingo(){
+    document.getElementById("caca").textContent="BINGO EDUCATIVO\n\nSugestão de uso:\n- números\n- palavras\n- conceitos\n- operações";
+}
+
+function quiz(){
+    document.getElementById("quiz").textContent=
+    "QUIZ INTERATIVO\n\n1) Capital do Brasil?\nA) São Paulo\nB) Brasília\nC) Rio de Janeiro\n\n2) 5 + 7 = ?\nA) 10\nB) 11\nC) 12";
+}
+
+function jogoPerguntas(){
+    document.getElementById("quiz").textContent="JOGO DE PERGUNTAS\n\n- Pergunta relâmpago\n- Verdadeiro ou falso\n- Complete a frase\n- Pergunta bônus";
+}
+
+function jogoLogica(){
+    document.getElementById("quiz").textContent="JOGO DE LÓGICA\n\nDesafio 1: Complete a sequência.\nDesafio 2: Resolva a situação.\nDesafio 3: Analise o padrão.";
+}
+
+function gerarSlides(){
+    let tema=document.getElementById("temaVisual").value || "Tema não informado";
+    document.getElementById("visual").textContent=
+        "SLIDES - "+tema+"\n\n"+
+        "Slide 1: Título\n"+
+        "Slide 2: Introdução\n"+
+        "Slide 3: Conceitos principais\n"+
+        "Slide 4: Exemplo prático\n"+
+        "Slide 5: Atividade / revisão";
+}
+
+function gerarMapaMental(){
+    let tema=document.getElementById("temaVisual").value || "Tema não informado";
+    document.getElementById("visual").textContent=
+        "MAPA MENTAL - "+tema+"\n\n"+
+        tema+"\n├─ Definição\n├─ Características\n├─ Exemplos\n└─ Aplicações";
+}
+
+function gerarResumo(){
+    let tema=document.getElementById("temaVisual").value || "Tema não informado";
+    document.getElementById("visual").textContent=
+        "RESUMO - "+tema+"\n\n"+
+        "Este conteúdo aborda os conceitos principais de "+tema+", com definição, exemplos e aplicações.";
+}
+
+function gerarExperimento(){
+    let tipo=document.getElementById("tipoExperimento").value;
+    let texto="EXPERIMENTO - "+tipo+"\n\n";
+    texto+="Objetivo: observar um fenômeno relacionado ao conteúdo.\n";
+    texto+="Materiais: itens simples de laboratório ou sala de aula.\n";
+    texto+="Procedimento: seguir etapas organizadas e registrar observações.\n";
+    texto+="Conclusão: comparar o resultado com a hipótese inicial.";
+    document.getElementById("lab").textContent=texto;
+}
+
+function gerarPerguntasAula(){
+    let tema=document.getElementById("temaProfessor").value || "tema não informado";
+    document.getElementById("apoioProfessor").textContent=
+        "PERGUNTAS PARA AULA - "+tema+"\n\n"+
+        "1) O que você já sabe sobre esse tema?\n"+
+        "2) Onde isso aparece no cotidiano?\n"+
+        "3) Por que esse conteúdo é importante?\n"+
+        "4) Como podemos aplicar esse conhecimento?";
+}
+
+function gerarAnalogias(){
+    let tema=document.getElementById("temaProfessor").value || "tema não informado";
+    document.getElementById("apoioProfessor").textContent=
+        "ANALOGIAS - "+tema+"\n\n"+
+        "Explique o tema comparando com situações do dia a dia para facilitar a compreensão.";
+}
+
+function gerarSugestoes(){
+    let tema=document.getElementById("temaProfessor").value || "tema não informado";
+    document.getElementById("apoioProfessor").textContent=
+        "SUGESTÕES PEDAGÓGICAS - "+tema+"\n\n"+
+        "- aula dialogada\n- atividade em dupla\n- uso de imagens\n- revisão final\n- diagnóstico rápido";
+}
+
+function explicarConteudo(){
+    let tema=document.getElementById("temaAluno").value || "conteúdo não informado";
+    document.getElementById("apoioAluno").textContent=
+        "EXPLICAÇÃO SIMPLIFICADA - "+tema+"\n\n"+
+        tema+" explicado de forma simples: definição, exemplo prático e aplicação.";
+}
+
+function gerarExResolvido(){
+    let tema=document.getElementById("temaAluno").value || "conteúdo não informado";
+    document.getElementById("apoioAluno").textContent=
+        "EXERCÍCIO RESOLVIDO - "+tema+"\n\n"+
+        "Passo 1: entender o enunciado.\nPasso 2: separar dados.\nPasso 3: resolver.\nPasso 4: conferir o resultado.";
+}
+
+function gerarGuiaEstudo(){
+    let tema=document.getElementById("temaAluno").value || "conteúdo não informado";
+    document.getElementById("apoioAluno").textContent=
+        "GUIA DE ESTUDO - "+tema+"\n\n"+
+        "1) Leia o conteúdo\n2) Faça resumo\n3) Resolva exercícios\n4) Revise erros\n5) Faça autoavaliação";
+}
+
+function gerarGrafico(){
+    let n1=parseFloat(document.getElementById("num1").value) || 0;
+    let n2=parseFloat(document.getElementById("num2").value) || 0;
+    let n3=parseFloat(document.getElementById("num3").value) || 0;
+
+    let c=document.getElementById("grafico");
+    let ctx=c.getContext("2d");
+
+    ctx.clearRect(0,0,c.width,c.height);
+    ctx.fillStyle="#ffffff";
+    ctx.fillRect(0,0,c.width,c.height);
+
+    ctx.strokeStyle="#333";
+    ctx.beginPath();
+    ctx.moveTo(40,20);
+    ctx.lineTo(40,210);
+    ctx.lineTo(390,210);
+    ctx.stroke();
+
+    ctx.fillStyle="#2a7fff";
+    ctx.fillRect(70,210-n1*5,55,n1*5);
+    ctx.fillRect(180,210-n2*5,55,n2*5);
+    ctx.fillRect(290,210-n3*5,55,n3*5);
+
+    ctx.fillStyle="#000";
+    ctx.font="14px Arial";
+    ctx.fillText("A",92,228);
+    ctx.fillText("B",202,228);
+    ctx.fillText("C",312,228);
+    ctx.fillText("Gráfico de barras",140,18);
+
+    document.getElementById("matematica").textContent="Valores inseridos:\nA = "+n1+"\nB = "+n2+"\nC = "+n3;
+}
+
+function resolverEquacao(){
+    let n1=parseFloat(document.getElementById("num1").value) || 0;
+    let n2=parseFloat(document.getElementById("num2").value) || 0;
+    document.getElementById("matematica").textContent=
+        "EQUAÇÃO SIMPLES\n\nExemplo: x + "+n1+" = "+n2+"\n\nLogo:\nx = "+(n2-n1);
+}
+
+function calcularPorcentagem(){
+    let n1=parseFloat(document.getElementById("num1").value) || 0;
+    let n2=parseFloat(document.getElementById("num2").value) || 0;
+    let resultado = n2 === 0 ? 0 : (n1/n2)*100;
+    document.getElementById("matematica").textContent=
+        "PORCENTAGEM\n\n"+n1+" representa "+resultado.toFixed(2)+"% de "+n2;
+}
+
+function exportar(){
+    let conteudo=document.body.innerText;
+    let w=window.open("", "_blank");
+    w.document.write("<html><head><title>Exportar</title></head><body><pre>"+conteudo+"</pre></body></html>");
+    w.document.close();
+    w.print();
+}
+
+function exportarWord(){
+    document.getElementById("documentos").textContent=
+        "EXPORTAR WORD\n\nSugestão: depois você pode adaptar para gerar arquivo .doc automaticamente.";
+}
+
+function imprimirAtividades(){
+    let atividade=document.getElementById("saida").textContent || "Nenhuma atividade gerada ainda.";
+    let w=window.open("", "_blank");
+    w.document.write("<html><head><title>Atividades</title></head><body><pre>"+atividade+"</pre></body></html>");
+    w.document.close();
+    w.print();
+}
+
+function abrirTopico(area, topico){
+    const texto = gerarConteudoTopico(area, topico);
+    if(area === 'matematica') document.getElementById("mathProgressOutput").textContent = texto;
+    if(area === 'portugues') document.getElementById("portuguesProgressOutput").textContent = texto;
+    if(area === 'historia') document.getElementById("historiaProgressOutput").textContent = texto;
+    if(area === 'ciencias') document.getElementById("cienciasProgressOutput").textContent = texto;
+}
+
+function gerarConteudoTopico(area, topico){
+    const banco = {
+        matematica: {
+            "Números naturais": ["Números naturais são usados para contar elementos: 0, 1, 2, 3...", "Exemplo: 25 alunos representam uma quantidade natural.", ["Escreva os números de 1 a 20.", "Qual o sucessor de 39?", "Qual o antecessor de 80?"]],
+            "Sequência numérica": ["Sequência numérica é uma ordem de números que segue um padrão.", "Exemplo: 2, 4, 6, 8, 10 cresce de 2 em 2.", ["Complete: 5,10,15,__ , __", "Complete: 20,18,16,__ , __", "Crie uma sequência crescente até 30."]],
+            "Antecessor e sucessor": ["Antecessor é o número que vem antes; sucessor é o que vem depois.", "Exemplo: o antecessor de 10 é 9 e o sucessor é 11.", ["Antecessor de 50", "Sucessor de 99", "Antecessor e sucessor de 250"]],
+            "Comparação de números": ["Podemos comparar números usando >, < e =.", "Exemplo: 9 > 4, 3 < 8, 10 = 10.", ["Compare: 15 e 12", "Compare: 22 e 30", "Compare: 100 e 100"]],
+            "Par e ímpar": ["Número par termina em 0,2,4,6,8 e ímpar termina em 1,3,5,7,9.", "Exemplo: 18 é par e 17 é ímpar.", ["Classifique 24", "Classifique 31", "Liste 5 números pares"]],
+            "Adição": ["Adição é a operação de somar quantidades.", "Exemplo: 12 + 7 = 19.", ["15 + 6", "23 + 17", "105 + 44"]],
+            "Subtração": ["Subtração representa retirar ou comparar quantidades.", "Exemplo: 20 - 8 = 12.", ["19 - 7", "34 - 12", "100 - 45"]],
+            "Multiplicação": ["Multiplicação representa adições repetidas.", "Exemplo: 4 x 3 = 12.", ["6 x 7", "9 x 8", "12 x 5"]],
+            "Divisão": ["Divisão é repartir em partes iguais.", "Exemplo: 20 ÷ 4 = 5.", ["18 ÷ 3", "45 ÷ 5", "72 ÷ 8"]],
+            "Frações introdutórias": ["Frações representam partes de um todo.", "Exemplo: metade de uma pizza é 1/2.", ["Metade de 10", "Terço de 12", "Quarto de 20"]],
+            "Números decimais": ["Números decimais possuem vírgula e representam partes menores da unidade.", "Exemplo: 2,5 significa 2 unidades e 5 décimos.", ["Leia 3,7", "Escreva um número decimal", "Qual é maior: 2,3 ou 2,8?"]],
+            "Figuras geométricas básicas": ["As figuras geométricas básicas têm formas e características próprias.", "Exemplo: quadrado tem 4 lados iguais; triângulo tem 3 lados.", ["Desenhe um quadrado", "Quantos lados tem um triângulo?", "Qual figura não tem lados?"]],
+            "Conjuntos numéricos": ["Os conjuntos numéricos organizam tipos de números: naturais, inteiros, racionais, irracionais e reais.", "Exemplo: -3 é inteiro, 1/2 é racional, √2 é irracional.", ["Classifique 7", "Classifique -4", "Classifique 0,5"]],
+            "Potenciação": ["Potenciação é uma multiplicação repetida.", "Exemplo: 2³ = 8.", ["3²", "5³", "10²"]],
+            "Radiciação": ["Radiciação é a operação inversa da potenciação.", "Exemplo: √25 = 5.", ["√36", "√49", "√81"]],
+            "MMC e MDC": ["MMC é o menor múltiplo comum e MDC é o maior divisor comum.", "Exemplo: MMC(4,6)=12 e MDC(12,18)=6.", ["MMC de 3 e 5", "MDC de 8 e 12", "MMC de 4 e 10"]],
+            "Frações completas": ["Frações podem ser simplificadas, comparadas e operadas.", "Exemplo: 2/4 = 1/2.", ["Simplifique 6/8", "Some 1/2 + 1/4", "Subtraia 3/4 - 1/4"]],
+            "Razão e proporção": ["Razão compara grandezas e proporção mostra equivalência entre razões.", "Exemplo: 2/4 = 1/2.", ["Escreva a razão entre 4 e 8", "Verifique se 2/3 e 4/6 formam proporção", "Compare 5 e 10"]],
+            "Regra de três simples": ["A regra de três simples relaciona duas grandezas proporcionais.", "Exemplo: se 2 cadernos custam 10 reais, 4 custam 20 reais.", ["3 maçãs custam 6 reais, quanto custam 5?", "2 horas têm 120 min, 5 horas têm quantos?", "4 lápis custam 8 reais, 10 custam quanto?"]],
+            "Porcentagem": ["Porcentagem representa uma razão de cada 100 partes.", "Exemplo: 25% de 200 = 50.", ["10% de 80", "50% de 300", "15% de 200"]],
+            "Expressões algébricas": ["Expressões algébricas usam letras e números para representar valores.", "Exemplo: 2x + 3.", ["Escreva uma expressão com x", "Identifique o termo numérico em 3x+4", "Substitua x=2 em 2x+1"]],
+            "Monômios e polinômios": ["Monômio tem um termo; polinômio tem vários.", "Exemplo: 3x é monômio; 2x²+3x+1 é polinômio.", ["Classifique 5x", "Classifique x²+2x+3", "Escreva um polinômio de 3 termos"]],
+            "Produtos notáveis": ["São multiplicações algébricas com padrões conhecidos.", "Exemplo: (a+b)² = a² + 2ab + b².", ["(x+2)²", "(a-b)²", "(m+n)(m-n)"]],
+            "Fatoração": ["Fatorar é escrever uma expressão como produto.", "Exemplo: x²-9 = (x-3)(x+3).", ["Fatore x²-16", "Fatore 3x+6", "Fatore a²+2a+1"]],
+            "Equação do 1º grau": ["É uma igualdade com variável elevada à potência 1.", "Exemplo: 2x + 3 = 11 => x = 4.", ["x+5=12", "3x=21", "2x+4=18"]],
+            "Sistemas de equações": ["Um sistema tem duas ou mais equações com variáveis em comum.", "Exemplo: x+y=10 e x-y=2.", ["Resolva x+y=8 e x-y=2", "Resolva 2x+y=7 e x+y=5", "Use substituição em um sistema simples"]],
+            "Equação do 2º grau": ["É uma equação em que a maior potência da variável é 2.", "Exemplo: x² - 5x + 6 = 0.", ["x²-9=0", "x²-5x+6=0", "x²-4x+4=0"]],
+            "Fórmula de Bhaskara": ["Bhaskara resolve equações do 2º grau usando Δ = b² - 4ac.", "Exemplo: para x²-5x+6=0, Δ=1.", ["Calcule Δ em x²-4x+3", "Resolva x²-3x+2=0", "Encontre as raízes de x²-7x+10=0"]],
+            "Função afim": ["Função afim tem forma y=ax+b.", "Exemplo: y=2x+1.", ["Identifique a e b em y=3x+5", "Calcule y para x=2 em y=2x+4", "Escreva uma função afim"]],
+            "Função quadrática": ["Função quadrática tem forma y=ax²+bx+c.", "Exemplo: y=x²-4x+3.", ["Identifique a, b e c", "Calcule y para x=1", "Diga se a parábola abre para cima ou para baixo"]],
+            "Ângulos": ["Ângulos medem abertura entre duas semirretas.", "Exemplo: 90° é um ângulo reto.", ["Classifique 45°", "Classifique 90°", "Classifique 120°"]],
+            "Triângulos": ["Triângulos possuem 3 lados e a soma dos ângulos internos é 180°.", "Exemplo: um triângulo equilátero tem 3 lados iguais.", ["Classifique por lados", "Classifique por ângulos", "Descubra o terceiro ângulo"]],
+            "Teorema de Pitágoras": ["Em triângulo retângulo: a²+b²=c².", "Exemplo: 3²+4²=5².", ["Catetos 6 e 8", "Catetos 5 e 12", "Hipotenusa 13 e cateto 5"]],
+            "Área do círculo": ["A área do círculo é A = πr².", "Exemplo: se r=3, A ≈ 28,27.", ["Área com r=2", "Área com r=5", "Se r dobra, o que acontece com a área?"]],
+            "Volume da esfera": ["O volume da esfera é V = 4/3 πr³.", "Exemplo: para r=3, V ≈ 113,10.", ["Volume com r=2", "Volume com r=4", "Explique o papel do raio na fórmula"]],
+            "Trigonometria": ["A trigonometria estuda relações entre ângulos e lados dos triângulos.", "Exemplo: seno, cosseno e tangente são razões trigonométricas.", ["Defina seno", "Defina cosseno", "Defina tangente"]]
+        },
+
+        portugues: {
+            "Alfabeto": ["O alfabeto é o conjunto de letras usado para escrever palavras.", "Exemplo: o alfabeto da língua portuguesa tem 26 letras.", ["Escreva o alfabeto completo.", "Circule as vogais.", "Pinte as consoantes."]],
+            "Letras maiúsculas e minúsculas": ["As letras podem aparecer em forma maiúscula e minúscula.", "Exemplo: A e a representam a mesma letra.", ["Escreva seu nome em maiúsculas.", "Transforme CASA em minúsculas.", "Copie palavras usando os dois tipos de letra."]],
+            "Vogais e consoantes": ["Vogais são a, e, i, o, u. As demais letras são consoantes.", "Exemplo: na palavra CASA, A e A são vogais; C e S são consoantes.", ["Separe as vogais da palavra ESCOLA.", "Separe as consoantes de LIVRO.", "Escreva 5 palavras com vogais diferentes."]],
+            "Sílabas": ["Sílabas são partes em que as palavras podem ser divididas na fala.", "Exemplo: ca-sa tem duas sílabas.", ["Separe em sílabas: boneca", "Separe em sílabas: escola", "Separe em sílabas: computador"]],
+            "Separação silábica": ["Separação silábica é dividir a palavra em sílabas corretamente.", "Exemplo: ja-ne-la.", ["Separe: cadeira", "Separe: menino", "Separe: abacaxi"]],
+            "Encontros vocálicos": ["Encontros vocálicos acontecem quando duas ou mais vogais aparecem juntas.", "Exemplo: pai tem encontro vocálico ai.", ["Encontre o encontro vocálico em caixa", "Encontre em peixe", "Escreva 3 palavras com encontro vocálico"]],
+            "Encontros consonantais": ["Encontros consonantais são grupos de consoantes juntas.", "Exemplo: prato tem pr.", ["Encontre o encontro consonantal em bloco", "Encontre em trem", "Escreva 3 palavras com encontro consonantal"]],
+            "Dígrafos": ["Dígrafo acontece quando duas letras representam um único som.", "Exemplo: ch em chuva.", ["Encontre o dígrafo em carro", "Encontre em passarinho", "Escreva 3 palavras com dígrafo"]],
+            "Formação de palavras": ["Palavras podem ser formadas pela junção de sílabas e elementos.", "Exemplo: ca + sa = casa.", ["Forme palavras com pa + to", "Forme com bo + la", "Escreva 3 palavras com duas sílabas"]],
+            "Leitura e escrita básica": ["Leitura e escrita básica desenvolvem reconhecimento e produção de palavras.", "Exemplo: ler palavras simples ajuda na alfabetização.", ["Leia uma lista de palavras", "Copie 5 palavras", "Escreva uma frase curta"]],
+            "Interpretação de texto": ["Interpretar é compreender informações explícitas e implícitas de um texto.", "Exemplo: ao ler uma notícia, identificamos o assunto principal.", ["Qual é o assunto do texto?", "Quem são os personagens?", "O que aconteceu primeiro?"]],
+            "Ideia principal": ["A ideia principal é o ponto mais importante do texto.", "Exemplo: em um texto sobre reciclagem, a ideia principal pode ser preservar o meio ambiente.", ["Encontre a ideia principal", "Sublinhe a frase mais importante", "Explique o assunto em uma frase"]],
+            "Tema do texto": ["Tema é o assunto geral tratado no texto.", "Exemplo: amizade, meio ambiente ou escola podem ser temas.", ["Diga o tema do texto", "Compare tema e título", "Escolha um tema e escreva sobre ele"]],
+            "Inferência": ["Inferir é concluir algo a partir de pistas do texto.", "Exemplo: se o personagem abre guarda-chuva, podemos inferir que está chovendo.", ["O que podemos deduzir?", "Que pista indica isso?", "Faça uma inferência a partir de um trecho"]],
+            "Resumo": ["Resumo é uma versão menor do texto com as ideias principais.", "Exemplo: resumir uma história em poucas linhas.", ["Resuma um parágrafo", "Escreva 3 ideias principais", "Reduza um texto à metade"]],
+            "Texto narrativo": ["Texto narrativo conta uma história com personagens, tempo e espaço.", "Exemplo: contos e fábulas são narrativos.", ["Escreva início de uma história", "Identifique personagens", "Diga onde se passa a narrativa"]],
+            "Texto descritivo": ["Texto descritivo apresenta características de algo ou alguém.", "Exemplo: descrição de uma paisagem.", ["Descreva sua escola", "Descreva um animal", "Use 5 adjetivos em uma descrição"]],
+            "Texto dissertativo": ["Texto dissertativo expõe ideias sobre um tema.", "Exemplo: texto que explica a importância da leitura.", ["Explique por que estudar é importante", "Escreva opinião sobre um tema", "Organize introdução, desenvolvimento e conclusão"]],
+            "Texto injuntivo": ["Texto injuntivo orienta ou ensina a fazer algo.", "Exemplo: receitas e manuais.", ["Escreva instruções para lavar as mãos", "Liste passos de uma receita", "Reconheça verbos de comando"]],
+            "Gêneros textuais": ["Gêneros textuais são formas de texto usadas em diferentes situações.", "Exemplo: notícia, conto, carta, receita e poema.", ["Cite 5 gêneros textuais", "Associe gênero à função", "Escolha um gênero e escreva um exemplo"]],
+            "Introdução, desenvolvimento e conclusão": ["Muitos textos organizam suas ideias em começo, meio e final.", "Exemplo: a introdução apresenta o tema, o desenvolvimento explica e a conclusão fecha o texto.", ["Divida um texto nessas partes", "Escreva uma introdução", "Escreva uma conclusão"]],
+            "Narrativa": ["Narrativa é a escrita de fatos em sequência.", "Exemplo: uma história com começo, conflito e desfecho.", ["Crie um personagem", "Escreva um conflito", "Invente um final"]],
+            "Descrição": ["Descrição mostra detalhes e características.", "Exemplo: descrever uma praia usando cores, sons e formas.", ["Descreva um objeto", "Descreva um lugar", "Use ao menos 5 adjetivos"]],
+            "Dissertação": ["Dissertação apresenta ideias de forma organizada.", "Exemplo: texto sobre a importância da escola.", ["Escreva sua opinião", "Liste argumentos", "Organize texto em parágrafos"]],
+            "Argumentação": ["Argumentar é defender uma ideia com razões.", "Exemplo: explicar por que reciclar é importante.", ["Dê 2 argumentos sobre leitura", "Defenda uma opinião", "Use conectivos argumentativos"]],
+            "Coerência": ["Coerência é o sentido lógico entre as ideias do texto.", "Exemplo: as informações precisam combinar entre si.", ["Corrija um texto incoerente", "Organize ideias em ordem lógica", "Explique por que um texto está sem sentido"]],
+            "Coesão": ["Coesão é a ligação entre as partes do texto.", "Exemplo: uso de conectivos como porque, então, porém.", ["Ligue frases com conectivos", "Substitua repetições por pronomes", "Melhore a coesão de um parágrafo"]],
+            "Paragrafação": ["Paragrafação é a organização do texto em parágrafos.", "Exemplo: cada parágrafo desenvolve uma parte da ideia.", ["Divida um texto em parágrafos", "Escreva 2 parágrafos sobre um tema", "Explique a função de cada parágrafo"]],
+            "Conectivos": ["Conectivos ligam palavras, frases e ideias.", "Exemplo: mas, porque, portanto, então.", ["Use 3 conectivos em frases", "Complete com conectivo adequado", "Reescreva um texto com conectivos"]],
+            "Substantivo": ["Substantivo nomeia seres, coisas, lugares, sentimentos e ideias.", "Exemplo: menino, cidade, alegria.", ["Encontre os substantivos", "Classifique comum e próprio", "Escreva 5 substantivos abstratos"]],
+            "Artigo": ["Artigo acompanha o substantivo e pode ser definido ou indefinido.", "Exemplo: o livro, uma casa.", ["Encontre artigos no texto", "Troque definido por indefinido", "Use artigos em frases"]],
+            "Adjetivo": ["Adjetivo caracteriza o substantivo.", "Exemplo: menina inteligente.", ["Encontre os adjetivos", "Descreva um objeto com 3 adjetivos", "Transforme uma frase com mais adjetivos"]],
+            "Pronome": ["Pronome substitui ou acompanha o substantivo.", "Exemplo: ele, aquele, meu.", ["Identifique pronomes", "Substitua nomes por pronomes", "Use pronomes possessivos em frases"]],
+            "Verbo": ["Verbo indica ação, estado ou fenômeno.", "Exemplo: correr, ser, chover.", ["Encontre os verbos", "Conjugue o verbo estudar", "Escreva frases no passado, presente e futuro"]],
+            "Advérbio": ["Advérbio modifica verbos, adjetivos ou outros advérbios.", "Exemplo: muito, ontem, aqui.", ["Encontre advérbios", "Classifique tempo e lugar", "Escreva frases com advérbios"]],
+            "Preposição": ["Preposição liga palavras e estabelece relações.", "Exemplo: de, para, com, sem.", ["Encontre as preposições", "Complete frases com preposições", "Explique a relação criada"]],
+            "Conjunção": ["Conjunção liga orações ou termos semelhantes.", "Exemplo: e, mas, porque.", ["Encontre as conjunções", "Ligue frases com conjunções", "Classifique o valor da conjunção"]],
+            "Interjeição": ["Interjeição expressa emoção ou sentimento.", "Exemplo: ah!, nossa!, socorro!", ["Encontre interjeições", "Escreva 3 interjeições", "Crie frases com interjeições"]],
+            "Sujeito": ["Sujeito é o termo sobre o qual se declara algo.", "Exemplo: O aluno estudou. O sujeito é O aluno.", ["Encontre o sujeito", "Classifique sujeito simples", "Escreva uma frase com sujeito composto"]],
+            "Predicado": ["Predicado é aquilo que se declara sobre o sujeito.", "Exemplo: O aluno estudou bastante.", ["Encontre o predicado", "Separe sujeito e predicado", "Crie frases com predicado verbal"]],
+            "Objeto direto e indireto": ["Objetos completam o sentido de verbos transitivos.", "Exemplo: Comprei um livro. Objeto direto: um livro.", ["Encontre o objeto direto", "Encontre o indireto", "Crie frases com ambos"]],
+            "Complemento nominal": ["Complemento nominal completa o sentido de nomes.", "Exemplo: Tenho medo de escuro.", ["Encontre o complemento nominal", "Complete frases com ele", "Explique a relação entre nome e complemento"]],
+            "Agente da passiva": ["É o termo que pratica a ação na voz passiva.", "Exemplo: O livro foi escrito pelo autor.", ["Encontre o agente da passiva", "Transforme ativa em passiva", "Crie uma frase na voz passiva"]],
+            "Frase, oração e período": ["Frase é um enunciado com sentido; oração tem verbo; período é o conjunto de orações.", "Exemplo: Choveu. é frase, oração e período simples.", ["Diferencie os três conceitos", "Classifique exemplos", "Escreva um período composto"]],
+            "Coordenação e subordinação": ["Coordenação une orações independentes; subordinação une oração dependente a principal.", "Exemplo: Estudei e passei. / Sei que você chegou.", ["Classifique orações", "Escreva um exemplo de coordenação", "Escreva um de subordinação"]],
+            "Pontuação": ["Pontuação organiza o texto e ajuda a produzir sentido.", "Exemplo: vírgula separa termos; ponto final encerra ideias.", ["Pontue um texto sem pontuação", "Explique a função da vírgula", "Use dois-pontos e travessão"]],
+            "Ortografia": ["Ortografia é o conjunto de regras da escrita correta das palavras.", "Exemplo: uso de s, ss, ç, z, x, ch, g, j.", ["Complete com s ou z", "Complete com x ou ch", "Corrija palavras erradas"]],
+            "Acentuação": ["Acentuação marca a sílaba tônica e diferencia palavras.", "Exemplo: café, ônibus, lâmpada.", ["Classifique oxítona, paroxítona e proparoxítona", "Acentue as palavras", "Explique a regra usada"]],
+            "Literatura": ["Literatura estuda obras, autores, contextos históricos e estilos.", "Exemplo: romantismo, realismo e modernismo são movimentos literários.", ["Cite 3 movimentos literários", "Identifique o autor de uma obra", "Explique o contexto de um movimento"]],
+            "Figuras de linguagem": ["Figuras de linguagem dão expressividade ao texto.", "Exemplo: metáfora, hipérbole, ironia, personificação.", ["Identifique a figura", "Crie uma metáfora", "Explique uma hipérbole"]],
+            "Oralidade e debate": ["Oralidade envolve falar com clareza, organização e adequação.", "Exemplo: em um debate, é preciso argumentar e ouvir o outro.", ["Monte uma fala curta", "Prepare argumentos sobre um tema", "Treine apresentação oral"]],
+            "Linguagem formal e informal": ["A linguagem varia conforme o contexto.", "Exemplo: em prova usamos formal; entre amigos, informal.", ["Reescreva uma frase formal", "Reescreva uma frase informal", "Explique onde usar cada uma"]],
+            "Variação linguística": ["A língua muda conforme região, grupo social e situação.", "Exemplo: regionalismos e fala popular.", ["Cite exemplos de variação", "Explique o que é regionalismo", "Compare duas formas de dizer a mesma coisa"]],
+            "Fonética e fonologia": ["Fonética estuda os sons da fala; fonologia estuda como esses sons funcionam na língua.", "Exemplo: sons diferentes podem mudar o sentido das palavras.", ["Diferencie fonética e fonologia", "Identifique sons em palavras", "Explique a função dos fonemas"]],
+            "Semântica e pragmática": ["Semântica estuda o significado; pragmática analisa o uso em contexto.", "Exemplo: uma frase pode mudar de sentido conforme a situação.", ["Explique o sentido de uma frase", "Diga como o contexto muda o significado", "Crie um exemplo com duplo sentido"]]
+        },
+
+        historia: {
+            "Origem da humanidade": ["A História começa com o estudo da origem dos seres humanos e da vida em sociedade.", "Exemplo: os primeiros grupos humanos viviam em contato direto com a natureza.", ["Explique o que estuda a origem da humanidade", "Cite um grupo humano antigo", "Diga por que esse estudo é importante"]],
+            "Evolução humana": ["A evolução humana mostra mudanças biológicas e culturais ao longo do tempo.", "Exemplo: Homo sapiens desenvolveu linguagem mais complexa e técnicas variadas.", ["Cite espécies humanas antigas", "Explique o que mudou na evolução", "Diga o que diferenciou o Homo sapiens"]],
+            "Paleolítico": ["No Paleolítico, os grupos humanos eram nômades e viviam da caça e coleta.", "Exemplo: uso de pedra lascada e pinturas rupestres.", ["O que era o nomadismo?", "Quais ferramentas eram usadas?", "O que são pinturas rupestres?"]],
+            "Neolítico": ["No Neolítico surgiram agricultura, domesticação de animais e aldeias.", "Exemplo: a vida sedentária começou a se desenvolver.", ["Explique a agricultura no Neolítico", "O que mudou com a sedentarização?", "Cite uma consequência do Neolítico"]],
+            "Idade dos Metais": ["Foi o período em que os seres humanos passaram a usar metais em ferramentas e armas.", "Exemplo: cobre, bronze e ferro foram muito importantes.", ["Quais metais foram usados?", "O que mudou no trabalho humano?", "Como isso ajudou as sociedades?"]],
+            "Nomadismo": ["Nomadismo é o modo de vida sem moradia fixa.", "Exemplo: grupos se deslocavam em busca de alimentos.", ["Defina nomadismo", "Explique por que os grupos se moviam", "Compare com vida sedentária"]],
+            "Descoberta do fogo": ["O domínio do fogo foi um marco para alimentação, proteção e convivência.", "Exemplo: cozinhar alimentos trouxe mudanças importantes.", ["Por que o fogo foi importante?", "Cite dois usos do fogo", "Como o fogo mudou a vida humana?"]],
+            "Agricultura e primeiras aldeias": ["Com a agricultura surgiram aldeias e novas formas de organização.", "Exemplo: produção de alimentos permitiu moradias fixas.", ["Explique a relação entre agricultura e aldeias", "Por que aldeias surgiram?", "O que mudou na sociedade?"]],
+            "Pinturas rupestres": ["Pinturas rupestres são registros artísticos feitos em paredes de cavernas.", "Exemplo: representam animais, caçadas e cenas do cotidiano.", ["Onde eram feitas?", "O que representavam?", "Por que são importantes para a História?"]],
+            "Mesopotâmia": ["A Mesopotâmia surgiu entre os rios Tigre e Eufrates e reuniu várias civilizações.", "Exemplo: sumérios e babilônios viveram ali.", ["Onde ficava a Mesopotâmia?", "Cite um povo mesopotâmico", "Por que os rios eram importantes?"]],
+            "Código de Hamurabi": ["Foi um conjunto de leis da Babilônia antiga.", "Exemplo: trazia punições conhecidas pela ideia de 'olho por olho'.", ["Quem criou o código?", "Para que serviam essas leis?", "Explique sua importância histórica"]],
+            "Egito Antigo": ["O Egito Antigo se desenvolveu às margens do rio Nilo.", "Exemplo: a agricultura dependia das cheias do rio.", ["Por que o Nilo era importante?", "Quem governava o Egito?", "Cite uma característica do Egito Antigo"]],
+            "Faraós e pirâmides": ["Os faraós eram os governantes egípcios e as pirâmides foram grandes construções funerárias.", "Exemplo: as pirâmides de Gizé são símbolos dessa civilização.", ["Quem eram os faraós?", "Para que serviam as pirâmides?", "Cite uma característica da sociedade egípcia"]],
+            "Hebreus": ["Os hebreus marcaram a história pelo monoteísmo.", "Exemplo: a crença em um único Deus influenciou outras religiões.", ["O que é monoteísmo?", "Qual a importância dos hebreus?", "Qual livro sagrado está ligado a essa tradição?"]],
+            "Fenícios": ["Os fenícios destacaram-se pelo comércio marítimo e pelo alfabeto.", "Exemplo: navegaram pelo Mediterrâneo e fundaram entrepostos.", ["Por que o comércio era importante?", "O que os fenícios deixaram como legado?", "Onde atuavam?"]],
+            "Persas": ["Os persas formaram um grande império com forte organização administrativa.", "Exemplo: estradas reais facilitavam comunicação e controle.", ["O que foi o Império Persa?", "Explique o uso das estradas reais", "Cite uma característica da administração persa"]],
+            "Grécia Antiga": ["A Grécia Antiga destacou-se pela filosofia, política e cultura.", "Exemplo: Atenas e Esparta eram cidades-estado importantes.", ["Cite duas cidades gregas", "Qual a importância da Grécia?", "O que são cidades-estado?"]],
+            "Atenas e Esparta": ["Atenas valorizava participação política; Esparta priorizava a formação militar.", "Exemplo: eram modelos bem diferentes de sociedade.", ["Compare Atenas e Esparta", "Qual era mais militarizada?", "Qual valorizava mais a democracia?"]],
+            "Democracia ateniense": ["Em Atenas surgiu uma forma antiga de democracia.", "Exemplo: cidadãos participavam diretamente de decisões políticas.", ["O que é democracia?", "Quem podia participar em Atenas?", "Compare com a democracia atual"]],
+            "Filosofia grega": ["A filosofia grega buscou explicar o mundo pela razão.", "Exemplo: Sócrates, Platão e Aristóteles marcaram essa tradição.", ["Cite três filósofos gregos", "Explique a importância da filosofia", "O que diferencia filosofia e mito?"]],
+            "Roma Antiga": ["Roma passou por Monarquia, República e Império.", "Exemplo: tornou-se um dos maiores impérios da Antiguidade.", ["Cite os períodos de Roma", "Explique a importância do Senado", "O que foi a Pax Romana?"]],
+            "República Romana": ["Na República, o Senado teve grande poder político.", "Exemplo: decisões públicas eram influenciadas pelos patrícios.", ["O que era o Senado?", "Quem tinha mais poder na República?", "Explique uma característica desse período"]],
+            "Império Romano": ["No Império, Roma expandiu territórios e fortaleceu o poder do imperador.", "Exemplo: houve conquistas, estradas e grande exército.", ["O que caracterizou o Império?", "Por que o exército era importante?", "Cite uma obra ou símbolo romano"]],
+            "Queda de Roma": ["A queda do Império Romano do Ocidente ocorreu em 476.", "Exemplo: invasões bárbaras e crise interna contribuíram para isso.", ["Em que ano caiu Roma?", "Cite uma causa da queda", "Explique o que mudou depois"]],
+            "Feudalismo": ["Feudalismo foi o sistema econômico, social e político predominante na Idade Média.", "Exemplo: a sociedade era rural e hierarquizada.", ["O que eram feudos?", "Quem eram os servos?", "Cite uma característica do feudalismo"]],
+            "Igreja medieval": ["A Igreja teve grande poder político, cultural e religioso na Idade Média.", "Exemplo: influenciava reis e a vida cotidiana.", ["Por que a Igreja era poderosa?", "O que eram mosteiros?", "Explique a influência religiosa"]],
+            "Cruzadas": ["As Cruzadas foram expedições militares com motivação religiosa e política.", "Exemplo: envolveram cristãos e muçulmanos na disputa por lugares sagrados.", ["O que foram as Cruzadas?", "Quem participou?", "Cite uma consequência"]],
+            "Renascimento": ["O Renascimento valorizou arte, ciência e o ser humano.", "Exemplo: Leonardo da Vinci foi um nome importante.", ["O que foi o Renascimento?", "Cite um artista renascentista", "Explique o humanismo"]],
+            "Reforma Protestante": ["Foi um movimento religioso que criticou práticas da Igreja Católica.", "Exemplo: Martinho Lutero foi uma figura central.", ["Quem foi Lutero?", "O que a Reforma criticava?", "Cite uma consequência"]],
+            "Grandes Navegações": ["As Grandes Navegações ampliaram o contato entre continentes.", "Exemplo: Portugal e Espanha lideraram expedições marítimas.", ["Quais países lideraram?", "Cite um navegador", "Explique uma consequência para a América"]],
+            "Absolutismo": ["No absolutismo, os reis concentravam grande poder político.", "Exemplo: Luís XIV é símbolo desse modelo.", ["O que é absolutismo?", "Quem foi Luís XIV?", "Explique o Estado centralizado"]],
+            "Revolução Francesa": ["A Revolução Francesa derrubou a monarquia absolutista e defendeu liberdade, igualdade e fraternidade.", "Exemplo: começou em 1789.", ["Quando começou?", "Quais ideais defendia?", "O que mudou na França?"]],
+            "Independência dos EUA": ["As treze colônias inglesas declararam independência em 1776.", "Exemplo: a Constituição americana consolidou o novo país.", ["Em que ano ocorreu?", "O que foi criado depois?", "Cite uma importância histórica"]],
+            "Revolução Industrial": ["A Revolução Industrial transformou a produção com máquinas e fábricas.", "Exemplo: houve urbanização e expansão do capitalismo.", ["O que mudou com as fábricas?", "Como ficou o trabalho operário?", "Cite uma consequência social"]],
+            "Imperialismo": ["No século XIX, potências europeias dominaram partes da África e Ásia.", "Exemplo: o imperialismo ampliou disputas econômicas e políticas.", ["O que é imperialismo?", "Quais continentes foram dominados?", "Explique uma consequência"]],
+            "Primeira Guerra Mundial": ["A Primeira Guerra ocorreu entre 1914 e 1918 e envolveu grandes alianças.", "Exemplo: Tríplice Entente e Tríplice Aliança.", ["Quando ocorreu?", "Quais eram as alianças?", "Cite uma consequência"]],
+            "Segunda Guerra Mundial": ["A Segunda Guerra ocorreu entre 1939 e 1945 e foi o maior conflito do século XX.", "Exemplo: nazismo, fascismo e Holocausto marcaram esse período.", ["Quando ocorreu?", "Quem foi Hitler?", "O que foi o Holocausto?"]],
+            "Guerra Fria": ["Foi a disputa política, ideológica e tecnológica entre EUA e URSS.", "Exemplo: capitalismo versus socialismo.", ["Quais países lideravam os blocos?", "O que foi a corrida espacial?", "Explique o Muro de Berlim"]],
+            "Muro de Berlim": ["O muro dividiu Berlim durante a Guerra Fria.", "Exemplo: simbolizava a divisão entre bloco capitalista e socialista.", ["Por que foi construído?", "O que simbolizava?", "Quando caiu?"]],
+            "Globalização": ["Globalização é a intensificação das relações econômicas, culturais e tecnológicas entre países.", "Exemplo: internet e comércio internacional aproximam sociedades.", ["O que é globalização?", "Cite uma vantagem", "Cite um desafio"]],
+            "Revolução digital": ["A revolução digital transformou comunicação, trabalho e acesso à informação.", "Exemplo: internet e dispositivos móveis mudaram a vida cotidiana.", ["O que caracteriza a revolução digital?", "Cite um impacto positivo", "Cite um impacto negativo"]],
+            "Inteligência artificial no mundo contemporâneo": ["A inteligência artificial faz parte das transformações tecnológicas atuais.", "Exemplo: sistemas automáticos ajudam em pesquisa, saúde e comunicação.", ["O que é IA?", "Cite um uso atual", "Explique um desafio ético"]],
+            "Brasil Pré-Colonial": ["Antes da colonização portuguesa, o território era habitado por diversos povos indígenas.", "Exemplo: existiam diferentes culturas, línguas e formas de organização.", ["Quem vivia no Brasil antes da colonização?", "Cite uma característica indígena", "Explique a diversidade cultural"]],
+            "Brasil Colonial": ["No período colonial, Portugal explorou o território brasileiro economicamente.", "Exemplo: capitanias hereditárias e engenhos de açúcar foram importantes.", ["O que eram capitanias hereditárias?", "Qual produto foi importante?", "Quem controlava a colônia?"]],
+            "Escravidão no Brasil": ["A escravidão foi central na economia colonial e imperial do Brasil.", "Exemplo: milhões de africanos foram trazidos à força.", ["Explique a escravidão no Brasil", "Qual foi seu impacto social?", "Por que estudar esse tema é importante?"]],
+            "Independência do Brasil": ["O Brasil tornou-se independente em 1822.", "Exemplo: Dom Pedro I proclamou a independência.", ["Em que ano ocorreu?", "Quem proclamou?", "O que mudou politicamente?"]],
+            "Brasil Império": ["Após a independência, o Brasil tornou-se um império.", "Exemplo: Dom Pedro I e Dom Pedro II governaram nesse período.", ["Quem foram os imperadores?", "Cite uma característica do Império", "Explique o fim do período imperial"]],
+            "República Velha": ["Foi a fase inicial da República brasileira, marcada por coronelismo e poder regional.", "Exemplo: política do café com leite.", ["O que foi o coronelismo?", "Explique café com leite", "Cite uma característica da República Velha"]],
+            "Era Vargas": ["Getúlio Vargas teve forte influência política e econômica no Brasil.", "Exemplo: incentivou industrialização e legislação trabalhista.", ["Quem foi Vargas?", "O que mudou no trabalho?", "Cite uma marca da Era Vargas"]],
+            "Ditadura Militar no Brasil": ["A ditadura militar ocorreu entre 1964 e 1985.", "Exemplo: houve censura e repressão política.", ["Quando ocorreu?", "Explique a censura", "Como terminou esse período?"]],
+            "Constituição de 1988": ["A Constituição de 1988 consolidou a redemocratização do Brasil.", "Exemplo: garantiu direitos e fortaleceu a democracia.", ["Por que é importante?", "Quando foi criada?", "Cite um direito garantido"]],
+            "Brasil atual e democracia": ["O Brasil atual vive sob regime democrático.", "Exemplo: eleições e separação de poderes fazem parte desse sistema.", ["O que é democracia?", "Cite uma característica do Brasil atual", "Por que a participação cidadã é importante?"]]
+        },
+
+        ciencias: {
+            "O que é ciência": ["Ciência é um modo de investigar e explicar fenômenos do mundo com base em observação e evidências.", "Exemplo: estudar o crescimento de plantas por meio de experimentos.", ["Defina ciência", "Cite uma área científica", "Explique por que a ciência é importante"]],
+            "Observação científica": ["Observar é analisar atentamente um fenômeno ou situação.", "Exemplo: perceber mudanças em uma planta ao longo dos dias.", ["Observe um objeto e descreva", "Diga por que observar é importante", "Cite um fenômeno para observar"]],
+            "Hipóteses": ["Hipótese é uma explicação inicial que pode ser testada.", "Exemplo: se a planta receber mais luz, ela crescerá mais.", ["Crie uma hipótese simples", "Explique o que uma hipótese deve ter", "Diga como testá-la"]],
+            "Experimentos": ["Experimentos servem para testar hipóteses de forma organizada.", "Exemplo: comparar duas plantas em condições diferentes.", ["Explique o que é experimento", "Monte um experimento simples", "Diga o que deve ser controlado"]],
+            "Coleta de dados": ["Coletar dados é registrar informações de forma organizada.", "Exemplo: anotar medidas de crescimento todos os dias.", ["Explique o que são dados", "Cite um jeito de registrar dados", "Por que isso é importante?"]],
+            "Conclusão científica": ["A conclusão científica interpreta os resultados do experimento.", "Exemplo: dizer se a hipótese foi confirmada ou não.", ["Explique o que é conclusão", "Diga o que deve aparecer nela", "Analise um resultado fictício"]],
+            "Estrutura da Terra": ["A Terra é formada por crosta, manto e núcleo.", "Exemplo: a crosta é a camada mais externa.", ["Cite as camadas da Terra", "Qual é a mais externa?", "Explique a diferença entre manto e núcleo"]],
+            "Rochas e minerais": ["Rochas são formadas por minerais e podem ser ígneas, sedimentares ou metamórficas.", "Exemplo: granito é uma rocha ígnea.", ["Cite tipos de rocha", "Explique o que é mineral", "Dê um exemplo de rocha"]],
+            "Solo": ["Solo é a camada superficial da Terra onde plantas se desenvolvem.", "Exemplo: ele pode ser fértil ou pobre em nutrientes.", ["Explique como o solo se forma", "Cite tipos de solo", "O que é erosão?"]],
+            "Ciclo da água": ["A água circula na natureza por evaporação, condensação e precipitação.", "Exemplo: a água evapora, forma nuvens e cai como chuva.", ["Explique o ciclo da água", "O que é evaporação?", "O que é precipitação?"]],
+            "Atmosfera": ["Atmosfera é a camada de gases que envolve a Terra.", "Exemplo: ela protege o planeta e influencia o clima.", ["O que é atmosfera?", "Cite uma função da atmosfera", "Explique sua importância"]],
+            "Clima e tempo": ["Tempo é a condição momentânea da atmosfera; clima é o padrão ao longo do tempo.", "Exemplo: chuva hoje é tempo; clima tropical refere-se a muitos anos.", ["Diferencie clima e tempo", "Dê um exemplo de cada", "Explique por que essa diferença é importante"]],
+            "Fenômenos naturais": ["Fenômenos naturais incluem terremotos, vulcões, furacões e tornados.", "Exemplo: terremotos resultam do movimento das placas tectônicas.", ["Cite 3 fenômenos naturais", "Explique um deles", "Como eles podem afetar a sociedade?"]],
+            "Universo": ["Universo é o conjunto de tudo o que existe: matéria, energia, espaço e tempo.", "Exemplo: galáxias, estrelas e planetas fazem parte do universo.", ["Defina universo", "Cite 3 elementos do universo", "Explique sua dimensão"]],
+            "Galáxias": ["Galáxias são grandes conjuntos de estrelas, poeira e gases.", "Exemplo: a Via Láctea é a galáxia onde está o Sistema Solar.", ["O que é uma galáxia?", "Qual é a nossa galáxia?", "Cite outra galáxia famosa"]],
+            "Sistema Solar": ["O Sistema Solar é formado pelo Sol e corpos que giram ao seu redor.", "Exemplo: planetas, asteroides e cometas orbitam o Sol.", ["Cite os planetas", "Qual é a estrela do sistema?", "O que são planetas anões?"]],
+            "Movimentos da Terra": ["A Terra realiza rotação e translação.", "Exemplo: rotação gera dia e noite; translação participa das estações.", ["Defina rotação", "Defina translação", "Explique suas consequências"]],
+            "Estações do ano": ["As estações resultam da inclinação da Terra e de sua translação.", "Exemplo: verão, outono, inverno e primavera.", ["Cite as estações", "Por que elas acontecem?", "Qual movimento está relacionado?"]],
+            "Fases da Lua": ["As fases da Lua dependem da posição relativa entre Sol, Terra e Lua.", "Exemplo: nova, crescente, cheia e minguante.", ["Cite as fases da Lua", "Explique por que mudam", "Qual fase está totalmente iluminada?"]],
+            "Eclipses": ["Eclipses ocorrem quando um astro encobre outro.", "Exemplo: eclipse solar ocorre quando a Lua fica entre o Sol e a Terra.", ["Diferencie eclipse solar e lunar", "Explique quando ocorre", "Faça um desenho simples"]],
+            "Origem da vida": ["A origem da vida é estudada por diferentes teorias científicas.", "Exemplo: cientistas investigam condições antigas da Terra.", ["O que se estuda na origem da vida?", "Cite uma teoria", "Por que esse tema é importante?"]],
+            "Evolução": ["Evolução explica mudanças nos seres vivos ao longo do tempo.", "Exemplo: espécies adaptam-se ao ambiente.", ["Defina evolução", "Explique adaptação", "Dê um exemplo de mudança evolutiva"]],
+            "Células": ["Células são a unidade básica da vida.", "Exemplo: todos os seres vivos são formados por células.", ["O que é célula?", "Diferencie célula animal e vegetal", "Cite uma organela"]],
+            "DNA e genética": ["DNA guarda informações hereditárias dos seres vivos.", "Exemplo: características podem ser transmitidas entre gerações.", ["O que é DNA?", "O que são genes?", "Explique hereditariedade"]],
+            "Classificação dos seres vivos": ["Os seres vivos são classificados em grupos com características comuns.", "Exemplo: reinos e domínios organizam essa classificação.", ["O que é taxonomia?", "Cite os reinos", "Explique por que classificar é útil"]],
+            "Plantas": ["As plantas realizam fotossíntese e têm partes com funções específicas.", "Exemplo: raiz, caule, folhas, flores e frutos.", ["O que é fotossíntese?", "Cite partes da planta", "Explique a função da raiz"]],
+            "Animais": ["Os animais podem ser vertebrados ou invertebrados.", "Exemplo: peixes são vertebrados; insetos são invertebrados.", ["Diferencie vertebrados e invertebrados", "Cite 3 exemplos de animais", "Explique uma adaptação animal"]],
+            "Corpo humano": ["O corpo humano é formado por vários sistemas que trabalham juntos.", "Exemplo: digestório, respiratório e circulatório.", ["Cite 4 sistemas do corpo", "Explique a função do sistema respiratório", "O que faz o sistema digestório?"]],
+            "Saúde e vacinas": ["Saúde depende de alimentação, higiene, atividade física e prevenção.", "Exemplo: vacinas ajudam o corpo a se proteger contra doenças.", ["Por que vacinas são importantes?", "Cite hábitos saudáveis", "Explique o papel da higiene"]],
+            "Ecossistemas": ["Ecossistema é o conjunto de seres vivos e ambiente em interação.", "Exemplo: uma floresta é um ecossistema.", ["Defina ecossistema", "Cite um exemplo", "Explique interação entre seres e ambiente"]],
+            "Cadeia alimentar": ["A cadeia alimentar mostra relações de alimentação entre os seres vivos.", "Exemplo: capim → coelho → raposa.", ["Monte uma cadeia alimentar", "O que são produtores?", "Quem são consumidores?"]],
+            "Relações ecológicas": ["As relações ecológicas podem ser harmônicas ou desarmônicas.", "Exemplo: mutualismo e parasitismo.", ["Cite duas relações ecológicas", "Explique mutualismo", "Explique parasitismo"]],
+            "Biomas": ["Biomas são grandes conjuntos de ecossistemas com clima e vegetação semelhantes.", "Exemplo: cerrado, floresta e tundra.", ["O que é bioma?", "Cite 3 biomas", "Explique uma característica de um bioma"]],
+            "Impacto ambiental": ["Impacto ambiental é toda alteração no ambiente causada por ações naturais ou humanas.", "Exemplo: poluição e desmatamento.", ["Cite 3 impactos ambientais", "Explique o desmatamento", "Diga como reduzir impactos"]],
+            "Sustentabilidade": ["Sustentabilidade é usar recursos de forma responsável para o presente e o futuro.", "Exemplo: economizar água e energia.", ["O que é sustentabilidade?", "Cite práticas sustentáveis", "Explique sua importância"]],
+            "Reciclagem": ["Reciclagem transforma materiais usados em novos produtos.", "Exemplo: papel e plástico podem ser reaproveitados.", ["O que pode ser reciclado?", "Explique a importância da reciclagem", "Cite uma atitude sustentável"]],
+            "Matéria": ["Matéria é tudo o que tem massa e ocupa lugar no espaço.", "Exemplo: água, ar e pedra são matéria.", ["Defina matéria", "Cite 3 exemplos", "O que é massa?"]],
+            "Estados físicos da matéria": ["A matéria pode estar nos estados sólido, líquido, gasoso e plasma.", "Exemplo: gelo, água líquida e vapor.", ["Cite os estados físicos", "Dê um exemplo de cada", "Explique uma mudança de estado"]],
+            "Mudanças físicas e químicas": ["Mudança física altera a forma; mudança química forma novas substâncias.", "Exemplo: gelo derretendo é física; ferro enferrujando é química.", ["Diferencie os dois tipos", "Dê um exemplo de cada", "Classifique situações"]],
+            "Átomos": ["Átomo é a unidade básica da matéria.", "Exemplo: prótons, nêutrons e elétrons formam o átomo.", ["O que é átomo?", "Cite suas partículas", "Onde ficam os elétrons?"]],
+            "Tabela periódica": ["A tabela periódica organiza os elementos químicos.", "Exemplo: nela encontramos metais, não metais e gases nobres.", ["O que a tabela organiza?", "Cite um metal", "Cite um gás nobre"]],
+            "Ligações químicas": ["Ligações químicas unem átomos para formar substâncias.", "Exemplo: ligação iônica e covalente.", ["Cite tipos de ligação", "Explique uma delas", "Dê um exemplo simples"]],
+            "Reações químicas": ["Reações químicas transformam reagentes em produtos.", "Exemplo: combustão é uma reação química.", ["Defina reagente e produto", "Cite uma reação", "Explique o balanceamento"]],
+            "Soluções": ["Solução é uma mistura homogênea de soluto e solvente.", "Exemplo: sal dissolvido em água.", ["O que é soluto?", "O que é solvente?", "Dê um exemplo de solução"]],
+            "Movimento": ["Movimento é a mudança de posição de um corpo ao longo do tempo.", "Exemplo: um carro andando na estrada.", ["Defina movimento", "Cite um exemplo", "O que é trajetória?"]],
+            "Velocidade e aceleração": ["Velocidade indica rapidez do movimento; aceleração indica mudança na velocidade.", "Exemplo: um carro pode aumentar a velocidade ao arrancar.", ["Defina velocidade", "Defina aceleração", "Dê um exemplo de cada"]],
+            "Força e gravidade": ["Força altera o movimento e gravidade atrai corpos para a Terra.", "Exemplo: ao soltar um objeto, ele cai por causa da gravidade.", ["O que é força?", "O que é gravidade?", "Dê um exemplo de cada"]],
+            "Leis de Newton": ["As leis de Newton explicam o movimento e as forças.", "Exemplo: um corpo em repouso tende a permanecer em repouso.", ["Cite a 1ª lei", "Cite a 2ª lei", "Dê um exemplo da 3ª lei"]],
+            "Energia": ["Energia é a capacidade de realizar trabalho ou causar transformações.", "Exemplo: energia elétrica acende uma lâmpada.", ["Defina energia", "Cite tipos de energia", "Explique uma transformação de energia"]],
+            "Calor e temperatura": ["Temperatura mede agitação das partículas; calor é energia em trânsito.", "Exemplo: uma panela quente transfere calor.", ["Diferencie calor e temperatura", "Dê um exemplo", "Explique o que é condução"]],
+            "Ondas, som e luz": ["Ondas transportam energia; som e luz são exemplos importantes.", "Exemplo: som precisa de meio material; luz pode se propagar no vácuo.", ["Defina onda", "Explique a diferença entre som e luz", "Cite uma característica da luz"]],
+            "Eletricidade": ["Eletricidade envolve cargas elétricas, corrente, tensão e resistência.", "Exemplo: um circuito elétrico permite acender uma lâmpada.", ["O que é corrente elétrica?", "O que é tensão?", "O que é resistência?"]],
+            "Magnetismo": ["Magnetismo está relacionado a ímãs e campos magnéticos.", "Exemplo: a bússola funciona por causa do campo magnético da Terra.", ["O que é campo magnético?", "Cite um uso do magnetismo", "Explique o que é eletromagnetismo"]],
+            "Biotecnologia": ["Biotecnologia usa seres vivos ou partes deles para criar produtos e soluções.", "Exemplo: produção de vacinas.", ["O que é biotecnologia?", "Cite uma aplicação", "Explique sua importância"]],
+            "Engenharia genética": ["Engenharia genética modifica genes de organismos.", "Exemplo: produção de alimentos transgênicos.", ["O que é engenharia genética?", "Cite uma aplicação", "Explique um debate ético"]],
+            "Nanotecnologia": ["Nanotecnologia trabalha com estruturas muito pequenas, em escala nanométrica.", "Exemplo: novos materiais e aplicações médicas.", ["O que é nanotecnologia?", "Cite um uso", "Explique por que ela é importante"]],
+            "Inteligência artificial na ciência": ["IA auxilia análises, previsões e processamento de grandes volumes de dados.", "Exemplo: identificar padrões em exames médicos.", ["Como a IA ajuda a ciência?", "Cite um uso", "Explique um cuidado ético"]],
+            "Medicina moderna": ["A medicina moderna usa tecnologia, vacinas, exames e pesquisas para prevenir e tratar doenças.", "Exemplo: exames de imagem ajudam no diagnóstico.", ["Cite avanços da medicina", "Explique a importância das vacinas", "Dê um exemplo de tecnologia médica"]],
+            "Exploração espacial": ["A exploração espacial busca compreender o universo e desenvolver tecnologia.", "Exemplo: satélites e missões a outros planetas.", ["O que é exploração espacial?", "Cite uma missão ou equipamento", "Explique sua importância"]]
+        }
+    };
+
+    let areaBanco = banco[area] || {};
+    let dado = areaBanco[topico];
+
+    if(!dado){
+        return "TÓPICO: " + topico + "\n\n📘 EXPLICAÇÃO\nConteúdo em desenvolvimento.\n\n✅ EXEMPLO\nExemplo em desenvolvimento.\n\n📝 EXERCÍCIOS\n1) Pesquise sobre o tema.\n2) Escreva um exemplo.\n3) Resolva uma atividade relacionada.";
+    }
+
+    let texto = "TÓPICO: " + topico + "\n\n";
+    texto += "📘 EXPLICAÇÃO\n" + dado[0] + "\n\n";
+    texto += "✅ EXEMPLO\n" + dado[1] + "\n\n";
+    texto += "📝 EXERCÍCIOS\n";
+    dado[2].forEach((ex, i) => texto += (i+1) + ") " + ex + "\n");
+    return texto;
+}
+</script>
+
+</body>
+</html>
