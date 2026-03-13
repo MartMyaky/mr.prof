@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laboratório Educacional PRO</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+body{
+    font-family:Arial, sans-serif;
+    background:linear-gradient(180deg,#0b1e34,#102845 40%,#0f2138);
+    color:white;
+}
+header{
+    background:linear-gradient(135deg,#142a46,#1e3c64);
+    padding:28px 20px;
+    font-size:32px;
+    text-align:center;
+    font-weight:bold;
+    box-shadow:0 4px 16px rgba(0,0,0,.3);
+}
+.subheader{
+    text-align:center;
+    padding:10px 20px 0;
+    color:#cfe3ff;
+    font-size:15px;
+}
+.container{
+    max-width:1400px;
+    margin:auto;
+    padding:25px;
+}
+.section{
+    margin-top:28px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.18);
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+    gap:20px;
+}
+h2{
+    margin-bottom:15px;
+    font-size:25px;
+}
+h3{
+    margin-bottom:12px;
+    font-size:18px;
+    color:#fff;
+}
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:10px;
+    background:#2a7fff;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    margin:5px 4px 0 0;
+    transition:.2s;
+}
+button:hover{
+    background:#1664da;
+    transform:translateY(-1px);
+}
+select,input,textarea{
+    width:100%;
+    padding:10px;
+    margin:6px 0;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    font-size:15px;
+}
+textarea{
+    resize:vertical;
+    min-height:90px;
+}
+.output{
+    background:white;
+    color:black;
+    padding:15px;
+    border-radius:12px;
+    margin-top:15px;
+    white-space:pre-wrap;
+    min-height:120px;
+    line-height:1.55;
+}
+canvas{
+    margin-top:15px;
+    background:white;
+    border-radius:12px;
+    max-width:100%;
+    border:1px solid #d8e3f3;
+}
+.lista-recursos{
+    background:rgba(255,255,255,0.07);
+    padding:18px;
+    border-radius:14px;
+    line-height:1.8;
+    border:1px solid rgba(255,255,255,0.08);
+}
+.lista-recursos h3{
+    margin-top:0;
+    margin-bottom:12px;
+    color:#ffffff;
+    font-size:20px;
+}
+.badge{
+    display:inline-block;
+    background:linear-gradient(135deg,#1f4ea3,#2a7fff);
+    padding:7px 12px;
+    border-radius:999px;
+    margin:4px 4px 0 0;
+    font-size:13px;
+    color:white;
+    box-shadow:0 3px 8px rgba(0,0,0,.18);
+    cursor:pointer;
+    user-select:none;
+}
+.badge:hover{
+    filter:brightness(1.08);
+    transform:translateY(-1px);
+}
+.small{
+    font-size:14px;
+    opacity:.92;
+}
+.top-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:10px;
+}
+.info-box{
+    background:rgba(20,42,70,.7);
+    border:1px solid rgba(255,255,255,.08);
+    padding:12px;
+    border-radius:12px;
+    color:#dce9ff;
+    margin-top:10px;
+}
+.highlight{
+    color:#ffe98d;
+    font-weight:bold;
+}
+.footer-note{
+    margin-top:18px;
+    font-size:13px;
+    color:#b9d1ef;
+}
+@media (max-width:700px){
+    header{font-size:25px;}
+    h2{font-size:22px;}
+}
+</style>
+</head>
+<body>
+
+<header>🧠 Laboratório Educacional para Professores</header>
+<div class="subheader">Plataforma educacional com geradores, matemática, planejamento, avaliação, apoio pedagógico e ferramentas automáticas</div>
+
+<div class="container">
+
+    <div class="section">
+        <h2>📚 Recursos disponíveis no sistema</h2>
+        <div class="lista-recursos">
+            <div><strong>📚 Geradores de Atividades:</strong> matemática, português, ciências, história, geografia, inglês, física, química, biologia, filosofia, sociologia, arte, lista de exercícios, tarefas de casa, atividades diagnósticas, revisão e reforço escolar.</div>
+            <div><strong>📑 Avaliação:</strong> provas, simulados, simulador ENEM, simulador vestibular, banco de questões, gabarito, correção automática, rubrica e avaliação diagnóstica.</div>
+            <div><strong>🧠 Planejamento do Professor:</strong> plano de aula, sequência didática, planejamento semanal, anual, projetos, plano interdisciplinar, BNCC e objetivos de aprendizagem.</div>
+            <div><strong>📚 BNCC:</strong> habilidades BNCC, conteúdo + BNCC, objetivos e sugestões de atividades.</div>
+            <div><strong>🧩 Atividades Lúdicas:</strong> caça-palavras, cruzadinhas, memória, quiz, bingo, enigmas e gamificação.</div>
+            <div><strong>🎮 Jogos Educativos:</strong> quiz interativo, perguntas, matemática, vocabulário, lógica, história e ciência.</div>
+            <div><strong>📊 Conteúdo Visual:</strong> slides, mapas mentais, resumos, esquemas, diagramas e gráficos.</div>
+            <div><strong>🧪 Laboratório Virtual:</strong> experimentos, simulações científicas, atividades de laboratório, física e química experimental.</div>
+            <div><strong>📄 Documentos Automáticos:</strong> exportar PDF, Word, slides, imprimir atividades e criar apostilas.</div>
+            <div><strong>🧠 Apoio ao Professor:</strong> perguntas para aula, exemplos, analogias, sugestões pedagógicas, explicações simplificadas e debate.</div>
+            <div><strong>📚 Apoio ao Aluno:</strong> explicador de conteúdo, resumo automático, exercícios resolvidos, passo a passo e guia de estudo.</div>
+            <div><strong>📈 Ferramentas Matemáticas:</strong> gráficos, calculadora científica, equações, potência, frações, porcentagem, trigonometria.</div>
+            <div><strong>🧑‍🏫 Ferramentas de Sala de Aula:</strong> sorteador de alunos, cronômetro de atividade, grupos, roleta e quadro digital.</div>
+            <div><strong>🌎 Outras:</strong> redação, temas, interpretação de texto, tradução e dicionário.</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🧮 Conteúdos de Matemática por Progressão</h2>
+        <div class="info-box">
+            Clique em qualquer tópico abaixo para gerar automaticamente <span class="highlight">explicação + exemplo + exercícios</span>.
+        </div>
+
+        <div class="grid" style="margin-top:18px;">
+
+            <div class="lista-recursos">
+                <h3>1️⃣ Matemática Inicial (1º ao 5º ano)</h3>
+                <span class="badge" onclick="abrirTopico('Números naturais')">Números naturais</span>
+                <span class="badge" onclick="abrirTopico('Sequência numérica')">Sequência numérica</span>
+                <span class="badge" onclick="abrirTopico('Antecessor e sucessor')">Antecessor e sucessor</span>
+                <span class="badge" onclick="abrirTopico('Comparação de números')">Comparação de números</span>
+                <span class="badge" onclick="abrirTopico('Par e ímpar')">Par e ímpar</span>
+                <span class="badge" onclick="abrirTopico('Unidade, dezena, centena e milhar')">Unidade / Dezena / Centena / Milhar</span>
+                <span class="badge" onclick="abrirTopico('Adição')">Adição</span>
+                <span class="badge" onclick="abrirTopico('Subtração')">Subtração</span>
+                <span class="badge" onclick="abrirTopico('Multiplicação')">Multiplicação</span>
+                <span class="badge" onclick="abrirTopico('Divisão')">Divisão</span>
+                <span class="badge" onclick="abrirTopico('Problemas matemáticos')">Problemas matemáticos</span>
+                <span class="badge" onclick="abrirTopico('Frações introdutórias')">Frações</span>
+                <span class="badge" onclick="abrirTopico('Números decimais')">Números decimais</span>
+                <span class="badge" onclick="abrirTopico('Dinheiro')">Dinheiro</span>
+                <span class="badge" onclick="abrirTopico('Medidas de comprimento')">Comprimento</span>
+                <span class="badge" onclick="abrirTopico('Medidas de massa')">Massa</span>
+                <span class="badge" onclick="abrirTopico('Medidas de tempo')">Tempo</span>
+                <span class="badge" onclick="abrirTopico('Temperatura')">Temperatura</span>
+                <span class="badge" onclick="abrirTopico('Figuras geométricas básicas')">Figuras geométricas</span>
+                <span class="badge" onclick="abrirTopico('Tabelas e gráfico de barras')">Tabelas e gráficos</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>2️⃣ Matemática Fundamental II</h3>
+                <span class="badge" onclick="abrirTopico('Conjuntos numéricos')">Conjuntos numéricos</span>
+                <span class="badge" onclick="abrirTopico('Potenciação')">Potenciação</span>
+                <span class="badge" onclick="abrirTopico('Radiciação')">Radiciação</span>
+                <span class="badge" onclick="abrirTopico('Expressões numéricas')">Expressões numéricas</span>
+                <span class="badge" onclick="abrirTopico('Divisibilidade')">Divisibilidade</span>
+                <span class="badge" onclick="abrirTopico('Múltiplos e divisores')">Múltiplos e divisores</span>
+                <span class="badge" onclick="abrirTopico('MMC e MDC')">MMC e MDC</span>
+                <span class="badge" onclick="abrirTopico('Frações completas')">Frações completas</span>
+                <span class="badge" onclick="abrirTopico('Números decimais e operações')">Decimais</span>
+                <span class="badge" onclick="abrirTopico('Razão e proporção')">Razão e proporção</span>
+                <span class="badge" onclick="abrirTopico('Regra de três simples')">Regra de três simples</span>
+                <span class="badge" onclick="abrirTopico('Regra de três composta')">Regra de três composta</span>
+                <span class="badge" onclick="abrirTopico('Porcentagem')">Porcentagem</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>3️⃣ Álgebra</h3>
+                <span class="badge" onclick="abrirTopico('Expressões algébricas')">Expressões algébricas</span>
+                <span class="badge" onclick="abrirTopico('Variáveis e termos algébricos')">Variáveis</span>
+                <span class="badge" onclick="abrirTopico('Monômios e polinômios')">Monômios e polinômios</span>
+                <span class="badge" onclick="abrirTopico('Soma e subtração de polinômios')">Soma e subtração</span>
+                <span class="badge" onclick="abrirTopico('Multiplicação algébrica')">Multiplicação algébrica</span>
+                <span class="badge" onclick="abrirTopico('Produtos notáveis')">Produtos notáveis</span>
+                <span class="badge" onclick="abrirTopico('Fatoração')">Fatoração</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>4️⃣ Equações</h3>
+                <span class="badge" onclick="abrirTopico('Equação do 1º grau')">Equação do 1º grau</span>
+                <span class="badge" onclick="abrirTopico('Problemas com equações')">Problemas com equações</span>
+                <span class="badge" onclick="abrirTopico('Sistemas de equações')">Sistemas de equações</span>
+                <span class="badge" onclick="abrirTopico('Equação do 2º grau')">Equação do 2º grau</span>
+                <span class="badge" onclick="abrirTopico('Fórmula de Bhaskara')">Bhaskara</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>5️⃣ Funções</h3>
+                <span class="badge" onclick="abrirTopico('Função afim')">Função afim</span>
+                <span class="badge" onclick="abrirTopico('Coeficiente angular e linear')">Coeficientes</span>
+                <span class="badge" onclick="abrirTopico('Função quadrática')">Função quadrática</span>
+                <span class="badge" onclick="abrirTopico('Parábola, vértice e raízes')">Parábola / vértice / raízes</span>
+                <span class="badge" onclick="abrirTopico('Função exponencial')">Função exponencial</span>
+                <span class="badge" onclick="abrirTopico('Função logarítmica')">Função logarítmica</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>6️⃣ Geometria Plana</h3>
+                <span class="badge" onclick="abrirTopico('Ângulos')">Ângulos</span>
+                <span class="badge" onclick="abrirTopico('Triângulos')">Triângulos</span>
+                <span class="badge" onclick="abrirTopico('Teorema de Pitágoras')">Pitágoras</span>
+                <span class="badge" onclick="abrirTopico('Polígonos')">Polígonos</span>
+                <span class="badge" onclick="abrirTopico('Circunferência')">Circunferência</span>
+                <span class="badge" onclick="abrirTopico('Área do círculo')">Área do círculo</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>7️⃣ Geometria Espacial</h3>
+                <span class="badge" onclick="abrirTopico('Cubo')">Cubo</span>
+                <span class="badge" onclick="abrirTopico('Prisma')">Prisma</span>
+                <span class="badge" onclick="abrirTopico('Pirâmide')">Pirâmide</span>
+                <span class="badge" onclick="abrirTopico('Cilindro')">Cilindro</span>
+                <span class="badge" onclick="abrirTopico('Cone')">Cone</span>
+                <span class="badge" onclick="abrirTopico('Esfera')">Esfera</span>
+                <span class="badge" onclick="abrirTopico('Volume da esfera')">Volume da esfera</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>8️⃣ Trigonometria</h3>
+                <span class="badge" onclick="abrirTopico('Seno')">Seno</span>
+                <span class="badge" onclick="abrirTopico('Cosseno')">Cosseno</span>
+                <span class="badge" onclick="abrirTopico('Tangente')">Tangente</span>
+                <span class="badge" onclick="abrirTopico('Identidade fundamental da trigonometria')">Identidade fundamental</span>
+                <span class="badge" onclick="abrirTopico('Lei dos senos')">Lei dos senos</span>
+                <span class="badge" onclick="abrirTopico('Lei dos cossenos')">Lei dos cossenos</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>9️⃣ Estatística</h3>
+                <span class="badge" onclick="abrirTopico('Média aritmética')">Média aritmética</span>
+                <span class="badge" onclick="abrirTopico('Média ponderada')">Média ponderada</span>
+                <span class="badge" onclick="abrirTopico('Mediana')">Mediana</span>
+                <span class="badge" onclick="abrirTopico('Moda')">Moda</span>
+                <span class="badge" onclick="abrirTopico('Gráficos estatísticos')">Gráficos</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>🔟 Probabilidade</h3>
+                <span class="badge" onclick="abrirTopico('Espaço amostral')">Espaço amostral</span>
+                <span class="badge" onclick="abrirTopico('Eventos')">Eventos</span>
+                <span class="badge" onclick="abrirTopico('Probabilidade simples')">Probabilidade simples</span>
+                <span class="badge" onclick="abrirTopico('Fórmula da probabilidade')">P(A)=n(A)/n(S)</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>1️⃣1️⃣ Matemática Financeira</h3>
+                <span class="badge" onclick="abrirTopico('Juros simples')">Juros simples</span>
+                <span class="badge" onclick="abrirTopico('Juros compostos')">Juros compostos</span>
+                <span class="badge" onclick="abrirTopico('Montante em juros compostos')">M=C(1+i)^t</span>
+            </div>
+
+            <div class="lista-recursos">
+                <h3>1️⃣2️⃣ Geometria Analítica</h3>
+                <span class="badge" onclick="abrirTopico('Plano cartesiano')">Plano cartesiano</span>
+                <span class="badge" onclick="abrirTopico('Distância entre dois pontos')">Distância entre dois pontos</span>
+                <span class="badge" onclick="abrirTopico('Equação da reta')">Equação da reta</span>
+                <span class="badge" onclick="abrirTopico('Equação da circunferência')">Equação da circunferência</span>
+            </div>
+
+        </div>
+
+        <div class="output" id="mathProgressOutput" style="margin-top:20px;">Clique em um tópico de matemática para gerar conteúdo automaticamente.</div>
+    </div>
+
+    <div class="grid">
+
+        <div class="section">
+            <h2>📚 Gerador de Atividades</h2>
+            <select id="materia">
+                <option>Matemática</option>
+                <option>Português</option>
+                <option>História</option>
+                <option>Geografia</option>
+                <option>Ciências</option>
+                <option>Biologia</option>
+                <option>Física</option>
+                <option>Química</option>
+                <option>Inglês</option>
+                <option>Filosofia</option>
+                <option>Sociologia</option>
+                <option>Arte</option>
+            </select>
+
+            <select id="tipoAtividade">
+                <option>Lista de exercícios</option>
+                <option>Tarefa de casa</option>
+                <option>Atividade diagnóstica</option>
+                <option>Revisão de conteúdo</option>
+                <option>Reforço escolar</option>
+            </select>
+
+            <select id="qtd">
+                <option>5</option>
+                <option>10</option>
+                <option>15</option>
+            </select>
+
+            <button onclick="gerarAtividade()">Gerar atividade</button>
+            <div class="output" id="saida"></div>
+        </div>
+
+        <div class="section">
+            <h2>📑 Avaliação</h2>
+            <select id="tipoAvaliacao">
+                <option>Prova</option>
+                <option>Simulado</option>
+                <option>Simulador ENEM</option>
+                <option>Simulador Vestibular</option>
+                <option>Avaliação Diagnóstica</option>
+            </select>
+            <input id="temaAvaliacao" placeholder="Tema da avaliação">
+            <button onclick="gerarAvaliacao()">Gerar avaliação</button>
+            <button onclick="gerarGabarito()">Gerar gabarito</button>
+            <div class="output" id="avaliacao"></div>
+        </div>
+
+        <div class="section">
+            <h2>🧠 Planejamento do Professor</h2>
+            <select id="tipoPlanejamento">
+                <option>Plano de aula</option>
+                <option>Sequência didática</option>
+                <option>Planejamento semanal</option>
+                <option>Planejamento anual</option>
+                <option>Projeto escolar</option>
+                <option>Plano interdisciplinar</option>
+                <option>Planejamento BNCC</option>
+            </select>
+            <input id="tema" placeholder="Tema da aula ou planejamento">
+            <button onclick="plano()">Gerar planejamento</button>
+            <div class="output" id="plano"></div>
+        </div>
+
+        <div class="section">
+            <h2>📚 BNCC</h2>
+            <input id="conteudoBncc" placeholder="Conteúdo / tema">
+            <button onclick="gerarBNCC()">Gerar BNCC</button>
+            <div class="output" id="bncc"></div>
+        </div>
+
+        <div class="section">
+            <h2>🧩 Atividades Lúdicas</h2>
+            <input id="palavras" placeholder="Ex: escola, professor, aluno">
+            <button onclick="gerarCaca()">Caça-palavras</button>
+            <button onclick="gerarCruzadinha()">Cruzadinha</button>
+            <button onclick="gerarMemoria()">Jogo da memória</button>
+            <button onclick="gerarBingo()">Bingo educativo</button>
+            <div class="output" id="caca"></div>
+        </div>
+
+        <div class="section">
+            <h2>🎮 Jogos Educativos</h2>
+            <button onclick="quiz()">Quiz interativo</button>
+            <button onclick="jogoPerguntas()">Jogo de perguntas</button>
+            <button onclick="jogoLogica()">Jogo de lógica</button>
+            <div class="output" id="quiz"></div>
+        </div>
+
+        <div class="section">
+            <h2>📊 Conteúdo Visual</h2>
+            <input id="temaVisual" placeholder="Tema para resumo / slide / mapa mental">
+            <button onclick="gerarSlides()">Gerar slides</button>
+            <button onclick="gerarMapaMental()">Mapa mental</button>
+            <button onclick="gerarResumo()">Resumo</button>
+            <div class="output" id="visual"></div>
+        </div>
+
+        <div class="section">
+            <h2>🧪 Laboratório Virtual</h2>
+            <select id="tipoExperimento">
+                <option>Ciências</option>
+                <option>Física experimental</option>
+                <option>Química experimental</option>
+            </select>
+            <button onclick="gerarExperimento()">Gerar experimento</button>
+            <div class="output" id="lab"></div>
+        </div>
+
+        <div class="section">
+            <h2>📚 Apoio ao Professor</h2>
+            <input id="temaProfessor" placeholder="Tema da aula">
+            <button onclick="gerarPerguntasAula()">Perguntas para aula</button>
+            <button onclick="gerarAnalogias()">Analogias</button>
+            <button onclick="gerarSugestoes()">Sugestões pedagógicas</button>
+            <div class="output" id="apoioProfessor"></div>
+        </div>
+
+        <div class="section">
+            <h2>📚 Apoio ao Aluno</h2>
+            <input id="temaAluno" placeholder="Conteúdo para explicação">
+            <button onclick="explicarConteudo()">Explicar conteúdo</button>
+            <button onclick="gerarExResolvido()">Exercício resolvido</button>
+            <button onclick="gerarGuiaEstudo()">Guia de estudo</button>
+            <div class="output" id="apoioAluno"></div>
+        </div>
+
+        <div class="section">
+            <h2>📈 Ferramentas Matemáticas</h2>
+            <input id="num1" placeholder="Número 1">
+            <input id="num2" placeholder="Número 2">
+            <input id="num3" placeholder="Número 3">
+            <button onclick="gerarGrafico()">Gerar gráfico</button>
+            <button onclick="resolverEquacao()">Resolver equação simples</button>
+            <button onclick="calcularPorcentagem()">Porcentagem</button>
+            <canvas id="grafico" width="420" height="240"></canvas>
+            <div class="output" id="matematica"></div>
+        </div>
+
+        <div class="section">
+            <h2>🧠 IA Educacional</h2>
+            <input id="temaIA" placeholder="Tema para geração automática">
+            <button onclick="iaAtividade()">Gerar atividade</button>
+            <button onclick="iaExplicacao()">Gerar explicação</button>
+            <button onclick="iaProjeto()">Gerar projeto</button>
+            <div class="output" id="ia"></div>
+        </div>
+
+        <div class="section">
+            <h2>🧑‍🏫 Sala de Aula</h2>
+            <input id="listaAlunos" placeholder="Ex: Ana, João, Pedro, Maria">
+            <button onclick="sortearAluno()">Sortear aluno</button>
+            <button onclick="gerarGrupos()">Gerar grupos</button>
+            <button onclick="roletaPergunta()">Roleta de perguntas</button>
+            <div class="output" id="sala"></div>
+        </div>
+
+        <div class="section">
+            <h2>📚 Ferramentas de Estudo</h2>
+            <input id="temaEstudo" placeholder="Tema de estudo">
+            <button onclick="gerarFlashcards()">Flashcards</button>
+            <button onclick="gerarRevisao()">Revisão rápida</button>
+            <button onclick="gerarSimulado()">Simulado</button>
+            <div class="output" id="estudo"></div>
+        </div>
+
+        <div class="section">
+            <h2>🌎 Outras Ferramentas</h2>
+            <input id="temaExtra" placeholder="Tema ou texto">
+            <button onclick="gerarRedacao()">Gerar redação</button>
+            <button onclick="interpretacaoTexto()">Interpretação de texto</button>
+            <button onclick="traduzirTexto()">Tradução</button>
+            <button onclick="dicionario()">Dicionário</button>
+            <div class="output" id="extras"></div>
+        </div>
+
+        <div class="section">
+            <h2>📄 Exportar</h2>
+            <div class="small">Exporta o conteúdo da página para impressão ou PDF pelo navegador.</div>
+            <div class="top-actions">
+                <button onclick="exportar()">Exportar / PDF</button>
+                <button onclick="exportarWord()">Exportar Word</button>
+                <button onclick="imprimirAtividades()">Imprimir atividades</button>
+            </div>
+            <div class="output" id="documentos"></div>
+        </div>
+
+    </div>
+
+    <div class="footer-note">
+        Dica: você pode usar esse HTML como página única no seu site e depois separar cada seção em páginas diferentes, se quiser.
+    </div>
+</div>
+
+<script>
+function rand(n){
+    return Math.floor(Math.random()*n)+1;
+}
+
+function textoPadraoMateria(materia, i){
+    if(materia==="Matemática"){
+        let a=rand(20), b=rand(20);
+        return i+") "+a+" + "+b+" = ___";
+    }
+    if(materia==="Português"){
+        return i+") Escreva uma frase correta usando uma palavra do conteúdo estudado.";
+    }
+    if(materia==="História"){
+        return i+") Explique um fato histórico importante relacionado ao tema estudado.";
+    }
+    if(materia==="Geografia"){
+        return i+") Identifique uma característica geográfica importante.";
+    }
+    if(materia==="Ciências"){
+        return i+") Explique um fenômeno científico com suas palavras.";
+    }
+    if(materia==="Biologia"){
+        return i+") Descreva a função de uma estrutura dos seres vivos.";
+    }
+    if(materia==="Física"){
+        return i+") Resolva uma situação envolvendo movimento, força ou energia.";
+    }
+    if(materia==="Química"){
+        return i+") Identifique uma transformação física ou química.";
+    }
+    if(materia==="Inglês"){
+        return i+") Traduza a palavra ou frase para o inglês.";
+    }
+    if(materia==="Filosofia"){
+        return i+") Reflita sobre uma ideia filosófica em poucas linhas.";
+    }
+    if(materia==="Sociologia"){
+        return i+") Explique um aspecto importante da vida em sociedade.";
+    }
+    if(materia==="Arte"){
+        return i+") Produza uma atividade criativa baseada no tema artístico.";
+    }
+    return i+") Pergunta sobre "+materia;
+}
+
+function gerarAtividade(){
+    let materia=document.getElementById("materia").value;
+    let qtd=parseInt(document.getElementById("qtd").value);
+    let tipo=document.getElementById("tipoAtividade").value;
+
+    let texto=tipo.toUpperCase()+" - "+materia+"\n\n";
+    for(let i=1;i<=qtd;i++){
+        texto+=textoPadraoMateria(materia,i)+"\n";
+    }
+    document.getElementById("saida").textContent=texto;
+}
+
+function gerarAvaliacao(){
+    let tipo=document.getElementById("tipoAvaliacao").value;
+    let tema=document.getElementById("temaAvaliacao").value || "Conteúdo geral";
+
+    let texto=tipo.toUpperCase()+"\n\nTema: "+tema+"\n\n";
+    texto+="1) Questão objetiva sobre "+tema+"\nA) Alternativa 1\nB) Alternativa 2\nC) Alternativa 3\nD) Alternativa 4\n\n";
+    texto+="2) Questão dissertativa sobre "+tema+"\n\n";
+    texto+="3) Relacione conceitos estudados em "+tema+"\n\n";
+    texto+="4) Explique com suas palavras um ponto importante do tema.\n";
+    document.getElementById("avaliacao").textContent=texto;
+}
+
+function gerarGabarito(){
+    document.getElementById("avaliacao").textContent += "\n\nGABARITO SUGERIDO\n1) B\n2) Resposta pessoal com base no conteúdo\n3) Conferir relações corretas\n4) Avaliar clareza e domínio do tema";
+}
+
+function plano(){
+    let tema=document.getElementById("tema").value || "Tema não informado";
+    let tipo=document.getElementById("tipoPlanejamento").value;
+
+    let texto=tipo.toUpperCase()+"\n\n";
+    texto+="Tema: "+tema+"\n";
+    texto+="Objetivo: desenvolver aprendizagem sobre "+tema+".\n";
+    texto+="Metodologia: aula expositiva, participação oral, atividade prática e revisão.\n";
+    texto+="Recursos: quadro, caderno, material digital e atividades impressas.\n";
+    texto+="Avaliação: participação, exercício e verificação da aprendizagem.\n";
+    texto+="Tempo estimado: 2 aulas.\n";
+    document.getElementById("plano").textContent=texto;
+}
+
+function gerarBNCC(){
+    let tema=document.getElementById("conteudoBncc").value || "Conteúdo não informado";
+    let texto="BNCC - SUGESTÃO\n\n";
+    texto+="Conteúdo: "+tema+"\n";
+    texto+="Habilidade sugerida: desenvolver compreensão, análise e aplicação do conteúdo em situações reais.\n";
+    texto+="Objetivo de aprendizagem: identificar, interpretar e utilizar conhecimentos sobre "+tema+".\n";
+    texto+="Sugestão de atividade BNCC: leitura, debate, exercício prático e produção final.\n";
+    document.getElementById("bncc").textContent=texto;
+}
+
+function gerarCaca(){
+    let palavras=document.getElementById("palavras").value || "escola, professor, aluno";
+    document.getElementById("caca").textContent="CAÇA-PALAVRAS\n\nPalavras usadas:\n"+palavras+"\n\nDica: depois você pode montar a grade manual ou integrar uma versão automática.";
+}
+
+function gerarCruzadinha(){
+    let palavras=document.getElementById("palavras").value || "educação, aula, escola";
+    document.getElementById("caca").textContent="CRUZADINHA\n\nTermos base:\n"+palavras+"\n\nSugestão: crie pistas curtas para cada palavra e monte a cruzadinha.";
+}
+
+function gerarMemoria(){
+    document.getElementById("caca").textContent="JOGO DA MEMÓRIA\n\nPares sugeridos:\n- Palavra / significado\n- Capital / estado\n- Fórmula / resultado\n- Animal / classificação";
+}
+
+function gerarBingo(){
+    document.getElementById("caca").textContent="BINGO EDUCATIVO\n\nSugestão de uso:\n- números\n- palavras\n- sílabas\n- operações\n- conceitos estudados";
+}
+
+function quiz(){
+    let texto="QUIZ INTERATIVO\n\n1) Capital do Brasil?\nA) São Paulo\nB) Brasília\nC) Rio de Janeiro\n\n2) 5 + 7 = ?\nA) 10\nB) 11\nC) 12\n\n3) A água em estado sólido é:\nA) vapor\nB) gelo\nC) chuva";
+    document.getElementById("quiz").textContent=texto;
+}
+
+function jogoPerguntas(){
+    document.getElementById("quiz").textContent="JOGO DE PERGUNTAS\n\n- Pergunta relâmpago\n- Verdadeiro ou falso\n- Complete a frase\n- Pergunta bônus\n- Desafio final";
+}
+
+function jogoLogica(){
+    document.getElementById("quiz").textContent="JOGO DE LÓGICA\n\nDesafio 1: Complete a sequência: 2, 4, 6, 8, __\nDesafio 2: Se todo gato é mamífero, então...\nDesafio 3: Qual figura continua o padrão?";
+}
+
+function gerarSlides(){
+    let tema=document.getElementById("temaVisual").value || "Tema não informado";
+    document.getElementById("visual").textContent=
+        "SLIDES - "+tema+"\n\n"+
+        "Slide 1: Título\n"+
+        "Slide 2: Introdução\n"+
+        "Slide 3: Conceitos principais\n"+
+        "Slide 4: Exemplo prático\n"+
+        "Slide 5: Atividade / revisão";
+}
+
+function gerarMapaMental(){
+    let tema=document.getElementById("temaVisual").value || "Tema não informado";
+    document.getElementById("visual").textContent=
+        "MAPA MENTAL - "+tema+"\n\n"+
+        tema+"\n"+
+        "├─ Definição\n"+
+        "├─ Características\n"+
+        "├─ Exemplos\n"+
+        "└─ Aplicações";
+}
+
+function gerarResumo(){
+    let tema=document.getElementById("temaVisual").value || "Tema não informado";
+    document.getElementById("visual").textContent=
+        "RESUMO - "+tema+"\n\n"+
+        "Este conteúdo aborda os conceitos principais de "+tema+", apresentando definição, exemplos, aplicações e pontos importantes para revisão.";
+}
+
+function gerarExperimento(){
+    let tipo=document.getElementById("tipoExperimento").value;
+    let texto="EXPERIMENTO - "+tipo+"\n\n";
+    texto+="Objetivo: observar um fenômeno relacionado ao conteúdo.\n";
+    texto+="Materiais: itens simples de laboratório ou sala de aula.\n";
+    texto+="Procedimento: seguir etapas organizadas e registrar observações.\n";
+    texto+="Conclusão: comparar o resultado com a hipótese inicial.";
+    document.getElementById("lab").textContent=texto;
+}
+
+function gerarPerguntasAula(){
+    let tema=document.getElementById("temaProfessor").value || "tema não informado";
+    document.getElementById("apoioProfessor").textContent=
+        "PERGUNTAS PARA AULA - "+tema+"\n\n"+
+        "1) O que você já sabe sobre esse tema?\n"+
+        "2) Onde isso aparece no cotidiano?\n"+
+        "3) Por que esse conteúdo é importante?\n"+
+        "4) Como podemos aplicar esse conhecimento?";
+}
+
+function gerarAnalogias(){
+    let tema=document.getElementById("temaProfessor").value || "tema não informado";
+    document.getElementById("apoioProfessor").textContent=
+        "ANALOGIAS - "+tema+"\n\n"+
+        "Explique o tema comparando com situações do dia a dia para facilitar a compreensão dos alunos.";
+}
+
+function gerarSugestoes(){
+    let tema=document.getElementById("temaProfessor").value || "tema não informado";
+    document.getElementById("apoioProfessor").textContent=
+        "SUGESTÕES PEDAGÓGICAS - "+tema+"\n\n"+
+        "- aula dialogada\n- atividade em dupla\n- uso de imagens\n- revisão final\n- diagnóstico rápido";
+}
+
+function explicarConteudo(){
+    let tema=document.getElementById("temaAluno").value || "conteúdo não informado";
+    document.getElementById("apoioAluno").textContent=
+        "EXPLICAÇÃO SIMPLIFICADA - "+tema+"\n\n"+
+        tema+" explicado de forma simples: definição, exemplo prático e aplicação no cotidiano.";
+}
+
+function gerarExResolvido(){
+    let tema=document.getElementById("temaAluno").value || "conteúdo não informado";
+    document.getElementById("apoioAluno").textContent=
+        "EXERCÍCIO RESOLVIDO - "+tema+"\n\n"+
+        "Passo 1: entender o enunciado.\nPasso 2: separar dados.\nPasso 3: resolver.\nPasso 4: conferir o resultado.";
+}
+
+function gerarGuiaEstudo(){
+    let tema=document.getElementById("temaAluno").value || "conteúdo não informado";
+    document.getElementById("apoioAluno").textContent=
+        "GUIA DE ESTUDO - "+tema+"\n\n"+
+        "1) Leia o conteúdo\n2) Faça resumo\n3) Resolva exercícios\n4) Revise erros\n5) Faça autoavaliação";
+}
+
+function gerarGrafico(){
+    let n1=parseFloat(document.getElementById("num1").value) || 0;
+    let n2=parseFloat(document.getElementById("num2").value) || 0;
+    let n3=parseFloat(document.getElementById("num3").value) || 0;
+
+    let c=document.getElementById("grafico");
+    let ctx=c.getContext("2d");
+
+    ctx.clearRect(0,0,c.width,c.height);
+
+    ctx.fillStyle="#ffffff";
+    ctx.fillRect(0,0,c.width,c.height);
+
+    ctx.strokeStyle="#333";
+    ctx.beginPath();
+    ctx.moveTo(40,20);
+    ctx.lineTo(40,210);
+    ctx.lineTo(390,210);
+    ctx.stroke();
+
+    ctx.fillStyle="#2a7fff";
+    ctx.fillRect(70,210-n1*5,55,n1*5);
+    ctx.fillRect(180,210-n2*5,55,n2*5);
+    ctx.fillRect(290,210-n3*5,55,n3*5);
+
+    ctx.fillStyle="#000";
+    ctx.font="14px Arial";
+    ctx.fillText("A",92,228);
+    ctx.fillText("B",202,228);
+    ctx.fillText("C",312,228);
+    ctx.fillText("Gráfico de barras",140,18);
+
+    document.getElementById("matematica").textContent="Valores inseridos:\nA = "+n1+"\nB = "+n2+"\nC = "+n3;
+}
+
+function resolverEquacao(){
+    let n1=parseFloat(document.getElementById("num1").value) || 0;
+    let n2=parseFloat(document.getElementById("num2").value) || 0;
+    document.getElementById("matematica").textContent=
+        "EQUAÇÃO SIMPLES\n\nExemplo: x + "+n1+" = "+n2+"\n\nLogo:\nx = "+(n2-n1);
+}
+
+function calcularPorcentagem(){
+    let n1=parseFloat(document.getElementById("num1").value) || 0;
+    let n2=parseFloat(document.getElementById("num2").value) || 0;
+    let resultado = n2 === 0 ? 0 : (n1/n2)*100;
+    document.getElementById("matematica").textContent=
+        "PORCENTAGEM\n\n"+n1+" representa "+resultado.toFixed(2)+"% de "+n2;
+}
+
+function iaAtividade(){
+    let tema=document.getElementById("temaIA").value || "tema não informado";
+    document.getElementById("ia").textContent=
+        "IA EDUCACIONAL - ATIVIDADE\n\nGerando proposta automática para: "+tema+"\n\n- objetivo\n- conteúdo\n- atividade principal\n- revisão\n- avaliação";
+}
+
+function iaExplicacao(){
+    let tema=document.getElementById("temaIA").value || "tema não informado";
+    document.getElementById("ia").textContent=
+        "IA EDUCACIONAL - EXPLICAÇÃO\n\n"+tema+" explicado em linguagem clara, resumida e adaptada para sala de aula.";
+}
+
+function iaProjeto(){
+    let tema=document.getElementById("temaIA").value || "tema não informado";
+    document.getElementById("ia").textContent=
+        "IA EDUCACIONAL - PROJETO\n\nProjeto sobre "+tema+"\n\nEtapas:\n1) introdução\n2) pesquisa\n3) produção\n4) apresentação\n5) avaliação";
+}
+
+function sortearAluno(){
+    let lista=document.getElementById("listaAlunos").value.split(",").map(x=>x.trim()).filter(x=>x);
+    if(lista.length===0){
+        document.getElementById("sala").textContent="Digite nomes separados por vírgula.";
+        return;
+    }
+    let sorteado=lista[Math.floor(Math.random()*lista.length)];
+    document.getElementById("sala").textContent="ALUNO SORTEADO:\n\n"+sorteado;
+}
+
+function gerarGrupos(){
+    let lista=document.getElementById("listaAlunos").value.split(",").map(x=>x.trim()).filter(x=>x);
+    if(lista.length===0){
+        document.getElementById("sala").textContent="Digite nomes separados por vírgula.";
+        return;
+    }
+    let texto="GRUPOS\n\n";
+    let grupo=1;
+    for(let i=0;i<lista.length;i+=2){
+        texto+="Grupo "+grupo+": "+lista.slice(i,i+2).join(" e ")+"\n";
+        grupo++;
+    }
+    document.getElementById("sala").textContent=texto;
+}
+
+function roletaPergunta(){
+    let perguntas=[
+        "Explique o tema da aula com suas palavras.",
+        "Dê um exemplo prático.",
+        "Qual é a ideia principal?",
+        "O que você aprendeu hoje?",
+        "Onde esse conteúdo pode ser usado?"
+    ];
+    let p=perguntas[Math.floor(Math.random()*perguntas.length)];
+    document.getElementById("sala").textContent="ROLETA DE PERGUNTAS\n\n"+p;
+}
+
+function gerarFlashcards(){
+    let tema=document.getElementById("temaEstudo").value || "tema não informado";
+    document.getElementById("estudo").textContent=
+        "FLASHCARDS - "+tema+"\n\n"+
+        "Frente: definição\nVerso: explicação\n\n"+
+        "Frente: exemplo\nVerso: aplicação";
+}
+
+function gerarRevisao(){
+    let tema=document.getElementById("temaEstudo").value || "tema não informado";
+    document.getElementById("estudo").textContent=
+        "REVISÃO RÁPIDA - "+tema+"\n\n"+
+        "1) conceito\n2) exemplo\n3) exercício\n4) resumo final";
+}
+
+function gerarSimulado(){
+    let tema=document.getElementById("temaEstudo").value || "tema não informado";
+    document.getElementById("estudo").textContent=
+        "SIMULADO - "+tema+"\n\n"+
+        "1) questão objetiva\n2) questão objetiva\n3) verdadeiro ou falso\n4) questão dissertativa";
+}
+
+function gerarRedacao(){
+    let tema=document.getElementById("temaExtra").value || "tema não informado";
+    document.getElementById("extras").textContent=
+        "REDAÇÃO\n\nTema: "+tema+"\n\n"+
+        "Introdução: apresentação do tema.\n"+
+        "Desenvolvimento: argumentos.\n"+
+        "Conclusão: proposta final.";
+}
+
+function interpretacaoTexto(){
+    document.getElementById("extras").textContent=
+        "INTERPRETAÇÃO DE TEXTO\n\n"+
+        "1) Qual é o tema principal?\n"+
+        "2) Qual é a ideia central?\n"+
+        "3) O que o autor quis transmitir?\n"+
+        "4) Cite uma informação importante.";
+}
+
+function traduzirTexto(){
+    let tema=document.getElementById("temaExtra").value || "texto não informado";
+    document.getElementById("extras").textContent=
+        "TRADUÇÃO\n\nTexto original: "+tema+"\n\nTradução simulada: [adicione integração futura com tradutor real]";
+}
+
+function dicionario(){
+    let tema=document.getElementById("temaExtra").value || "palavra não informada";
+    document.getElementById("extras").textContent=
+        "DICIONÁRIO\n\nPalavra: "+tema+"\nDefinição: significado básico da palavra ou expressão pesquisada.";
+}
+
+function exportar(){
+    let conteudo=document.body.innerText;
+    let w=window.open("", "_blank");
+    w.document.write("<html><head><title>Exportar</title></head><body><pre>"+conteudo+"</pre></body></html>");
+    w.document.close();
+    w.print();
+}
+
+function exportarWord(){
+    document.getElementById("documentos").textContent=
+        "EXPORTAR WORD\n\nSugestão: depois você pode adaptar para gerar arquivo .doc automaticamente.";
+}
+
+function imprimirAtividades(){
+    let atividade=document.getElementById("saida").textContent || "Nenhuma atividade gerada ainda.";
+    let w=window.open("", "_blank");
+    w.document.write("<html><head><title>Atividades</title></head><body><pre>"+atividade+"</pre></body></html>");
+    w.document.close();
+    w.print();
+}
+
+function abrirTopico(topico){
+    document.getElementById("mathProgressOutput").textContent = gerarConteudoTopico(topico);
+}
+
+function gerarConteudoTopico(topico){
+    const banco = {
+        "Números naturais": {
+            explicacao: "Números naturais são usados para contar elementos: 0, 1, 2, 3, 4...",
+            exemplo: "Exemplo: em uma sala com 25 alunos, usamos o número natural 25 para representar a quantidade.",
+            exercicios: ["Escreva os números de 1 a 20.", "Qual número vem depois de 39?", "Qual número vem antes de 80?"]
+        },
+        "Sequência numérica": {
+            explicacao: "Sequência numérica é uma ordem de números que segue um padrão.",
+            exemplo: "Exemplo: 2, 4, 6, 8, 10... cresce de 2 em 2.",
+            exercicios: ["Complete: 5, 10, 15, __, __", "Complete: 20, 18, 16, __, __", "Escreva uma sequência crescente até 30."]
+        },
+        "Antecessor e sucessor": {
+            explicacao: "Antecessor é o número que vem antes; sucessor é o que vem depois.",
+            exemplo: "Exemplo: o antecessor de 10 é 9 e o sucessor é 11.",
+            exercicios: ["Antecessor de 50", "Sucessor de 99", "Antecessor e sucessor de 250"]
+        },
+        "Comparação de números": {
+            explicacao: "Podemos comparar números usando >, < e =.",
+            exemplo: "Exemplo: 9 > 4, 3 < 8, 10 = 10.",
+            exercicios: ["Compare: 15 e 12", "Compare: 22 e 30", "Compare: 100 e 100"]
+        },
+        "Par e ímpar": {
+            explicacao: "Número par termina em 0, 2, 4, 6 ou 8. Número ímpar termina em 1, 3, 5, 7 ou 9.",
+            exemplo: "Exemplo: 18 é par e 17 é ímpar.",
+            exercicios: ["Classifique: 24", "Classifique: 31", "Liste 5 números pares"]
+        },
+        "Unidade, dezena, centena e milhar": {
+            explicacao: "O sistema de numeração organiza os números por ordens: unidade, dezena, centena e milhar.",
+            exemplo: "Exemplo: no número 2354 temos 2 milhares, 3 centenas, 5 dezenas e 4 unidades.",
+            exercicios: ["Decomponha 748", "Decomponha 3021", "Escreva o número com 4 centenas, 2 dezenas e 9 unidades"]
+        },
+        "Adição": {
+            explicacao: "Adição é a operação de somar quantidades.",
+            exemplo: "Exemplo: 12 + 7 = 19.",
+            exercicios: ["15 + 6", "23 + 17", "105 + 44"]
+        },
+        "Subtração": {
+            explicacao: "Subtração é a operação de tirar ou comparar quantidades.",
+            exemplo: "Exemplo: 20 - 8 = 12.",
+            exercicios: ["19 - 7", "34 - 12", "100 - 45"]
+        },
+        "Multiplicação": {
+            explicacao: "Multiplicação representa adições repetidas.",
+            exemplo: "Exemplo: 4 x 3 = 12 significa 4 grupos de 3.",
+            exercicios: ["6 x 7", "9 x 8", "12 x 5"]
+        },
+        "Divisão": {
+            explicacao: "Divisão é repartir em partes iguais.",
+            exemplo: "Exemplo: 20 ÷ 4 = 5.",
+            exercicios: ["18 ÷ 3", "45 ÷ 5", "72 ÷ 8"]
+        },
+        "Problemas matemáticos": {
+            explicacao: "Problemas matemáticos exigem interpretação da situação e escolha da operação correta.",
+            exemplo: "Exemplo: Ana tinha 12 balas e ganhou mais 7. Quantas tem agora? 12 + 7 = 19.",
+            exercicios: ["João tinha 20 reais e gastou 6. Quanto sobrou?", "Há 4 caixas com 8 lápis cada. Quantos lápis?", "Divida 30 figurinhas entre 5 crianças."]
+        },
+        "Frações introdutórias": {
+            explicacao: "Frações representam partes de um todo.",
+            exemplo: "Exemplo: metade de uma pizza é 1/2.",
+            exercicios: ["Escreva a metade de 10", "Escreva o terço de 12", "Escreva o quarto de 20"]
+        },
+        "Números decimais": {
+            explicacao: "Números decimais possuem vírgula e representam partes menores da unidade.",
+            exemplo: "Exemplo: 2,5 significa 2 unidades e 5 décimos.",
+            exercicios: ["Leia o número 3,7", "Escreva um valor com vírgula", "Qual é maior: 2,3 ou 2,8?"]
+        },
+        "Dinheiro": {
+            explicacao: "O sistema monetário usa reais e centavos.",
+            exemplo: "Exemplo: R$ 10,50 significa dez reais e cinquenta centavos.",
+            exercicios: ["Some R$ 5,00 + R$ 2,50", "Troco de R$ 20,00 ao pagar R$ 13,75", "Escreva o valor de 3 moedas de R$1"]
+        },
+        "Medidas de comprimento": {
+            explicacao: "Comprimento mede distância ou tamanho usando cm, m e km.",
+            exemplo: "Exemplo: uma régua pode medir 30 cm.",
+            exercicios: ["Quantos cm há em 1 m?", "Converta 2 m em cm", "Qual é maior: 300 cm ou 2 m?"]
+        },
+        "Medidas de massa": {
+            explicacao: "Massa mede o peso de objetos usando g e kg.",
+            exemplo: "Exemplo: um pacote de arroz pesa 5 kg.",
+            exercicios: ["Quantos gramas há em 1 kg?", "Converta 3 kg em g", "Qual é maior: 500 g ou 1 kg?"]
+        },
+        "Medidas de tempo": {
+            explicacao: "Tempo pode ser medido em segundos, minutos, horas, dias e anos.",
+            exemplo: "Exemplo: 1 hora tem 60 minutos.",
+            exercicios: ["Quantos minutos tem 2 horas?", "Quantos segundos tem 1 minuto?", "Quantos dias há em 1 semana?"]
+        },
+        "Temperatura": {
+            explicacao: "Temperatura mede o quão quente ou frio algo está.",
+            exemplo: "Exemplo: 30°C é uma temperatura alta.",
+            exercicios: ["Qual é mais quente: 10°C ou 25°C?", "Escreva uma temperatura fria", "Escreva uma temperatura quente"]
+        },
+        "Figuras geométricas básicas": {
+            explicacao: "As figuras geométricas básicas possuem formas e características próprias.",
+            exemplo: "Exemplo: quadrado tem 4 lados iguais; triângulo tem 3 lados; círculo é redondo.",
+            exercicios: ["Desenhe um quadrado", "Quantos lados tem um triângulo?", "Qual figura não tem lados?"]
+        },
+        "Tabelas e gráfico de barras": {
+            explicacao: "Tabelas organizam dados e gráficos de barras ajudam a comparar quantidades.",
+            exemplo: "Exemplo: comparar número de alunos por turma usando barras.",
+            exercicios: ["Monte uma tabela com 3 frutas", "Desenhe um gráfico simples", "Qual barra é maior?"]
+        },
+        "Conjuntos numéricos": {
+            explicacao: "Os conjuntos numéricos organizam os tipos de números: naturais, inteiros, racionais, irracionais e reais.",
+            exemplo: "Exemplo: -3 é inteiro; 1/2 é racional; √2 é irracional.",
+            exercicios: ["Classifique 7", "Classifique -4", "Classifique 0,5"]
+        },
+        "Potenciação": {
+            explicacao: "Potenciação é uma multiplicação repetida.",
+            exemplo: "Exemplo: 2³ = 2 x 2 x 2 = 8.",
+            exercicios: ["3²", "5³", "10²"]
+        },
+        "Radiciação": {
+            explicacao: "Radiciação é a operação inversa da potenciação.",
+            exemplo: "Exemplo: √25 = 5, pois 5² = 25.",
+            exercicios: ["√36", "√49", "√81"]
+        },
+        "Expressões numéricas": {
+            explicacao: "Expressões numéricas usam várias operações e obedecem uma ordem de resolução.",
+            exemplo: "Exemplo: 2 + 3 x 4 = 2 + 12 = 14.",
+            exercicios: ["5 + 2 x 3", "(8 + 4) ÷ 2", "10 - 2 x 4"]
+        },
+        "Divisibilidade": {
+            explicacao: "Divisibilidade indica se um número pode ser dividido por outro sem deixar resto.",
+            exemplo: "Exemplo: 12 é divisível por 3 porque 12 ÷ 3 = 4.",
+            exercicios: ["18 é divisível por 2?", "25 é divisível por 5?", "21 é divisível por 3?"]
+        },
+        "Múltiplos e divisores": {
+            explicacao: "Múltiplos são resultados de multiplicações; divisores são números que dividem outro exatamente.",
+            exemplo: "Exemplo: múltiplos de 4: 4, 8, 12, 16. Divisores de 12: 1, 2, 3, 4, 6, 12.",
+            exercicios: ["Escreva 5 múltiplos de 3", "Escreva os divisores de 10", "Escreva os divisores de 18"]
+        },
+        "MMC e MDC": {
+            explicacao: "MMC é o menor múltiplo comum e MDC é o maior divisor comum.",
+            exemplo: "Exemplo: MMC(4,6)=12 e MDC(12,18)=6.",
+            exercicios: ["MMC de 3 e 5", "MDC de 8 e 12", "MMC de 4 e 10"]
+        },
+        "Frações completas": {
+            explicacao: "Frações podem ser simplificadas, comparadas e operadas.",
+            exemplo: "Exemplo: 2/4 = 1/2.",
+            exercicios: ["Simplifique 6/8", "Some 1/2 + 1/4", "Subtraia 3/4 - 1/4"]
+        },
+        "Números decimais e operações": {
+            explicacao: "Podemos somar, subtrair, multiplicar e dividir números decimais.",
+            exemplo: "Exemplo: 2,5 + 1,3 = 3,8.",
+            exercicios: ["1,2 + 3,4", "5,7 - 2,1", "2,5 x 2"]
+        },
+        "Razão e proporção": {
+            explicacao: "Razão compara grandezas e proporção mostra equivalência entre razões.",
+            exemplo: "Exemplo: 2/4 = 1/2.",
+            exercicios: ["Escreva a razão entre 4 e 8", "Verifique se 2/3 e 4/6 formam proporção", "Compare 5 e 10"]
+        },
+        "Regra de três simples": {
+            explicacao: "A regra de três simples relaciona duas grandezas proporcionais.",
+            exemplo: "Exemplo: se 2 cadernos custam 10 reais, 4 cadernos custam 20 reais.",
+            exercicios: ["Se 3 maçãs custam 6 reais, quanto custam 5?", "Se 2 horas têm 120 min, 5 horas têm quantos?", "Se 4 lápis custam 8 reais, 10 lápis custam quanto?"]
+        },
+        "Regra de três composta": {
+            explicacao: "A regra de três composta envolve mais de duas grandezas.",
+            exemplo: "Exemplo: mais pessoas trabalhando por mais dias produzem mais.",
+            exercicios: ["Monte uma regra de três composta com operários e dias", "Resolva uma situação com velocidade e tempo", "Analise uma situação com produção"]
+        },
+        "Porcentagem": {
+            explicacao: "Porcentagem representa uma razão de cada 100 partes.",
+            exemplo: "Exemplo: 25% de 200 = 50.",
+            exercicios: ["10% de 80", "50% de 300", "15% de 200"]
+        },
+        "Expressões algébricas": {
+            explicacao: "Expressões algébricas usam letras e números para representar valores.",
+            exemplo: "Exemplo: 2x + 3.",
+            exercicios: ["Escreva uma expressão com x", "Identifique o termo numérico em 3x+4", "Substitua x=2 em 2x+1"]
+        },
+        "Variáveis e termos algébricos": {
+            explicacao: "Variável é uma letra que representa um valor. Termos algébricos combinam número e letra.",
+            exemplo: "Exemplo: 5y é um termo algébrico.",
+            exercicios: ["Qual é a variável em 3a+2?", "Escreva um termo algébrico", "Substitua a=4 em 2a"]
+        },
+        "Monômios e polinômios": {
+            explicacao: "Monômio tem um termo; polinômio tem vários termos.",
+            exemplo: "Exemplo: 3x é monômio e 2x²+3x+1 é polinômio.",
+            exercicios: ["Classifique 5x", "Classifique x²+2x+3", "Escreva um polinômio de 3 termos"]
+        },
+        "Soma e subtração de polinômios": {
+            explicacao: "Somamos e subtraímos termos semelhantes.",
+            exemplo: "Exemplo: (2x+3) + (x+5) = 3x+8.",
+            exercicios: ["(x+2)+(2x+3)", "(5x-1)-(2x+4)", "(3a+2)+(4a-5)"]
+        },
+        "Multiplicação algébrica": {
+            explicacao: "Na multiplicação algébrica usamos distributiva e propriedades algébricas.",
+            exemplo: "Exemplo: 2(x+3)=2x+6.",
+            exercicios: ["3(x+2)", "(x+1)(x+2)", "2a(3a+4)"]
+        },
+        "Produtos notáveis": {
+            explicacao: "São multiplicações algébricas com padrões conhecidos.",
+            exemplo: "Exemplo: (a+b)² = a² + 2ab + b².",
+            exercicios: ["(x+2)²", "(a-b)²", "(m+n)(m-n)"]
+        },
+        "Fatoração": {
+            explicacao: "Fatorar é escrever uma expressão como produto.",
+            exemplo: "Exemplo: x²-9 = (x-3)(x+3).",
+            exercicios: ["Fatore x²-16", "Fatore 3x+6", "Fatore a²+2a+1"]
+        },
+        "Equação do 1º grau": {
+            explicacao: "Equação do 1º grau é uma igualdade com variável elevada à potência 1.",
+            exemplo: "Exemplo: 2x + 3 = 11 => 2x = 8 => x = 4.",
+            exercicios: ["x+5=12", "3x=21", "2x+4=18"]
+        },
+        "Problemas com equações": {
+            explicacao: "Podemos transformar problemas escritos em equações.",
+            exemplo: "Exemplo: pensei em um número, somei 5 e deu 17. Equação: x+5=17.",
+            exercicios: ["Monte uma equação com idade", "Monte uma equação com dinheiro", "Resolva um problema com número desconhecido"]
+        },
+        "Sistemas de equações": {
+            explicacao: "Um sistema de equações tem duas ou mais equações com variáveis em comum.",
+            exemplo: "Exemplo: x+y=10 e x-y=2.",
+            exercicios: ["Resolva x+y=8 e x-y=2", "Resolva 2x+y=7 e x+y=5", "Use substituição em um sistema simples"]
+        },
+        "Equação do 2º grau": {
+            explicacao: "É uma equação em que a maior potência da variável é 2.",
+            exemplo: "Exemplo: x² - 5x + 6 = 0.",
+            exercicios: ["x²-9=0", "x²-5x+6=0", "x²-4x+4=0"]
+        },
+        "Fórmula de Bhaskara": {
+            explicacao: "Bhaskara resolve equações do 2º grau usando Δ = b² - 4ac.",
+            exemplo: "Exemplo: para x²-5x+6=0, Δ=25-24=1.",
+            exercicios: ["Calcule Δ em x²-4x+3", "Resolva x²-3x+2=0", "Encontre as raízes de x²-7x+10=0"]
+        },
+        "Função afim": {
+            explicacao: "Função afim tem forma y=ax+b.",
+            exemplo: "Exemplo: y=2x+1.",
+            exercicios: ["Identifique a e b em y=3x+5", "Calcule y para x=2 em y=2x+4", "Escreva uma função afim"]
+        },
+        "Coeficiente angular e linear": {
+            explicacao: "O coeficiente angular indica inclinação; o linear indica onde a reta corta o eixo y.",
+            exemplo: "Exemplo: em y=4x+2, angular=4 e linear=2.",
+            exercicios: ["Encontre os coeficientes em y=2x+7", "Encontre os coeficientes em y=-x+5", "Diga se a reta cresce ou decresce"]
+        },
+        "Função quadrática": {
+            explicacao: "Função quadrática tem forma y=ax²+bx+c.",
+            exemplo: "Exemplo: y=x²-4x+3.",
+            exercicios: ["Identifique a, b e c", "Calcule y para x=1", "Diga se a parábola abre para cima ou para baixo"]
+        },
+        "Parábola, vértice e raízes": {
+            explicacao: "A função quadrática gera uma parábola; ela pode ter vértice e raízes.",
+            exemplo: "Exemplo: em y=x²-4x+3, as raízes são 1 e 3.",
+            exercicios: ["Encontre as raízes de x²-5x+6", "Ache o vértice de uma função simples", "Descreva a parábola"]
+        },
+        "Função exponencial": {
+            explicacao: "Na função exponencial a variável está no expoente.",
+            exemplo: "Exemplo: y=2^x.",
+            exercicios: ["Calcule 2³", "Calcule 3²", "Compare crescimento de 2^x e x"]
+        },
+        "Função logarítmica": {
+            explicacao: "Logaritmo é a operação inversa da exponenciação.",
+            exemplo: "Exemplo: log₂8 = 3.",
+            exercicios: ["log₂4", "log₁₀100", "Qual expoente produz 16 na base 2?"]
+        },
+        "Ângulos": {
+            explicacao: "Ângulos medem abertura entre duas semirretas.",
+            exemplo: "Exemplo: 90° é um ângulo reto.",
+            exercicios: ["Classifique 45°", "Classifique 90°", "Classifique 120°"]
+        },
+        "Triângulos": {
+            explicacao: "Triângulos possuem 3 lados e a soma dos ângulos internos é 180°.",
+            exemplo: "Exemplo: um triângulo equilátero tem 3 lados iguais.",
+            exercicios: ["Classifique por lados", "Classifique por ângulos", "Some 70° + 60° e descubra o terceiro ângulo"]
+        },
+        "Teorema de Pitágoras": {
+            explicacao: "Em triângulo retângulo: a²+b²=c².",
+            exemplo: "Exemplo: 3² + 4² = 5².",
+            exercicios: ["Catetos 6 e 8", "Catetos 5 e 12", "Hipotenusa 13 e cateto 5"]
+        },
+        "Polígonos": {
+            explicacao: "Polígonos são figuras planas fechadas formadas por segmentos de reta.",
+            exemplo: "Exemplo: quadrado, pentágono e hexágono são polígonos.",
+            exercicios: ["Quantos lados tem um pentágono?", "Quantos lados tem um hexágono?", "Cite 3 polígonos"]
+        },
+        "Circunferência": {
+            explicacao: "Circunferência é o contorno do círculo.",
+            exemplo: "Exemplo: o comprimento é C = 2πr.",
+            exercicios: ["Calcule C para r=3", "Qual é o raio se C é conhecido?", "Explique a diferença entre círculo e circunferência"]
+        },
+        "Área do círculo": {
+            explicacao: "A área do círculo é A = πr².",
+            exemplo: "Exemplo: se r=3, A ≈ 28,27.",
+            exercicios: ["Área com r=2", "Área com r=5", "Se r dobra, o que acontece com a área?"]
+        },
+        "Cubo": {
+            explicacao: "Cubo é um sólido com 6 faces quadradas iguais.",
+            exemplo: "Exemplo: um dado tem forma aproximada de cubo.",
+            exercicios: ["Quantas faces tem um cubo?", "Quantas arestas tem?", "Descreva suas características"]
+        },
+        "Prisma": {
+            explicacao: "Prisma é um sólido com bases paralelas e congruentes.",
+            exemplo: "Exemplo: caixa de sapato lembra um prisma retangular.",
+            exercicios: ["Descreva um prisma", "Cite um objeto em forma de prisma", "Quantas bases ele possui?"]
+        },
+        "Pirâmide": {
+            explicacao: "Pirâmide tem base poligonal e faces laterais triangulares.",
+            exemplo: "Exemplo: as pirâmides do Egito.",
+            exercicios: ["Descreva uma pirâmide", "Qual é o formato das faces laterais?", "Cite um exemplo real"]
+        },
+        "Cilindro": {
+            explicacao: "Cilindro tem duas bases circulares paralelas.",
+            exemplo: "Exemplo: uma lata de refrigerante.",
+            exercicios: ["Cite um objeto cilíndrico", "Quantas bases tem?", "Descreva sua superfície lateral"]
+        },
+        "Cone": {
+            explicacao: "Cone possui base circular e um vértice.",
+            exemplo: "Exemplo: cone de trânsito.",
+            exercicios: ["Cite um objeto em forma de cone", "Quantas bases possui?", "Ele tem vértice?"]
+        },
+        "Esfera": {
+            explicacao: "Esfera é um sólido redondo onde todos os pontos da superfície estão à mesma distância do centro.",
+            exemplo: "Exemplo: uma bola.",
+            exercicios: ["Cite um objeto esférico", "Explique o que é raio", "Descreva a forma"]
+        },
+        "Volume da esfera": {
+            explicacao: "O volume da esfera é V = 4/3 πr³.",
+            exemplo: "Exemplo: para r=3, V ≈ 113,10.",
+            exercicios: ["Volume com r=2", "Volume com r=4", "Explique o papel do raio na fórmula"]
+        },
+        "Seno": {
+            explicacao: "Seno é a razão entre cateto oposto e hipotenusa.",
+            exemplo: "Exemplo: sen(30°)=0,5.",
+            exercicios: ["Qual é o seno em um triângulo retângulo?", "Use sen(30°)", "Defina seno"]
+        },
+        "Cosseno": {
+            explicacao: "Cosseno é a razão entre cateto adjacente e hipotenusa.",
+            exemplo: "Exemplo: cos(60°)=0,5.",
+            exercicios: ["Defina cosseno", "Use cos(60°)", "Qual lado é adjacente?"]
+        },
+        "Tangente": {
+            explicacao: "Tangente é a razão entre cateto oposto e cateto adjacente.",
+            exemplo: "Exemplo: tg(45°)=1.",
+            exercicios: ["Defina tangente", "Use tg(45°)", "Relacione lados no triângulo"]
+        },
+        "Identidade fundamental da trigonometria": {
+            explicacao: "A identidade fundamental é sen²x + cos²x = 1.",
+            exemplo: "Exemplo: se sen²x=0,36, então cos²x=0,64.",
+            exercicios: ["Complete a identidade", "Se sen²=0,25, qual cos²?", "Explique o significado da relação"]
+        },
+        "Lei dos senos": {
+            explicacao: "A lei dos senos relaciona lados e senos dos ângulos opostos.",
+            exemplo: "Exemplo: a/senA = b/senB = c/senC.",
+            exercicios: ["Escreva a fórmula", "Identifique pares opostos", "Resolva um exemplo simples"]
+        },
+        "Lei dos cossenos": {
+            explicacao: "A lei dos cossenos relaciona lados de um triângulo qualquer.",
+            exemplo: "Exemplo: c² = a²+b²-2ab.cos(C).",
+            exercicios: ["Escreva a fórmula", "Use com dados simples", "Compare com Pitágoras"]
+        },
+        "Média aritmética": {
+            explicacao: "A média aritmética é a soma dos valores dividida pela quantidade.",
+            exemplo: "Exemplo: média de 4, 6 e 8 é 6.",
+            exercicios: ["Média de 2,4,6", "Média de 10,20,30", "Média de 5 números iguais"]
+        },
+        "Média ponderada": {
+            explicacao: "A média ponderada usa pesos diferentes para cada valor.",
+            exemplo: "Exemplo: notas com pesos 2 e 3.",
+            exercicios: ["Explique o que é peso", "Monte um exemplo com notas", "Calcule uma média ponderada simples"]
+        },
+        "Mediana": {
+            explicacao: "Mediana é o valor central de uma lista ordenada.",
+            exemplo: "Exemplo: em 2,4,5,8,9 a mediana é 5.",
+            exercicios: ["Ache a mediana de 1,3,5", "Ache a mediana de 2,4,6,8", "Ordene antes de achar"]
+        },
+        "Moda": {
+            explicacao: "Moda é o valor que mais se repete.",
+            exemplo: "Exemplo: na lista 2,2,3,4, a moda é 2.",
+            exercicios: ["Ache a moda de 1,1,2,3", "Ache a moda de 4,4,4,2", "Explique quando não há moda"]
+        },
+        "Gráficos estatísticos": {
+            explicacao: "Gráficos ajudam a visualizar dados.",
+            exemplo: "Exemplo: gráfico de barras para comparar quantidades.",
+            exercicios: ["Escolha um tipo de gráfico", "Monte um gráfico simples", "Interprete um gráfico"]
+        },
+        "Espaço amostral": {
+            explicacao: "Espaço amostral é o conjunto de todos os resultados possíveis.",
+            exemplo: "Exemplo: no dado, S={1,2,3,4,5,6}.",
+            exercicios: ["Espaço amostral de uma moeda", "Espaço amostral de um dado", "Liste resultados possíveis"]
+        },
+        "Eventos": {
+            explicacao: "Evento é um conjunto de resultados do espaço amostral.",
+            exemplo: "Exemplo: tirar número par no dado = {2,4,6}.",
+            exercicios: ["Evento: número maior que 4", "Evento: cara em uma moeda", "Dê um evento possível"]
+        },
+        "Probabilidade simples": {
+            explicacao: "Probabilidade simples mede a chance de um evento ocorrer.",
+            exemplo: "Exemplo: chance de sair 3 no dado é 1/6.",
+            exercicios: ["Probabilidade de cara", "Probabilidade de número par no dado", "Probabilidade de sair 7 no dado"]
+        },
+        "Fórmula da probabilidade": {
+            explicacao: "A fórmula é P(A)=n(A)/n(S).",
+            exemplo: "Exemplo: 3 resultados favoráveis em 6 possíveis => 3/6=1/2.",
+            exercicios: ["Use a fórmula com um dado", "Use a fórmula com cartas simples", "Explique n(A) e n(S)"]
+        },
+        "Juros simples": {
+            explicacao: "Nos juros simples, o acréscimo incide sempre sobre o capital inicial.",
+            exemplo: "Exemplo: J = C.i.t.",
+            exercicios: ["Calcule juros com C=1000", "Explique capital, taxa e tempo", "Monte um exemplo"]
+        },
+        "Juros compostos": {
+            explicacao: "Nos juros compostos, os juros incidem sobre o montante acumulado.",
+            exemplo: "Exemplo: crescimento mês a mês.",
+            exercicios: ["Explique a diferença para juros simples", "Dê um exemplo financeiro", "Qual cresce mais no longo prazo?"]
+        },
+        "Montante em juros compostos": {
+            explicacao: "A fórmula do montante é M = C(1+i)^t.",
+            exemplo: "Exemplo: C=1000, i=10%, t=2 => M=1210.",
+            exercicios: ["Use C=500,i=0,1,t=2", "Use C=1000,i=0,05,t=3", "Explique o significado da fórmula"]
+        },
+        "Plano cartesiano": {
+            explicacao: "Plano cartesiano usa dois eixos: x e y.",
+            exemplo: "Exemplo: o ponto (2,3) tem x=2 e y=3.",
+            exercicios: ["Localize (1,2)", "Localize (-2,4)", "Explique o que é origem"]
+        },
+        "Distância entre dois pontos": {
+            explicacao: "A distância entre dois pontos é dada por d = √((x₂-x₁)² + (y₂-y₁)²).",
+            exemplo: "Exemplo: entre (0,0) e (3,4), d=5.",
+            exercicios: ["Ache a distância entre (0,0) e (6,8)", "Ache entre (1,1) e (4,5)", "Explique a fórmula"]
+        },
+        "Equação da reta": {
+            explicacao: "A equação da reta pode ser escrita como y=ax+b.",
+            exemplo: "Exemplo: y=2x+1.",
+            exercicios: ["Identifique a e b", "Escreva uma reta simples", "Calcule y para x=3"]
+        },
+        "Equação da circunferência": {
+            explicacao: "A equação da circunferência é (x-a)² + (y-b)² = r².",
+            exemplo: "Exemplo: x²+y²=9 representa centro (0,0) e raio 3.",
+            exercicios: ["Identifique o raio", "Identifique o centro", "Escreva uma circunferência simples"]
+        }
+    };
+
+    const dado = banco[topico] || {
+        explicacao: "Conteúdo matemático em desenvolvimento.",
+        exemplo: "Exemplo será adicionado.",
+        exercicios: ["Exercício 1", "Exercício 2", "Exercício 3"]
+    };
+
+    let texto = "TÓPICO: " + topico + "\n\n";
+    texto += "📘 EXPLICAÇÃO\n" + dado.explicacao + "\n\n";
+    texto += "✅ EXEMPLO\n" + dado.exemplo + "\n\n";
+    texto += "📝 EXERCÍCIOS\n";
+    dado.exercicios.forEach((ex, i) => texto += (i+1) + ") " + ex + "\n");
+    return texto;
+}
+</script>
+
+</body>
+</html>
