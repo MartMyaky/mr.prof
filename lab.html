@@ -1,192 +1,363 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laboratório Educacional com Base de Conhecimento</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Laboratório Educacional V5 Completo</title>
 <style>
 *{box-sizing:border-box}
+:root{
+  --bg1:#081524;
+  --bg2:#102845;
+  --card:rgba(255,255,255,.07);
+  --card2:rgba(255,255,255,.1);
+  --line:rgba(255,255,255,.12);
+  --txt:#ffffff;
+  --muted:#cfe0ff;
+  --accent:#2a7fff;
+  --good:#21c55d;
+  --warn:#f59e0b;
+  --danger:#ef4444;
+}
 body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:linear-gradient(180deg,#0b1e34,#102845);
-    color:#fff;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(180deg,var(--bg1),var(--bg2));
+  color:var(--txt);
 }
 header{
-    background:#142a46;
-    padding:24px;
-    text-align:center;
-    font-size:28px;
-    font-weight:bold;
+  background:linear-gradient(90deg,#132742,#173456);
+  padding:22px;
+  text-align:center;
+  border-bottom:1px solid var(--line);
+  box-shadow:0 8px 30px rgba(0,0,0,.2);
+}
+header h1{
+  margin:0;
+  font-size:30px;
+}
+header p{
+  margin:8px 0 0;
+  color:var(--muted);
+  font-size:14px;
 }
 .container{
-    max-width:1200px;
-    margin:auto;
-    padding:24px;
+  max-width:1450px;
+  margin:auto;
+  padding:24px;
 }
 .section{
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:16px;
-    padding:20px;
-    margin-top:24px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  margin-top:20px;
+  backdrop-filter:blur(6px);
+}
+h2,h3{
+  margin-top:0;
 }
 .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:16px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:16px;
 }
 label{
-    display:block;
-    margin:10px 0 6px;
-    font-weight:bold;
+  display:block;
+  margin:10px 0 6px;
+  font-weight:bold;
 }
 select,input,textarea{
-    width:100%;
-    padding:10px;
-    border:none;
-    border-radius:8px;
-    font-size:15px;
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  font-size:15px;
+  outline:none;
 }
 textarea{
-    min-height:90px;
-    resize:vertical;
+  min-height:110px;
+  resize:vertical;
 }
 button{
-    padding:10px 15px;
-    border:none;
-    border-radius:8px;
-    background:#2a7fff;
-    color:#fff;
-    cursor:pointer;
-    font-weight:bold;
-    margin:6px 6px 0 0;
+  padding:11px 15px;
+  border:none;
+  border-radius:10px;
+  background:var(--accent);
+  color:#fff;
+  cursor:pointer;
+  font-weight:bold;
+  margin:6px 6px 0 0;
+  transition:.2s;
 }
 button:hover{
-    background:#1664da;
+  transform:translateY(-1px);
+  background:#1d69df;
 }
-.output{
-    background:#fff;
-    color:#000;
-    padding:15px;
-    border-radius:10px;
-    margin-top:16px;
-    white-space:pre-wrap;
-    min-height:140px;
-    line-height:1.55;
+button.secondary{ background:#334155; }
+button.good{ background:var(--good); }
+button.warn{ background:var(--warn); color:#111; }
+button.danger{ background:var(--danger); }
+.toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
+.toolbar button{
+  padding:8px 12px;
+  background:#1e3a5f;
 }
 .small{
-    font-size:14px;
-    color:#d6e5ff;
+  font-size:14px;
+  color:var(--muted);
+}
+.output{
+  background:#fff;
+  color:#000;
+  padding:18px;
+  border-radius:12px;
+  margin-top:14px;
+  white-space:pre-wrap;
+  min-height:180px;
+  line-height:1.6;
+  border:1px solid #dbe4f2;
+}
+.row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:10px;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px;
+}
+.stat{
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+}
+footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+  padding:28px 12px 40px;
 }
 </style>
 </head>
 <body>
 
-<header>🧠 Laboratório Educacional com Base de Conhecimento</header>
+<header>
+  <h1>🧠 Laboratório Educacional V5 Completo</h1>
+  <p>Gerador inteligente de atividades, gabaritos, revisão, apoio ao professor e múltiplas matérias</p>
+</header>
 
 <div class="container">
 
-    <div class="section">
-        <h2>📚 Gerador Inteligente com Base de Conhecimento</h2>
-        <div class="small">Escolha a matéria, depois a área, depois o subtema. O sistema usa sua base para montar a atividade.</div>
+  <div class="section">
+    <h2>📚 Gerador Inteligente</h2>
+    <div class="small">Escolha a matéria, a área, o subtema e o tipo de atividade. O sistema gera perguntas, gabarito e permite salvar, copiar e imprimir.</div>
 
-        <div class="grid">
-            <div>
-                <label>📚 Matéria</label>
-                <select id="materia" onchange="carregarAreas()">
-                    <option value="">Selecione</option>
-                    <option>Português</option>
-                    <option>História</option>
-                    <option>Ciências</option>
-                </select>
-            </div>
+    <div class="grid">
+      <div>
+        <label>📘 Matéria</label>
+        <select id="materia" onchange="carregarAreas()">
+          <option value="">Selecione</option>
+          <option>Português</option>
+          <option>Matemática</option>
+          <option>História</option>
+          <option>Ciências</option>
+          <option>Inglês</option>
+          <option>Japonês</option>
+          <option>Pensamento Computacional</option>
+          <option>Geografia</option>
+          <option>Biologia</option>
+          <option>Física</option>
+          <option>Química</option>
+          <option>Filosofia</option>
+          <option>Sociologia</option>
+          <option>Arte</option>
+          <option>Educação Física</option>
+          <option>Espanhol</option>
+          <option>Informática</option>
+          <option>Robótica</option>
+          <option>Educação Financeira</option>
+          <option>Empreendedorismo</option>
+          <option>Ensino Religioso</option>
+          <option>Projeto de Vida</option>
+          <option>Temas Transversais</option>
+        </select>
+      </div>
 
-            <div>
-                <label>🧩 Área</label>
-                <select id="area" onchange="carregarSubtemas()">
-                    <option value="">Selecione uma matéria primeiro</option>
-                </select>
-            </div>
+      <div>
+        <label>🧩 Área</label>
+        <select id="area" onchange="carregarSubtemas()">
+          <option value="">Selecione uma matéria primeiro</option>
+        </select>
+      </div>
 
-            <div>
-                <label>🧠 Subtema</label>
-                <select id="subtema">
-                    <option value="">Selecione uma área primeiro</option>
-                </select>
-            </div>
+      <div>
+        <label>🧠 Subtema</label>
+        <select id="subtema">
+          <option value="">Selecione uma área primeiro</option>
+        </select>
+      </div>
 
-            <div>
-                <label>🎓 Ano escolar</label>
-                <select id="ano">
-                    <option>1º Ano</option>
-                    <option>2º Ano</option>
-                    <option>3º Ano</option>
-                    <option>4º Ano</option>
-                    <option>5º Ano</option>
-                    <option>6º Ano</option>
-                    <option>7º Ano</option>
-                    <option>8º Ano</option>
-                    <option>9º Ano</option>
-                    <option>1º Ano EM</option>
-                    <option>2º Ano EM</option>
-                    <option>3º Ano EM</option>
-                </select>
-            </div>
+      <div>
+        <label>🎓 Ano escolar</label>
+        <select id="ano">
+          <option>1º Ano</option>
+          <option>2º Ano</option>
+          <option>3º Ano</option>
+          <option>4º Ano</option>
+          <option>5º Ano</option>
+          <option>6º Ano</option>
+          <option>7º Ano</option>
+          <option>8º Ano</option>
+          <option>9º Ano</option>
+          <option>1º Ano EM</option>
+          <option>2º Ano EM</option>
+          <option>3º Ano EM</option>
+          <option>Universidade</option>
+        </select>
+      </div>
 
-            <div>
-                <label>📑 Tipo de atividade</label>
-                <select id="tipo">
-                    <option>Lista de exercícios</option>
-                    <option>Revisão</option>
-                    <option>Tarefa de casa</option>
-                    <option>Atividade diagnóstica</option>
-                    <option>Simulado</option>
-                    <option>Reforço escolar</option>
-                </select>
-            </div>
+      <div>
+        <label>📑 Tipo de atividade</label>
+        <select id="tipo">
+          <option>Lista de exercícios</option>
+          <option>Revisão</option>
+          <option>Tarefa de casa</option>
+          <option>Atividade diagnóstica</option>
+          <option>Simulado</option>
+          <option>Reforço escolar</option>
+          <option>Plano de estudo</option>
+        </select>
+      </div>
 
-            <div>
-                <label>🔢 Quantidade de questões</label>
-                <select id="qtd">
-                    <option>5</option>
-                    <option>10</option>
-                    <option>15</option>
-                </select>
-            </div>
-        </div>
+      <div>
+        <label>📋 Formato das questões</label>
+        <select id="formato">
+          <option>Discursiva</option>
+          <option>Múltipla escolha</option>
+          <option>Mista</option>
+        </select>
+      </div>
 
-        <label>📝 Tema livre / observação do professor</label>
-        <input id="temaLivre" placeholder="Ex: foco em interpretação, atividade mais simples, revisão para prova">
+      <div>
+        <label>🔥 Dificuldade</label>
+        <select id="dificuldade">
+          <option>Fácil</option>
+          <option>Média</option>
+          <option>Difícil</option>
+          <option>Muito difícil</option>
+        </select>
+      </div>
 
-        <div style="margin-top:10px;">
-            <button onclick="gerarAtividadeBase()">Gerar atividade</button>
-            <button onclick="gerarGabaritoBase()">Gerar gabarito</button>
-            <button onclick="exportarAtividadeBase()">Exportar atividade</button>
-        </div>
-
-        <div class="output" id="saidaAtividade">A atividade aparecerá aqui.</div>
-        <div class="output" id="saidaGabarito">O gabarito aparecerá aqui.</div>
+      <div>
+        <label>🔢 Quantidade de questões</label>
+        <select id="qtd">
+          <option>5</option>
+          <option selected>10</option>
+          <option>15</option>
+          <option>20</option>
+        </select>
+      </div>
     </div>
+
+    <label>📝 Observações do professor</label>
+    <textarea id="temaLivre" placeholder="Ex: foco em revisão para prova, atividade mais simples, mais interpretação, incluir situações-problema, evitar conteúdos muito avançados"></textarea>
+
+    <div class="row">
+      <button onclick="gerarAtividadeBase()">Gerar atividade</button>
+      <button class="good" onclick="gerarGabaritoBase()">Gerar gabarito</button>
+      <button class="secondary" onclick="copiarTexto('saidaAtividade')">Copiar atividade</button>
+      <button class="secondary" onclick="copiarTexto('saidaGabarito')">Copiar gabarito</button>
+      <button class="warn" onclick="exportarAtividadeBase()">Imprimir / Exportar</button>
+      <button class="secondary" onclick="salvarLocal()">Salvar no navegador</button>
+      <button class="secondary" onclick="carregarLocal()">Carregar salvo</button>
+      <button class="danger" onclick="limparTudo()">Limpar tudo</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>➕ Barra de símbolos matemáticos</h2>
+    <div class="small">Clique para inserir símbolos no campo de observações.</div>
+    <div class="toolbar" id="mathToolbar"></div>
+  </div>
+
+  <div class="section">
+    <h2>📊 Painel rápido</h2>
+    <div class="stats">
+      <div class="stat"><strong>Matérias:</strong><br><span class="small">Português, Matemática, História, Ciências, Inglês, Japonês e mais</span></div>
+      <div class="stat"><strong>Tecnologia:</strong><br><span class="small">Pensamento Computacional, Informática e Robótica</span></div>
+      <div class="stat"><strong>Humanas e Natureza:</strong><br><span class="small">Geografia, Filosofia, Sociologia, Biologia, Física e Química</span></div>
+      <div class="stat"><strong>Utilidades:</strong><br><span class="small">Copiar, salvar, carregar, imprimir e gerar gabarito</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🧾 Atividade gerada</h2>
+    <div class="output" id="saidaAtividade">A atividade aparecerá aqui.</div>
+  </div>
+
+  <div class="section">
+    <h2>✅ Gabarito</h2>
+    <div class="output" id="saidaGabarito">O gabarito aparecerá aqui.</div>
+  </div>
+
 </div>
 
+<footer>
+  Laboratório Educacional V5 • completo e pronto para personalização
+</footer>
+
 <script>
+const simbolosMatematicos = [
+  "∧","∨","¬","→","∀","∃","∈","∉","⊂","⊆","∪","∩","≠","≈","≤","≥",
+  "ℕ","ℤ","ℚ","ℝ","ℂ","π","√","∞","Δ","∑","∫","°","×","÷","±","^"
+];
+
+function criarToolbar(){
+  const toolbar = document.getElementById("mathToolbar");
+  toolbar.innerHTML = "";
+  simbolosMatematicos.forEach(s => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = s;
+    b.onclick = () => inserirNoTema(s);
+    toolbar.appendChild(b);
+  });
+}
+function inserirNoTema(txt){
+  const campo = document.getElementById("temaLivre");
+  const start = campo.selectionStart || 0;
+  const end = campo.selectionEnd || 0;
+  const value = campo.value;
+  campo.value = value.slice(0,start) + txt + value.slice(end);
+  campo.focus();
+  campo.selectionStart = campo.selectionEnd = start + txt.length;
+}
+
 const baseConhecimento = {
   "Português": {
     "Alfabetização": [
-      "Letras","Alfabeto","Letras maiúsculas e minúsculas","Vogais","Consoantes","Sons da língua","Sílabas","Separação silábica","Encontros vocálicos","Encontros consonantais","Dígrafos","Formação de palavras","Juntar sílabas","Leitura de palavras","Escrita básica"
+      "Letras","Alfabeto","Letras maiúsculas e minúsculas","Vogais","Consoantes","Sílabas","Separação silábica","Dígrafos","Formação de palavras","Leitura de palavras","Escrita básica"
     ],
     "Leitura": [
-      "Interpretação de texto","Ideia principal","Tema do texto","Inferência","Resumo","Narrativo","Descritivo","Dissertativo","Injuntivo","Informativo","Conto","Fábula","Crônica","Notícia","Reportagem","Carta","E-mail","Artigo","Poema","Propaganda","Receita","Tirinha","Charge"
+      "Interpretação de texto","Ideia principal","Tema do texto","Inferência","Resumo","Conto","Fábula","Crônica","Notícia","Poema","Tirinha","Charge"
     ],
     "Produção de texto": [
-      "Introdução","Desenvolvimento","Conclusão","Narrativa","Descrição","Dissertação","Argumentação","Coerência","Coesão","Paragrafação","Conectivos"
+      "Introdução","Desenvolvimento","Conclusão","Narrativa","Descrição","Argumentação","Coerência","Coesão","Paragrafação","Conectivos"
     ],
     "Gramática": [
       "Substantivo","Artigo","Adjetivo","Pronome","Verbo","Advérbio","Preposição","Conjunção","Interjeição"
     ],
     "Sintaxe": [
-      "Sujeito","Predicado","Objeto direto","Objeto indireto","Complemento nominal","Agente da passiva","Frase","Oração","Período","Coordenação","Subordinação"
+      "Sujeito","Predicado","Objeto direto","Objeto indireto","Frase","Oração","Período","Coordenação","Subordinação"
     ],
     "Pontuação": [
       "Ponto final","Vírgula","Ponto e vírgula","Dois pontos","Ponto de interrogação","Ponto de exclamação","Reticências","Travessão","Aspas","Parênteses"
@@ -194,86 +365,329 @@ const baseConhecimento = {
     "Ortografia": [
       "Uso do s, ss, ç, z","Uso do x e ch","Uso do g e j","Uso do m e n","Uso do r e rr","Acentuação"
     ],
-    "Acentuação": [
-      "Oxítonas","Paroxítonas","Proparoxítonas","Acento agudo","Acento circunflexo","Til","Crase"
-    ],
     "Literatura": [
-      "Trovadorismo","Humanismo","Classicismo","Barroco","Arcadismo","Romantismo","Realismo","Naturalismo","Parnasianismo","Simbolismo","Modernismo","Autor","Contexto histórico","Figuras de linguagem","Interpretação"
+      "Trovadorismo","Classicismo","Barroco","Arcadismo","Romantismo","Realismo","Naturalismo","Parnasianismo","Simbolismo","Modernismo","Figuras de linguagem"
+    ]
+  },
+
+  "Matemática": {
+    "Fundamentos": [
+      "Lógica matemática","Proposições","Conectivos lógicos (∧, ∨, ¬, →)","Tabelas verdade","Argumentos e provas","Quantificadores (∀, ∃)","Teoria dos conjuntos","Conjuntos e subconjuntos","União, interseção, diferença","Conjuntos numéricos (ℕ, ℤ, ℚ, ℝ, ℂ)"
     ],
-    "Figuras de linguagem": [
-      "Metáfora","Comparação","Metonímia","Hipérbole","Ironia","Eufemismo","Personificação","Antítese","Paradoxo"
+    "Aritmética": [
+      "Operações básicas","Divisibilidade","Números primos","Fatoração","MMC","MDC","Sequências numéricas"
     ],
-    "Comunicação": [
-      "Oralidade","Apresentação","Debate","Argumentação","Linguagem formal","Linguagem informal","Variação linguística","Regionalismos"
+    "Álgebra": [
+      "Álgebra básica","Expressões algébricas","Polinômios","Equações","Grupos","Anéis","Corpos","Homomorfismos","Matrizes","Determinantes","Vetores","Espaços vetoriais"
     ],
-    "Linguística": [
-      "Fonética","Fonologia","Morfologia","Sintaxe","Semântica","Pragmática"
+    "Cálculo": [
+      "Limites","Derivadas","Regra da potência: d/dx (x^n) = n·x^(n−1)","Integrais","Regra da integral: ∫x^n dx = x^(n+1)/(n+1) + C","Cálculo multivariável","Integrais múltiplas","Campos vetoriais"
+    ],
+    "Geometria": [
+      "Geometria plana","Geometria espacial","Plano cartesiano","Retas e curvas","Geometria diferencial","Geometria não euclidiana","Topologia"
+    ],
+    "Trigonometria": [
+      "Funções trigonométricas","Identidades trigonométricas","sen²(x) + cos²(x) = 1","Equações trigonométricas","Séries trigonométricas"
+    ],
+    "Probabilidade": [
+      "Probabilidade clássica","Probabilidade condicional","Teorema de Bayes","Variáveis aleatórias","Distribuições"
+    ],
+    "Estatística": [
+      "Estatística descritiva","Inferência estatística","Regressão","Análise de dados","Machine Learning (base matemática)"
+    ],
+    "Matemática financeira": [
+      "Juros","Investimentos","Análise de risco"
+    ],
+    "Matemática discreta": [
+      "Grafos","Combinatória","Algoritmos","Criptografia"
+    ],
+    "Teoria dos números": [
+      "Números primos","Congruências","Criptografia moderna"
+    ],
+    "Análise matemática": [
+      "Sequências e séries","Convergência","Continuidade","Funções reais"
+    ],
+    "Equações diferenciais": [
+      "Equações ordinárias","Equações parciais","Modelagem matemática"
+    ],
+    "Matemática aplicada": [
+      "Física matemática","Engenharia","Computação","Economia"
+    ],
+    "Matemática computacional": [
+      "Algoritmos numéricos","Simulações","Inteligência artificial"
+    ],
+    "Lógica avançada": [
+      "Teoria da prova","Lógica computacional","Teoria da computação"
+    ],
+    "Áreas super avançadas": [
+      "Topologia algébrica","Geometria algébrica","Análise funcional","Teoria das categorias","Teoria do caos","Sistemas dinâmicos","Fractais"
+    ],
+    "Combinatória": [
+      "Permutações","Combinações","Arranjos"
+    ],
+    "Modelagem matemática": [
+      "Modelos físicos","Modelos biológicos","Modelos econômicos"
+    ],
+    "Interdisciplinares": [
+      "Bioinformática","Matemática quântica","Redes neurais","Big Data"
     ]
   },
 
   "História": {
     "Pré-História": [
-      "Origem da humanidade","Evolução humana","Australopitecos","Homo habilis","Homo erectus","Homo sapiens","Paleolítico","Mesolítico","Neolítico","Idade dos Metais","Nomadismo","Caça e coleta","Descoberta do fogo","Agricultura","Domesticação de animais","Primeiras aldeias","Pinturas rupestres","Ferramentas de pedra"
+      "Origem da humanidade","Evolução humana","Paleolítico","Neolítico","Idade dos Metais","Nomadismo","Agricultura","Pinturas rupestres"
     ],
     "Antiguidade": [
-      "Mesopotâmia","Sumérios","Acádios","Babilônios","Assírios","Caldeus","Código de Hamurabi","Escrita cuneiforme","Cidades-estado","Egito Antigo","Faraós","Pirâmides","Mumificação","Hieróglifos","Religião egípcia","Sociedade egípcia","Rio Nilo","Hebreus","Monoteísmo","Bíblia","Fenícios","Comércio marítimo","Alfabeto","Persas","Império Persa","Estradas reais","Administração imperial"
+      "Mesopotâmia","Egito Antigo","Hebreus","Fenícios","Persas"
     ],
     "Antiguidade Clássica": [
-      "Grécia Antiga","Atenas","Esparta","Democracia ateniense","Filosofia grega","Jogos Olímpicos","Sócrates","Platão","Aristóteles","Guerras Médicas","Guerra do Peloponeso","Roma Antiga","Monarquia","República","Império","Senado romano","Direito romano","Exército romano","Coliseu","Pax Romana","Queda de Roma","Invasões bárbaras","Crise do Império"
+      "Grécia Antiga","Atenas","Esparta","Democracia ateniense","Roma Antiga","República","Império","Queda de Roma"
     ],
     "Idade Média": [
-      "Feudalismo","Senhores feudais","Servos","Feudos","Economia agrária","Igreja medieval","Papado","Mosteiros","Cruzadas","Guerras religiosas","Clero","Nobreza","Camponeses","Castelos","Cavaleiros","Universidades","Peste Negra","Guerras","Fome"
+      "Feudalismo","Servos","Feudos","Igreja medieval","Cruzadas","Peste Negra"
     ],
     "Idade Moderna": [
-      "Renascimento","Leonardo da Vinci","Michelangelo","Arte renascentista","Humanismo","Reforma Protestante","Martinho Lutero","João Calvino","Anglicanismo","Contrarreforma","Concílio de Trento","Companhia de Jesus","Grandes Navegações","Portugal","Espanha","Cristóvão Colombo","Vasco da Gama","Pedro Álvares Cabral","Colonização da América","Escravidão","Plantation","Absolutismo","Luís XIV","Estado centralizado"
+      "Renascimento","Humanismo","Reforma Protestante","Contrarreforma","Grandes Navegações","Absolutismo"
     ],
     "Revoluções": [
-      "Revolução Inglesa","Parlamento","Monarquia constitucional","Independência dos EUA","1776","Constituição americana","Revolução Francesa","Queda da monarquia","Liberdade, igualdade, fraternidade","Napoleão Bonaparte"
+      "Revolução Inglesa","Independência dos EUA","Revolução Francesa","Napoleão Bonaparte"
     ],
     "Revolução Industrial": [
-      "Máquinas","Fábricas","Urbanização","Trabalho operário","Capitalismo","Movimentos trabalhistas"
-    ],
-    "Século XIX": [
-      "Imperialismo","Domínio europeu na África","Domínio europeu na Ásia","Nacionalismo","Unificação da Alemanha","Unificação da Itália"
+      "Máquinas","Fábricas","Urbanização","Capitalismo","Movimentos trabalhistas"
     ],
     "Guerras Mundiais": [
-      "Primeira Guerra Mundial","Tríplice Entente","Tríplice Aliança","Tratado de Versalhes","Segunda Guerra Mundial","Nazismo","Fascismo","Hitler","Mussolini","Holocausto","Bombas atômicas"
+      "Primeira Guerra Mundial","Tratado de Versalhes","Segunda Guerra Mundial","Nazismo","Fascismo","Holocausto"
     ],
     "Guerra Fria": [
-      "EUA vs URSS","Capitalismo vs Socialismo","Corrida espacial","Corrida armamentista","Muro de Berlim","Guerra do Vietnã","Crise dos mísseis de Cuba"
-    ],
-    "Mundo Contemporâneo": [
-      "Globalização","Economia global","Internet","Conflitos recentes","Terrorismo","Guerras modernas","Tecnologia","Revolução digital","Inteligência artificial"
+      "EUA vs URSS","Corrida espacial","Muro de Berlim","Crise dos mísseis de Cuba"
     ],
     "História do Brasil": [
-      "Brasil Pré-Colonial","Povos indígenas","Brasil Colonial","Descobrimento","Capitanias hereditárias","Engenhos de açúcar","Escravidão","Brasil Império","Independência","Dom Pedro I","Dom Pedro II","Brasil República","República Velha","Coronelismo","Era Vargas","Industrialização","Ditadura Militar","Constituição de 1988","Democracia"
+      "Povos indígenas","Brasil Colonial","Escravidão","Independência","Brasil Império","República","Era Vargas","Ditadura Militar","Constituição de 1988"
     ]
   },
 
   "Ciências": {
     "Método científico": [
-      "O que é ciência","Observação","Formulação de hipóteses","Experimentos","Coleta de dados","Análise de resultados","Conclusão científica","Revisão por pares"
+      "O que é ciência","Observação","Hipóteses","Experimentos","Coleta de dados","Conclusão científica"
     ],
     "Ciências da Terra": [
-      "Estrutura da Terra","Crosta","Manto","Núcleo","Rochas e minerais","Rochas ígneas","Rochas sedimentares","Rochas metamórficas","Ciclo das rochas","Solo","Formação do solo","Tipos de solo","Fertilidade do solo","Erosão","Ciclo da água","Estados físicos da água","Água potável","Poluição da água","Tratamento da água","Atmosfera","Camadas da atmosfera","Ar e composição","Pressão atmosférica","Ventos","Clima e tempo","Terremotos","Vulcões","Tsunamis","Furacões","Tornados"
+      "Estrutura da Terra","Rochas e minerais","Solo","Ciclo da água","Atmosfera","Clima e tempo","Vulcões","Terremotos"
     ],
     "Astronomia": [
-      "Universo","Galáxias","Via Láctea","Sistema Solar","Sol","Planetas","Planetas anões","Asteroides","Cometas","Meteoros","Rotação","Translação","Dia e noite","Estações do ano","Eclipses","Fases da Lua","Marés"
+      "Universo","Galáxias","Sistema Solar","Sol","Planetas","Rotação","Translação","Fases da Lua"
     ],
     "Biologia": [
-      "Origem da vida","Teorias da origem da vida","Evolução","Células","Célula animal","Célula vegetal","Organelas celulares","Membrana celular","Mitose","Meiose","DNA","Genes","Cromossomos","Hereditariedade","Genética mendeliana","Mutação genética","Classificação dos seres vivos","Reinos da vida","Domínios","Taxonomia","Bactérias","Vírus","Protozoários","Fungos","Plantas","Fotossíntese","Respiração vegetal","Partes da planta","Reprodução das plantas","Animais","Invertebrados","Vertebrados","Corpo humano","Sistema digestório","Sistema respiratório","Sistema circulatório","Sistema nervoso","Sistema urinário","Sistema reprodutor","Sistema imunológico","Sistema muscular","Sistema esquelético","Alimentação saudável","Doenças","Vacinas","Higiene","Exercício físico"
+      "Origem da vida","Evolução","Células","DNA","Genes","Classificação dos seres vivos","Plantas","Animais","Corpo humano","Vacinas","Higiene"
     ],
     "Ecologia": [
-      "Ecossistemas","Cadeia alimentar","Teia alimentar","Produtores","Consumidores","Decompositores","Predação","Parasitismo","Mutualismo","Competição","Biomas","Floresta","Cerrado","Deserto","Tundra","Savana","Impacto ambiental","Poluição","Aquecimento global","Desmatamento","Extinção de espécies","Sustentabilidade","Energia renovável","Reciclagem","Preservação ambiental"
+      "Ecossistemas","Cadeia alimentar","Biomas","Poluição","Aquecimento global","Desmatamento","Sustentabilidade","Reciclagem"
     ],
     "Química": [
-      "Matéria","Massa","Volume","Densidade","Estados físicos","Sólido","Líquido","Gasoso","Plasma","Mudanças físicas","Mudanças químicas","Átomos","Prótons","Nêutrons","Elétrons","Tabela periódica","Elementos químicos","Metais","Não metais","Gases nobres","Ligações químicas","Iônica","Covalente","Metálica","Reações químicas","Reagentes","Produtos","Balanceamento","Soluções","Soluto","Solvente","Concentração"
+      "Matéria","Massa","Volume","Densidade","Estados físicos","Átomos","Tabela periódica","Ligações químicas","Reações químicas","Soluções"
     ],
     "Física": [
-      "Movimento","Velocidade","Aceleração","Trajetória","Força","Gravidade","Atrito","Leis de Newton","Energia","Energia cinética","Energia potencial","Energia térmica","Energia elétrica","Energia nuclear","Trabalho e potência","Calor e temperatura","Transferência de calor","Condução","Convecção","Radiação","Ondas","Som","Luz","Frequência","Comprimento de onda","Eletricidade","Corrente elétrica","Tensão","Resistência","Circuitos elétricos","Magnetismo","Campo magnético","Ímãs","Eletromagnetismo"
+      "Movimento","Velocidade","Aceleração","Força","Gravidade","Leis de Newton","Energia","Calor e temperatura","Ondas","Som","Luz","Eletricidade","Magnetismo"
+    ]
+  },
+
+  "Inglês": {
+    "Alfabetização em inglês": [
+      "alfabeto em inglês","letras maiúsculas e minúsculas","pronúncia das letras","sons básicos da língua","relação entre escrita e pronúncia","soletração de palavras","números em inglês","cores","dias da semana","meses do ano","estações do ano","saudações e despedidas"
     ],
-    "Tecnologia e ciência aplicada": [
-      "Biotecnologia","Engenharia genética","Nanotecnologia","Inteligência artificial na ciência","Medicina moderna","Exploração espacial"
+    "Vocabulário básico": [
+      "família","escola","casa","objetos do cotidiano","alimentos e bebidas","roupas","animais","partes do corpo","profissões","lugares da cidade","transportes","clima e tempo","hobbies","esportes","sentimentos e emoções","aparência física","nacionalidades","idiomas","materiais escolares","tecnologia","dinheiro e compras"
+    ],
+    "Leitura": [
+      "reconhecimento de palavras","leitura de frases simples","compreensão de textos curtos","interpretação de diálogos","leitura de histórias","leitura de notícias","leitura de anúncios","leitura de instruções","leitura de e-mails","leitura de textos informativos","leitura de poemas","leitura de letras de música","leitura de textos argumentativos","inferência de significado pelo contexto"
+    ],
+    "Escrita": [
+      "formação de frases","escrita de palavras e sentenças","pontuação em inglês","uso de maiúsculas","produção de pequenos textos","descrição de pessoas, lugares e objetos","escrita de diálogos","cartas","e-mails","convites","mensagens","resumos","narrativas","opiniões","textos formais e informais"
+    ],
+    "Gramática básica": [
+      "substantivos","artigos","plural","adjetivos","pronomes pessoais","pronomes possessivos","pronomes demonstrativos","verb to be","there is / there are","this / that / these / those","possessive adjectives","possessive ’s","preposições","conjunctions","question words"
+    ],
+    "Tempos verbais": [
+      "simple present","present continuous","simple past","past continuous","present perfect","past perfect","simple future","going to","future continuous","future perfect","uso de verbos regulares","uso de verbos irregulares"
+    ],
+    "Estruturas intermediárias": [
+      "modal verbs","can, could, may, might, must, should, would","comparatives","superlatives","adverbs","frequency adverbs","countable and uncountable nouns","much, many, few, little","some, any, no","quantifiers","articles a, an, the","gerund and infinitive","phrasal verbs","relative clauses","conditionals","passive voice","direct and indirect speech","reported speech","question tags"
+    ],
+    "Pronúncia e escuta": [
+      "listening","sons vocálicos e consonantais","entonação","ritmo da fala","connected speech","redução de sons","acento tônico","compreensão oral","escuta de diálogos","escuta de filmes, séries e músicas","diferentes sotaques"
+    ],
+    "Conversação": [
+      "apresentação pessoal","pedir informações","fazer perguntas","falar sobre rotina","falar sobre passado","falar sobre planos","dar opiniões","concordar e discordar","fazer compras","pedir comida","viajar","conversar ao telefone","entrevistas","situações formais e informais"
+    ],
+    "Inglês avançado": [
+      "argumentação","escrita acadêmica","interpretação de textos complexos","expressões idiomáticas","collocations","nuances de sentido","variações de registro","inglês técnico","inglês profissional","inglês para negócios","inglês para provas","análise literária em inglês"
+    ]
+  },
+
+  "Japonês": {
+    "Introdução ao idioma": [
+      "sons do japonês","pronúncia básica","sílabas","ritmo da fala","cumprimentos","expressões do dia a dia","apresentação pessoal"
+    ],
+    "Sistemas de escrita": [
+      "hiragana","katakana","kanji","ordem dos traços","leitura on’yomi e kun’yomi","romanização (romaji)"
+    ],
+    "Vocabulário básico": [
+      "números","cores","família","escola","comidas","animais","partes do corpo","objetos","lugares","tempo e clima","dias da semana","meses","horas","verbos comuns","adjetivos","sentimentos"
+    ],
+    "Estrutura da frase": [
+      "ordem da frase em japonês","sujeito, objeto e verbo","partículas","wa","ga","o","ni","de","no","mo","to","kara","made","e"
+    ],
+    "Gramática básica": [
+      "verbos no presente","passado","negativo","passado negativo","adjetivos i","adjetivos na","substantivos","cópula desu","perguntas com ka","demonstrativos kore, sore, are","aqui, aí, lá","posse","existência: aru e iru"
+    ],
+    "Verbos e conjugações": [
+      "forma masu","forma dicionário","forma te","forma nai","forma ta","forma potencial","forma volitiva","forma imperativa","forma passiva","forma causativa","forma condicional","pedidos e permissões"
+    ],
+    "Níveis de formalidade": [
+      "linguagem informal","linguagem formal","keigo básico","respeito e humildade na fala","tratamento social"
+    ],
+    "Leitura e escrita": [
+      "leitura de hiragana","leitura de katakana","leitura de kanji","escrita correta dos caracteres","leitura de frases","leitura de diálogos","leitura de textos simples","leitura de mangás, placas, menus e mensagens"
+    ],
+    "Escuta e fala": [
+      "escuta de diálogos","compreensão oral","pronúncia correta","entonação","conversas cotidianas","pedir ajuda","fazer perguntas","compras","transporte","restaurante","escola","anime e cultura pop como apoio ao idioma"
+    ],
+    "Kanji e vocabulário avançado": [
+      "radicais","formação dos kanji","múltiplas leituras","vocabulário acadêmico","leitura de textos mais complexos","expressões idiomáticas","japonês formal escrito","japonês para trabalho","japonês para exames"
+    ],
+    "Cultura e contexto": [
+      "costumes japoneses","formas de cumprimento","etiqueta","cultura escolar","cultura empresarial","festivais","história da língua","influência cultural na linguagem"
+    ]
+  },
+
+  "Pensamento Computacional": {
+    "Base do pensamento computacional": [
+      "raciocínio lógico","sequência lógica","organização de passos","solução de problemas","identificação de padrões","abstração","decomposição de problemas","criação de estratégias"
+    ],
+    "Algoritmos": [
+      "o que é algoritmo","instruções passo a passo","entrada, processamento e saída","fluxogramas","pseudocódigo","sequência","decisão","repetição","algoritmos do cotidiano"
+    ],
+    "Lógica": [
+      "verdadeiro e falso","operadores lógicos","comparações","condições","tabelas verdade","estruturas de decisão","estruturas de repetição","problemas lógicos"
+    ],
+    "Decomposição": [
+      "dividir problemas grandes em partes menores","identificar subtarefas","organizar etapas","modularização"
+    ],
+    "Reconhecimento de padrões": [
+      "identificar repetições","prever comportamentos","generalizar soluções","padrões em números","padrões em imagens","padrões em dados"
+    ],
+    "Abstração": [
+      "focar no que importa","ignorar detalhes irrelevantes","criar modelos simplificados","representar situações com símbolos e regras"
+    ],
+    "Programação inicial": [
+      "comandos básicos","variáveis","tipos de dados","operadores","entrada e saída","condicionais","laços","funções","eventos","blocos de programação","programação visual","programação textual"
+    ],
+    "Depuração e testes": [
+      "identificar erros","testar soluções","corrigir bugs","validar resultados","melhorar algoritmos"
+    ],
+    "Dados e informação": [
+      "coleta de dados","organização de dados","tabelas","gráficos","interpretação de dados","uso de planilhas","banco de dados básico"
+    ],
+    "Automação e tecnologia": [
+      "automação de tarefas","robótica educacional","sensores","Internet das Coisas","inteligência artificial básica","noções de redes","segurança digital","cidadania digital"
+    ],
+    "Projetos computacionais": [
+      "criar jogos simples","criar aplicativos simples","criar animações","criar sites","resolver desafios de lógica","trabalho em equipe em tecnologia"
+    ]
+  },
+
+  "Geografia": {
+    "Geografia geral": [
+      "espaço geográfico","paisagem","território","lugar","região","cartografia","mapas","clima","relevo","vegetação","hidrografia","população","urbanização","migrações","economia","globalização","geopolítica","meio ambiente","recursos naturais","agricultura","indústria","transportes"
+    ]
+  },
+
+  "Biologia": {
+    "Biologia geral": [
+      "célula","tecidos","órgãos e sistemas","genética","evolução","ecologia","zoologia","botânica","microbiologia","fisiologia","reprodução","classificação dos seres vivos","biotecnologia","imunologia","parasitologia"
+    ]
+  },
+
+  "Física": {
+    "Física geral": [
+      "movimento","velocidade","aceleração","força","leis de Newton","energia","trabalho","potência","gravitação","impulso","quantidade de movimento","calor","temperatura","termodinâmica","óptica","ondulatória","eletricidade","magnetismo","circuitos","física moderna","relatividade","física quântica básica"
+    ]
+  },
+
+  "Química": {
+    "Química geral": [
+      "matéria","átomos","moléculas","elementos químicos","tabela periódica","ligações químicas","funções inorgânicas","reações químicas","estequiometria","soluções","concentração","gases","termoquímica","cinética química","equilíbrio químico","eletroquímica","química orgânica","polímeros","bioquímica"
+    ]
+  },
+
+  "Filosofia": {
+    "Filosofia geral": [
+      "pensamento filosófico","lógica","ética","moral","política","conhecimento","verdade","existência","linguagem","estética","filosofia antiga","medieval","moderna","contemporânea","grandes filósofos","argumentação filosófica"
+    ]
+  },
+
+  "Sociologia": {
+    "Sociologia geral": [
+      "sociedade","cultura","cidadania","trabalho","política","poder","desigualdade social","movimentos sociais","identidade","instituições sociais","mídia","globalização","relações sociais","direitos humanos"
+    ]
+  },
+
+  "Arte": {
+    "Arte geral": [
+      "artes visuais","desenho","pintura","escultura","fotografia","cinema","teatro","dança","música","história da arte","arte brasileira","arte contemporânea","percepção estética","criação artística"
+    ]
+  },
+
+  "Educação Física": {
+    "Educação Física geral": [
+      "corpo e movimento","coordenação motora","jogos","esportes","dança","lutas","ginástica","saúde corporal","alongamento","resistência","força","recreação","trabalho em equipe","regras esportivas"
+    ]
+  },
+
+  "Espanhol": {
+    "Espanhol geral": [
+      "vocabulário","gramática","leitura","escrita","compreensão oral","conversação","cultura hispânica"
+    ]
+  },
+
+  "Informática": {
+    "Informática e tecnologia": [
+      "noções básicas de computador","hardware","software","internet","digitação","editores de texto","planilhas","apresentações","segurança digital","programação","lógica de programação","redes","banco de dados","desenvolvimento web","cidadania digital"
+    ]
+  },
+
+  "Robótica": {
+    "Robótica geral": [
+      "montagem","sensores","motores","programação de robôs","automação","eletrônica básica","projetos práticos"
+    ]
+  },
+
+  "Educação Financeira": {
+    "Educação financeira": [
+      "dinheiro","consumo consciente","orçamento","poupança","investimentos básicos","planejamento financeiro"
+    ]
+  },
+
+  "Empreendedorismo": {
+    "Empreendedorismo": [
+      "empreendedorismo","criação de projetos","administração básica","planejamento","inovação","gestão"
+    ]
+  },
+
+  "Ensino Religioso": {
+    "Ensino religioso": [
+      "religiões","valores","cultura religiosa","respeito à diversidade","ética","tradições e crenças"
+    ]
+  },
+
+  "Projeto de Vida": {
+    "Projeto de vida": [
+      "autoconhecimento","objetivos","planejamento pessoal","carreira","cidadania","responsabilidade","competências socioemocionais"
+    ]
+  },
+
+  "Temas Transversais": {
+    "Temas transversais": [
+      "cidadania","ética","meio ambiente","saúde","diversidade","inclusão","direitos humanos","tecnologia","cultura digital","sustentabilidade"
     ]
   }
 };
@@ -281,173 +695,667 @@ const baseConhecimento = {
 let gabaritoAtual = [];
 
 function carregarAreas(){
-    const materia = document.getElementById("materia").value;
-    const area = document.getElementById("area");
-    const subtema = document.getElementById("subtema");
+  const materia = document.getElementById("materia").value;
+  const area = document.getElementById("area");
+  const subtema = document.getElementById("subtema");
+  area.innerHTML = "";
+  subtema.innerHTML = '<option value="">Selecione uma área primeiro</option>';
 
-    area.innerHTML = "";
-    subtema.innerHTML = '<option value="">Selecione uma área primeiro</option>';
+  if(!materia || !baseConhecimento[materia]){
+    area.innerHTML = '<option value="">Selecione uma matéria primeiro</option>';
+    return;
+  }
 
-    if(!materia || !baseConhecimento[materia]){
-        area.innerHTML = '<option value="">Selecione uma matéria primeiro</option>';
-        return;
-    }
-
-    area.innerHTML = '<option value="">Selecione</option>';
-    Object.keys(baseConhecimento[materia]).forEach(item => {
-        area.innerHTML += `<option>${item}</option>`;
-    });
+  area.innerHTML = '<option value="">Selecione</option>';
+  Object.keys(baseConhecimento[materia]).forEach(item=>{
+    area.innerHTML += `<option>${item}</option>`;
+  });
 }
 
 function carregarSubtemas(){
-    const materia = document.getElementById("materia").value;
-    const area = document.getElementById("area").value;
-    const subtema = document.getElementById("subtema");
+  const materia = document.getElementById("materia").value;
+  const area = document.getElementById("area").value;
+  const subtema = document.getElementById("subtema");
+  subtema.innerHTML = "";
 
-    subtema.innerHTML = "";
+  if(!materia || !area || !baseConhecimento[materia] || !baseConhecimento[materia][area]){
+    subtema.innerHTML = '<option value="">Selecione uma área primeiro</option>';
+    return;
+  }
 
-    if(!materia || !area || !baseConhecimento[materia] || !baseConhecimento[materia][area]){
-        subtema.innerHTML = '<option value="">Selecione uma área primeiro</option>';
-        return;
-    }
+  subtema.innerHTML = '<option value="">Selecione</option>';
+  baseConhecimento[materia][area].forEach(item=>{
+    subtema.innerHTML += `<option>${item}</option>`;
+  });
+}
 
-    subtema.innerHTML = '<option value="">Selecione</option>';
-    baseConhecimento[materia][area].forEach(item => {
-        subtema.innerHTML += `<option>${item}</option>`;
-    });
+function rand(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
+function pick(arr){
+  return arr[rand(0,arr.length-1)];
+}
+function embaralhar(array){
+  const a = [...array];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function gerarAlternativas(correta){
+  let opcoes = [];
+
+  if(typeof correta === "number"){
+    opcoes = [correta, correta+1, correta-1, correta+2].map(x=>String(x));
+  }else{
+    opcoes = [
+      String(correta),
+      "Alternativa incorreta 1",
+      "Alternativa incorreta 2",
+      "Alternativa incorreta 3"
+    ];
+  }
+
+  opcoes = embaralhar(opcoes);
+
+  return {
+    texto: `A) ${opcoes[0]}\nB) ${opcoes[1]}\nC) ${opcoes[2]}\nD) ${opcoes[3]}`,
+    letra: ["A","B","C","D"][opcoes.indexOf(String(correta))]
+  };
 }
 
 function gerarAtividadeBase(){
-    const materia = document.getElementById("materia").value;
-    const area = document.getElementById("area").value;
-    const subtema = document.getElementById("subtema").value;
-    const ano = document.getElementById("ano").value;
-    const tipo = document.getElementById("tipo").value;
-    const qtd = parseInt(document.getElementById("qtd").value);
-    const temaLivre = document.getElementById("temaLivre").value.trim();
+  const materia = document.getElementById("materia").value;
+  const area = document.getElementById("area").value;
+  const subtema = document.getElementById("subtema").value;
+  const ano = document.getElementById("ano").value;
+  const tipo = document.getElementById("tipo").value;
+  const formato = document.getElementById("formato").value;
+  const dificuldade = document.getElementById("dificuldade").value;
+  const qtd = parseInt(document.getElementById("qtd").value);
+  const temaLivre = document.getElementById("temaLivre").value.trim();
 
-    if(!materia || !area){
-        document.getElementById("saidaAtividade").textContent = "Selecione a matéria e a área.";
-        return;
-    }
+  if(!materia || !area){
+    document.getElementById("saidaAtividade").textContent = "Selecione a matéria e a área.";
+    return;
+  }
 
-    const listaConteudos = baseConhecimento[materia][area] || [];
-    const baseQuestoes = subtema ? [subtema, ...listaConteudos.filter(x => x !== subtema)] : listaConteudos;
+  const listaConteudos = baseConhecimento[materia][area] || [];
+  const baseQuestoes = subtema ? [subtema, ...listaConteudos.filter(x=>x!==subtema)] : listaConteudos;
 
-    let texto = "📚 " + tipo.toUpperCase() + "\n\n";
-    texto += "Matéria: " + materia + "\n";
-    texto += "Área: " + area + "\n";
-    texto += "Subtema: " + (subtema || "Geral da área") + "\n";
-    texto += "Ano escolar: " + ano + "\n";
-    if(temaLivre) texto += "Observação do professor: " + temaLivre + "\n";
-    texto += "\nCONTEÚDOS DE APOIO:\n";
+  let texto = "";
+  texto += "📚 " + tipo.toUpperCase() + "\n\n";
+  texto += "Matéria: " + materia + "\n";
+  texto += "Área: " + area + "\n";
+  texto += "Subtema: " + (subtema || "Geral da área") + "\n";
+  texto += "Ano escolar: " + ano + "\n";
+  texto += "Formato: " + formato + "\n";
+  texto += "Dificuldade: " + dificuldade + "\n";
+  if(temaLivre) texto += "Observações: " + temaLivre + "\n";
 
-    baseQuestoes.slice(0, Math.min(8, baseQuestoes.length)).forEach((item, i) => {
-        texto += (i + 1) + ". " + item + "\n";
-    });
+  texto += "\nCONTEÚDOS DE APOIO:\n";
+  baseQuestoes.slice(0, Math.min(10, baseQuestoes.length)).forEach((item,i)=>{
+    texto += (i+1) + ". " + item + "\n";
+  });
 
-    texto += "\nQUESTÕES:\n\n";
-    gabaritoAtual = [];
+  texto += "\nQUESTÕES:\n\n";
+  gabaritoAtual = [];
 
-    for(let i = 0; i < qtd; i++){
-        const conteudo = baseQuestoes[i % baseQuestoes.length];
-        const questao = montarQuestao(materia, area, conteudo, i + 1);
-        texto += (i + 1) + ") " + questao.pergunta + "\n\n";
-        gabaritoAtual.push((i + 1) + ") " + questao.resposta);
-    }
+  for(let i=0;i<qtd;i++){
+    const conteudo = baseQuestoes[i % baseQuestoes.length];
+    const questao = montarQuestao(materia, area, conteudo, i+1, formato, dificuldade);
+    texto += (i+1) + ") " + questao.pergunta + "\n";
+    if(questao.alternativas) texto += questao.alternativas + "\n";
+    texto += "\n";
+    gabaritoAtual.push((i+1) + ") " + questao.resposta);
+  }
 
-    document.getElementById("saidaAtividade").textContent = texto;
-    document.getElementById("saidaGabarito").textContent = "Clique em \"Gerar gabarito\".";
+  document.getElementById("saidaAtividade").textContent = texto;
+  document.getElementById("saidaGabarito").textContent = "Clique em “Gerar gabarito”.";
 }
 
-function montarQuestao(materia, area, conteudo, numero){
-    if(materia === "Português"){
-        const modelos = [
-            {
-                pergunta: "Explique com suas palavras o que é \"" + conteudo + "\".",
-                resposta: "Resposta esperada: definição correta de " + conteudo + "."
-            },
-            {
-                pergunta: "Escreva um exemplo relacionado a \"" + conteudo + "\".",
-                resposta: "Resposta pessoal com exemplo coerente de " + conteudo + "."
-            },
-            {
-                pergunta: "Produza uma frase ou pequeno texto usando o conteúdo \"" + conteudo + "\".",
-                resposta: "Resposta pessoal. Avaliar uso correto de " + conteudo + "."
-            },
-            {
-                pergunta: "Diga por que \"" + conteudo + "\" é importante no estudo de " + area + ".",
-                resposta: "Resposta pessoal. Espera-se justificativa coerente."
-            }
-        ];
-        return modelos[(numero - 1) % modelos.length];
-    }
+function montarQuestao(materia, area, conteudo, numero, formato, dificuldade){
+  const usarMultipla = formato === "Múltipla escolha" || (formato === "Mista" && numero % 2 === 0);
 
-    if(materia === "História"){
-        const modelos = [
-            {
-                pergunta: "Explique o significado histórico de \"" + conteudo + "\".",
-                resposta: "Resposta esperada: explicação histórica coerente sobre " + conteudo + "."
-            },
-            {
-                pergunta: "Cite uma característica importante de \"" + conteudo + "\".",
-                resposta: "Resposta esperada: ao menos uma característica correta de " + conteudo + "."
-            },
-            {
-                pergunta: "Relacione \"" + conteudo + "\" com a área \"" + area + "\".",
-                resposta: "Resposta pessoal. Deve mostrar relação histórica correta."
-            },
-            {
-                pergunta: "Por que \"" + conteudo + "\" é importante para entender a História?",
-                resposta: "Resposta pessoal. Espera-se reflexão coerente."
-            }
-        ];
-        return modelos[(numero - 1) % modelos.length];
-    }
+  if(materia === "Matemática"){
+    const matematicaReal = gerarQuestaoMatematicaReal(area, conteudo, usarMultipla);
+    if(matematicaReal) return matematicaReal;
 
-    if(materia === "Ciências"){
-        const modelos = [
-            {
-                pergunta: "Defina o conceito de \"" + conteudo + "\".",
-                resposta: "Resposta esperada: definição correta de " + conteudo + "."
-            },
-            {
-                pergunta: "Dê um exemplo de aplicação ou ocorrência de \"" + conteudo + "\".",
-                resposta: "Resposta pessoal com exemplo coerente de " + conteudo + "."
-            },
-            {
-                pergunta: "Explique a importância de \"" + conteudo + "\" no estudo de " + area + ".",
-                resposta: "Resposta pessoal. Espera-se explicação coerente."
-            },
-            {
-                pergunta: "Descreva o que acontece em \"" + conteudo + "\".",
-                resposta: "Resposta esperada: descrição adequada do conteúdo."
-            }
-        ];
-        return modelos[(numero - 1) % modelos.length];
+    const modelos = [
+      {
+        pergunta: `Explique com suas palavras o conceito de "${conteudo}".`,
+        resposta: `Resposta esperada: definição correta e coerente de ${conteudo}.`
+      },
+      {
+        pergunta: `Apresente uma aplicação prática de "${conteudo}".`,
+        resposta: `Resposta pessoal. Espera-se uma aplicação válida de ${conteudo}.`
+      },
+      {
+        pergunta: `Mostre por que "${conteudo}" é importante dentro da área "${area}".`,
+        resposta: `Resposta pessoal. Espera-se justificativa matemática coerente.`
+      },
+      {
+        pergunta: `Crie um exemplo envolvendo "${conteudo}" e resolva.`,
+        resposta: `Resposta pessoal. Avaliar se o exemplo e a resolução estão corretos.`
+      }
+    ];
+    const base = modelos[(numero-1)%modelos.length];
+    if(usarMultipla){
+      const alt = gerarAlternativas(conteudo);
+      return {
+        pergunta: base.pergunta,
+        alternativas: alt.texto,
+        resposta: `Alternativa correta: ${alt.letra}.`
+      };
     }
+    return base;
+  }
 
+  if(materia === "Português"){
+    const modelos = [
+      {
+        pergunta: `Explique com suas palavras o que é "${conteudo}".`,
+        resposta: `Resposta esperada: definição correta de ${conteudo}.`
+      },
+      {
+        pergunta: `Escreva um exemplo relacionado a "${conteudo}".`,
+        resposta: `Resposta pessoal com exemplo coerente de ${conteudo}.`
+      },
+      {
+        pergunta: `Produza uma frase ou pequeno texto usando o conteúdo "${conteudo}".`,
+        resposta: `Resposta pessoal. Avaliar uso correto de ${conteudo}.`
+      },
+      {
+        pergunta: `Diga por que "${conteudo}" é importante no estudo de ${area}.`,
+        resposta: `Resposta pessoal. Espera-se justificativa coerente.`
+      }
+    ];
+    const base = modelos[(numero-1)%modelos.length];
+    if(usarMultipla){
+      const alt = gerarAlternativas(conteudo);
+      return {
+        pergunta:`Qual alternativa se relaciona melhor com "${conteudo}"?`,
+        alternativas: alt.texto,
+        resposta:`Alternativa correta: ${alt.letra}.`
+      };
+    }
+    return base;
+  }
+
+  if(materia === "História"){
+    const modelos = [
+      {
+        pergunta:`Explique o significado histórico de "${conteudo}".`,
+        resposta:`Resposta esperada: explicação histórica coerente sobre ${conteudo}.`
+      },
+      {
+        pergunta:`Cite uma característica importante de "${conteudo}".`,
+        resposta:`Resposta esperada: ao menos uma característica correta de ${conteudo}.`
+      },
+      {
+        pergunta:`Relacione "${conteudo}" com a área "${area}".`,
+        resposta:`Resposta pessoal. Deve mostrar relação histórica correta.`
+      },
+      {
+        pergunta:`Por que "${conteudo}" é importante para entender a História?`,
+        resposta:`Resposta pessoal. Espera-se reflexão coerente.`
+      }
+    ];
+    const base = modelos[(numero-1)%modelos.length];
+    if(usarMultipla){
+      const alt = gerarAlternativas(conteudo);
+      return {
+        pergunta:`Assinale a alternativa correta sobre "${conteudo}".`,
+        alternativas: alt.texto,
+        resposta:`Alternativa correta: ${alt.letra}.`
+      };
+    }
+    return base;
+  }
+
+  if(materia === "Ciências"){
+    const modelos = [
+      {
+        pergunta:`Defina o conceito de "${conteudo}".`,
+        resposta:`Resposta esperada: definição correta de ${conteudo}.`
+      },
+      {
+        pergunta:`Dê um exemplo de aplicação ou ocorrência de "${conteudo}".`,
+        resposta:`Resposta pessoal com exemplo coerente de ${conteudo}.`
+      },
+      {
+        pergunta:`Explique a importância de "${conteudo}" no estudo de ${area}.`,
+        resposta:`Resposta pessoal. Espera-se explicação coerente.`
+      },
+      {
+        pergunta:`Descreva o que acontece em "${conteudo}".`,
+        resposta:`Resposta esperada: descrição adequada do conteúdo.`
+      }
+    ];
+    const base = modelos[(numero-1)%modelos.length];
+    if(usarMultipla){
+      const alt = gerarAlternativas(conteudo);
+      return {
+        pergunta:`Marque a alternativa correta sobre "${conteudo}".`,
+        alternativas: alt.texto,
+        resposta:`Alternativa correta: ${alt.letra}.`
+      };
+    }
+    return base;
+  }
+
+  if(materia === "Inglês"){
+    const modelos = [
+      {
+        pergunta: `Explique o conteúdo "${conteudo}" em inglês ou com exemplo simples.`,
+        resposta: `Resposta esperada: explicação ou exemplo coerente relacionado a ${conteudo}.`
+      },
+      {
+        pergunta: `Escreva uma frase usando "${conteudo}".`,
+        resposta: `Resposta pessoal. Avaliar uso correto de ${conteudo}.`
+      },
+      {
+        pergunta: `Traduza ou interprete um exemplo relacionado a "${conteudo}".`,
+        resposta: `Resposta esperada: tradução/interpretação coerente.`
+      },
+      {
+        pergunta: `Mostre por que "${conteudo}" é importante no estudo da língua inglesa.`,
+        resposta: `Resposta pessoal. Espera-se justificativa coerente.`
+      }
+    ];
+    const base = modelos[(numero-1)%modelos.length];
+    if(usarMultipla){
+      const alt = gerarAlternativas(conteudo);
+      return {
+        pergunta: `Marque a alternativa mais relacionada a "${conteudo}".`,
+        alternativas: alt.texto,
+        resposta: `Alternativa correta: ${alt.letra}.`
+      };
+    }
+    return base;
+  }
+
+  if(materia === "Japonês"){
+    const modelos = [
+      {
+        pergunta: `Explique com suas palavras o conteúdo "${conteudo}".`,
+        resposta: `Resposta esperada: explicação coerente sobre ${conteudo}.`
+      },
+      {
+        pergunta: `Escreva um exemplo simples relacionado a "${conteudo}".`,
+        resposta: `Resposta pessoal. Avaliar coerência e relação com ${conteudo}.`
+      },
+      {
+        pergunta: `Mostre a importância de "${conteudo}" no aprendizado do japonês.`,
+        resposta: `Resposta pessoal. Espera-se justificativa adequada.`
+      },
+      {
+        pergunta: `Dê um exemplo prático de uso de "${conteudo}" em situação cotidiana.`,
+        resposta: `Resposta esperada: aplicação prática coerente.`
+      }
+    ];
+    const base = modelos[(numero-1)%modelos.length];
+    if(usarMultipla){
+      const alt = gerarAlternativas(conteudo);
+      return {
+        pergunta: `Assinale a alternativa relacionada a "${conteudo}".`,
+        alternativas: alt.texto,
+        resposta: `Alternativa correta: ${alt.letra}.`
+      };
+    }
+    return base;
+  }
+
+  if(materia === "Pensamento Computacional" || materia === "Informática" || materia === "Robótica"){
+    const modelos = [
+      {
+        pergunta: `Explique o conceito de "${conteudo}".`,
+        resposta: `Resposta esperada: definição correta de ${conteudo}.`
+      },
+      {
+        pergunta: `Crie um exemplo prático envolvendo "${conteudo}".`,
+        resposta: `Resposta pessoal. Espera-se exemplo coerente.`
+      },
+      {
+        pergunta: `Descreva como "${conteudo}" pode ajudar na solução de problemas.`,
+        resposta: `Resposta pessoal. Espera-se explicação lógica e coerente.`
+      },
+      {
+        pergunta: `Relacione "${conteudo}" com tecnologia, programação ou automação.`,
+        resposta: `Resposta pessoal. Avaliar relação correta com a área.`
+      }
+    ];
+    const base = modelos[(numero-1)%modelos.length];
+    if(usarMultipla){
+      const alt = gerarAlternativas(conteudo);
+      return {
+        pergunta: `Marque a alternativa correta sobre "${conteudo}".`,
+        alternativas: alt.texto,
+        resposta: `Alternativa correta: ${alt.letra}.`
+      };
+    }
+    return base;
+  }
+
+  if(
+    materia === "Geografia" ||
+    materia === "Biologia" ||
+    materia === "Física" ||
+    materia === "Química" ||
+    materia === "Filosofia" ||
+    materia === "Sociologia" ||
+    materia === "Arte" ||
+    materia === "Educação Física" ||
+    materia === "Espanhol" ||
+    materia === "Educação Financeira" ||
+    materia === "Empreendedorismo" ||
+    materia === "Ensino Religioso" ||
+    materia === "Projeto de Vida" ||
+    materia === "Temas Transversais"
+  ){
+    const modelos = [
+      {
+        pergunta: `Explique o conteúdo "${conteudo}".`,
+        resposta: `Resposta esperada: explicação correta e coerente sobre ${conteudo}.`
+      },
+      {
+        pergunta: `Dê um exemplo relacionado a "${conteudo}".`,
+        resposta: `Resposta pessoal com exemplo coerente de ${conteudo}.`
+      },
+      {
+        pergunta: `Mostre a importância de "${conteudo}" dentro da área "${area}".`,
+        resposta: `Resposta pessoal. Espera-se justificativa adequada.`
+      },
+      {
+        pergunta: `Relacione "${conteudo}" com situações do cotidiano.`,
+        resposta: `Resposta pessoal. Avaliar coerência da relação apresentada.`
+      }
+    ];
+    const base = modelos[(numero-1)%modelos.length];
+    if(usarMultipla){
+      const alt = gerarAlternativas(conteudo);
+      return {
+        pergunta: `Assinale a alternativa correta sobre "${conteudo}".`,
+        alternativas: alt.texto,
+        resposta: `Alternativa correta: ${alt.letra}.`
+      };
+    }
+    return base;
+  }
+
+  return {
+    pergunta:`Explique o conteúdo "${conteudo}".`,
+    resposta:"Resposta pessoal."
+  };
+}
+
+function gerarQuestaoMatematicaReal(area, conteudo, usarMultipla){
+  if(area === "Aritmética" || conteudo === "Operações básicas"){
+    const a = rand(10,80), b = rand(2,30);
+    const op = pick(["+","-","×"]);
+    let correta;
+    if(op === "+") correta = a + b;
+    if(op === "-") correta = a - b;
+    if(op === "×") correta = a * b;
+    if(usarMultipla){
+      const alt = gerarAlternativas(correta);
+      return {
+        pergunta:`Calcule: ${a} ${op} ${b}`,
+        alternativas: alt.texto,
+        resposta:`Alternativa correta: ${alt.letra}. Resultado: ${correta}.`
+      };
+    }
     return {
-        pergunta: "Explique o conteúdo \"" + conteudo + "\".",
-        resposta: "Resposta pessoal."
+      pergunta:`Calcule: ${a} ${op} ${b}.`,
+      resposta:`Resultado esperado: ${correta}.`
     };
+  }
+
+  if(conteudo === "MMC"){
+    const a = pick([4,6,8,9,10,12]);
+    const b = pick([6,8,10,12,14,15]);
+    const mmc = calcularMMC(a,b);
+    if(usarMultipla){
+      const alt = gerarAlternativas(mmc);
+      return {
+        pergunta:`Determine o MMC entre ${a} e ${b}.`,
+        alternativas: alt.texto,
+        resposta:`Alternativa correta: ${alt.letra}. MMC = ${mmc}.`
+      };
+    }
+    return {
+      pergunta:`Determine o MMC entre ${a} e ${b}.`,
+      resposta:`MMC(${a}, ${b}) = ${mmc}.`
+    };
+  }
+
+  if(conteudo === "MDC"){
+    const a = pick([12,18,24,30,36,48]);
+    const b = pick([6,12,18,24]);
+    const mdc = calcularMDC(a,b);
+    if(usarMultipla){
+      const alt = gerarAlternativas(mdc);
+      return {
+        pergunta:`Determine o MDC entre ${a} e ${b}.`,
+        alternativas: alt.texto,
+        resposta:`Alternativa correta: ${alt.letra}. MDC = ${mdc}.`
+      };
+    }
+    return {
+      pergunta:`Determine o MDC entre ${a} e ${b}.`,
+      resposta:`MDC(${a}, ${b}) = ${mdc}.`
+    };
+  }
+
+  if(conteudo === "Equações" || conteudo === "Álgebra básica"){
+    const x = rand(2,15);
+    const a = rand(2,9);
+    const b = rand(1,20);
+    const c = a*x + b;
+    if(usarMultipla){
+      const alt = gerarAlternativas(x);
+      return {
+        pergunta:`Resolva a equação: ${a}x + ${b} = ${c}`,
+        alternativas: alt.texto,
+        resposta:`Alternativa correta: ${alt.letra}. x = ${x}.`
+      };
+    }
+    return {
+      pergunta:`Resolva a equação: ${a}x + ${b} = ${c}.`,
+      resposta:`x = ${x}.`
+    };
+  }
+
+  if(conteudo === "Porcentagem" || conteudo === "Juros"){
+    const valor = rand(100,500);
+    const p = pick([5,10,15,20,25]);
+    const resp = valor * p / 100;
+    if(usarMultipla){
+      const alt = gerarAlternativas(resp);
+      return {
+        pergunta:`Calcule ${p}% de ${valor}.`,
+        alternativas: alt.texto,
+        resposta:`Alternativa correta: ${alt.letra}. ${p}% de ${valor} = ${resp}.`
+      };
+    }
+    return {
+      pergunta:`Calcule ${p}% de ${valor}.`,
+      resposta:`${p}% de ${valor} = ${resp}.`
+    };
+  }
+
+  if(conteudo === "Probabilidade clássica"){
+    const total = 6;
+    const favoraveis = pick([1,2,3]);
+    const frac = `${favoraveis}/${total}`;
+    if(usarMultipla){
+      const alt = gerarAlternativas(frac);
+      return {
+        pergunta:`Ao lançar um dado comum, qual a probabilidade de sair um número entre 1 e ${favoraveis}?`,
+        alternativas: alt.texto,
+        resposta:`Alternativa correta: ${alt.letra}. Probabilidade = ${frac}.`
+      };
+    }
+    return {
+      pergunta:`Ao lançar um dado comum, qual a probabilidade de sair um número entre 1 e ${favoraveis}?`,
+      resposta:`Probabilidade = ${frac}.`
+    };
+  }
+
+  if(conteudo === "Média aritmética" || conteudo === "Estatística descritiva"){
+    const n1 = rand(4,10), n2 = rand(4,10), n3 = rand(4,10);
+    const media = ((n1+n2+n3)/3).toFixed(2);
+    if(usarMultipla){
+      const alt = gerarAlternativas(media);
+      return {
+        pergunta:`Calcule a média aritmética dos números ${n1}, ${n2} e ${n3}.`,
+        alternativas: alt.texto,
+        resposta:`Alternativa correta: ${alt.letra}. Média = ${media}.`
+      };
+    }
+    return {
+      pergunta:`Calcule a média aritmética dos números ${n1}, ${n2} e ${n3}.`,
+      resposta:`Média = ${media}.`
+    };
+  }
+
+  if(conteudo === "Geometria plana" || conteudo === "Área"){
+    const base = rand(3,12), altura = rand(3,12);
+    const area = base * altura;
+    if(usarMultipla){
+      const alt = gerarAlternativas(area);
+      return {
+        pergunta:`Calcule a área de um retângulo de base ${base} e altura ${altura}.`,
+        alternativas: alt.texto,
+        resposta:`Alternativa correta: ${alt.letra}. Área = ${area}.`
+      };
+    }
+    return {
+      pergunta:`Calcule a área de um retângulo de base ${base} e altura ${altura}.`,
+      resposta:`Área = ${area}.`
+    };
+  }
+
+  return null;
+}
+
+function calcularMDC(a,b){
+  while(b !== 0){
+    let t = b;
+    b = a % b;
+    a = t;
+  }
+  return a;
+}
+function calcularMMC(a,b){
+  return (a*b)/calcularMDC(a,b);
 }
 
 function gerarGabaritoBase(){
-    if(!gabaritoAtual.length){
-        document.getElementById("saidaGabarito").textContent = "Primeiro gere uma atividade.";
-        return;
-    }
-    document.getElementById("saidaGabarito").textContent = "✅ GABARITO\n\n" + gabaritoAtual.join("\n");
+  if(!gabaritoAtual.length){
+    document.getElementById("saidaGabarito").textContent = "Primeiro gere uma atividade.";
+    return;
+  }
+  document.getElementById("saidaGabarito").textContent = "✅ GABARITO\n\n" + gabaritoAtual.join("\n");
+}
+
+function copiarTexto(id){
+  const texto = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(texto)
+    .then(()=>alert("Copiado com sucesso!"))
+    .catch(()=>alert("Não foi possível copiar."));
 }
 
 function exportarAtividadeBase(){
-    const conteudo = document.getElementById("saidaAtividade").textContent;
-    const w = window.open("", "_blank");
-    w.document.write("<html><head><title>Atividade</title></head><body><pre style='font-family:Arial;white-space:pre-wrap;'>" + conteudo + "</pre></body></html>");
-    w.document.close();
-    w.print();
+  const atividade = document.getElementById("saidaAtividade").textContent;
+  const gabarito = document.getElementById("saidaGabarito").textContent;
+  const w = window.open("", "_blank");
+  w.document.write(`
+    <html>
+    <head>
+      <title>Atividade</title>
+      <style>
+        body{font-family:Arial,sans-serif;padding:30px;line-height:1.6}
+        h1,h2{margin-bottom:8px}
+        pre{white-space:pre-wrap;font-family:Arial,sans-serif}
+        hr{margin:30px 0}
+      </style>
+    </head>
+    <body>
+      <h1>Atividade</h1>
+      <pre>${atividade}</pre>
+      <hr>
+      <h2>Gabarito</h2>
+      <pre>${gabarito}</pre>
+    </body>
+    </html>
+  `);
+  w.document.close();
+  w.print();
 }
+
+function salvarLocal(){
+  const dados = {
+    materia: document.getElementById("materia").value,
+    area: document.getElementById("area").value,
+    subtema: document.getElementById("subtema").value,
+    ano: document.getElementById("ano").value,
+    tipo: document.getElementById("tipo").value,
+    formato: document.getElementById("formato").value,
+    dificuldade: document.getElementById("dificuldade").value,
+    qtd: document.getElementById("qtd").value,
+    temaLivre: document.getElementById("temaLivre").value,
+    atividade: document.getElementById("saidaAtividade").textContent,
+    gabarito: document.getElementById("saidaGabarito").textContent,
+    gabaritoAtual
+  };
+  localStorage.setItem("lab_educacional_v5", JSON.stringify(dados));
+  alert("Salvo no navegador com sucesso!");
+}
+
+function carregarLocal(){
+  const bruto = localStorage.getItem("lab_educacional_v5");
+  if(!bruto){
+    alert("Nenhum dado salvo encontrado.");
+    return;
+  }
+  const dados = JSON.parse(bruto);
+
+  document.getElementById("materia").value = dados.materia || "";
+  carregarAreas();
+  document.getElementById("area").value = dados.area || "";
+  carregarSubtemas();
+  document.getElementById("subtema").value = dados.subtema || "";
+  document.getElementById("ano").value = dados.ano || "1º Ano";
+  document.getElementById("tipo").value = dados.tipo || "Lista de exercícios";
+  document.getElementById("formato").value = dados.formato || "Discursiva";
+  document.getElementById("dificuldade").value = dados.dificuldade || "Fácil";
+  document.getElementById("qtd").value = dados.qtd || "10";
+  document.getElementById("temaLivre").value = dados.temaLivre || "";
+  document.getElementById("saidaAtividade").textContent = dados.atividade || "A atividade aparecerá aqui.";
+  document.getElementById("saidaGabarito").textContent = dados.gabarito || "O gabarito aparecerá aqui.";
+  gabaritoAtual = dados.gabaritoAtual || [];
+  alert("Conteúdo carregado com sucesso!");
+}
+
+function limparTudo(){
+  if(!confirm("Deseja limpar todos os campos e saídas?")) return;
+  document.getElementById("materia").value = "";
+  document.getElementById("area").innerHTML = '<option value="">Selecione uma matéria primeiro</option>';
+  document.getElementById("subtema").innerHTML = '<option value="">Selecione uma área primeiro</option>';
+  document.getElementById("ano").value = "1º Ano";
+  document.getElementById("tipo").value = "Lista de exercícios";
+  document.getElementById("formato").value = "Discursiva";
+  document.getElementById("dificuldade").value = "Fácil";
+  document.getElementById("qtd").value = "10";
+  document.getElementById("temaLivre").value = "";
+  document.getElementById("saidaAtividade").textContent = "A atividade aparecerá aqui.";
+  document.getElementById("saidaGabarito").textContent = "O gabarito aparecerá aqui.";
+  gabaritoAtual = [];
+}
+
+criarToolbar();
 </script>
 
 </body>
