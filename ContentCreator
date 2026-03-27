@@ -1,0 +1,202 @@
+import { useState } from "react";
+import { trpc } from "@/lib/trpc";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
+import { Streamdown } from "streamdown";
+import {
+  FileText,
+  Code2,
+  Presentation,
+  Image,
+  Download,
+  Sparkles,
+  Loader2,
+  Copy,
+  Check,
+  X,
+} from "lucide-react";
+
+type ContentType = "document" | "html" | "slides_outline" | "image_prompt";
+
+interface ContentCreatorProps {
+  teacherId?: number;
+  onClose?: () => void;
+}
+
+export function ContentCreator({ teacherId, onClose }: ContentCreatorProps) {
+  const [activeTab, setActiveTab] = useState<ContentType>("document");
+  const [prompt, setPrompt] = useState("");
+  const [result, setResult] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  const generateMutation = trpc.chat.generateContent.useMutation({
+    onSuccess: (data) => {
+      setResult(data.content);
+    },
+    onError: (e) => toast.error("Erro ao gerar conteúdo: " + e.message),
+  });
+
+  const handleGenerate = () => {
+    if (!prompt.trim()) {
+      toast.error("Descreva o conteúdo que deseja gerar.");
+      return;
+    }
+    setResult("");
+    generateMutation.mutate({ type: activeTab, prompt, teacherId });
+  };
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(result);
+    setCopied(true);
+    toast.success("Copiado para a área de transferência!");
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDownload = () => {
+    const extensions: Record<ContentType, string> = {
+      document: "md",
+      html: "html",
+      slides_outline: "md",
+      image_prompt: "txt",
+    };
+    const mimes: Record<ContentType, string> = {
+      document: "text/markdown",
+      html: "text/html",
+      slides_outline: "text/markdown",
+      image_prompt: "text/plain",
+    };
+    const blob = new Blob([result], { type: mimes[activeTab] });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `myaky-content.${extensions[activeTab]}`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("Arquivo baixado!");
+  };
+
+  const tabs = [
+    { id: "document" as ContentType, label: "Documento", icon: FileText, description: "Gere documentos educacionais em Markdown" },
+    { id: "html" as ContentType, label: "HTML", icon: Code2, description: "Crie páginas HTML completas com CSS" },
+    { id: "slides_outline" as ContentType, label: "Slides", icon: Presentation, description: "Roteiro para apresentações de slides" },
+    { id: "image_prompt" as ContentType, label: "Imagem", icon: Image, description: "Prompt para geração de imagens" },
+  ];
+
+  const placeholders: Record<ContentType, string> = {
+    document: "Ex: Crie um documento sobre a Revolução Industrial com causas, consequências e impactos sociais...",
+    html: "Ex: Crie uma página HTML sobre o sistema solar com cards para cada planeta...",
+    slides_outline: "Ex: Crie um roteiro de apresentação sobre fotossíntese para alunos do ensino médio...",
+    image_prompt: "Ex: Uma ilustração educacional mostrando o ciclo da água de forma didática e colorida...",
+  };
+
+  return (
+    <div className="flex flex-col h-full">
+      {/* Header */}
+      <div className="flex items-center justify-between p-4 border-b border-border">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+            <Sparkles className="w-4 h-4 text-primary" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-foreground text-sm" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Criar Conteúdo com IA
+            </h3>
+            <p className="text-xs text-muted-foreground">Gere materiais educacionais instantaneamente</p>
+          </div>
+        </div>
+        {onClose && (
+          <Button variant="ghost" size="icon" className="w-8 h-8" onClick={onClose}>
+            <X className="w-4 h-4" />
+          </Button>
+        )}
+      </div>
+
+      <div className="flex-1 overflow-hidden flex flex-col p-4 gap-4">
+        {/* Tab selector */}
+        <div className="grid grid-cols-4 gap-2">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => { setActiveTab(tab.id); setResult(""); }}
+              className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border text-center transition-all ${
+                activeTab === tab.id
+                  ? "border-primary bg-primary/5 text-primary"
+                  : "border-border hover:border-primary/40 text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <tab.icon className="w-5 h-5" />
+              <span className="text-xs font-medium">{tab.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Prompt Input */}
+        <div className="space-y-2">
+          <p className="text-xs text-muted-foreground">
+            {tabs.find((t) => t.id === activeTab)?.description}
+          </p>
+          <Textarea
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder={placeholders[activeTab]}
+            rows={3}
+            className="resize-none text-sm"
+          />
+          <Button
+            onClick={handleGenerate}
+            disabled={generateMutation.isPending || !prompt.trim()}
+            className="w-full gap-2"
+          >
+            {generateMutation.isPending ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Gerando...
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4" />
+                Gerar com IA
+              </>
+            )}
+          </Button>
+        </div>
+
+        {/* Result */}
+        {result && (
+          <div className="flex-1 flex flex-col gap-2 min-h-0">
+            <div className="flex items-center justify-between">
+              <Badge variant="secondary" className="text-xs">
+                <Check className="w-3 h-3 mr-1" />
+                Conteúdo gerado
+              </Badge>
+              <div className="flex gap-1.5">
+                <Button variant="outline" size="sm" className="h-7 gap-1.5 text-xs" onClick={handleCopy}>
+                  {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                  {copied ? "Copiado!" : "Copiar"}
+                </Button>
+                <Button variant="outline" size="sm" className="h-7 gap-1.5 text-xs" onClick={handleDownload}>
+                  <Download className="w-3 h-3" />
+                  Baixar
+                </Button>
+              </div>
+            </div>
+            <ScrollArea className="flex-1 border border-border rounded-xl p-3 bg-muted/30">
+              {activeTab === "html" ? (
+                <pre className="text-xs font-mono whitespace-pre-wrap text-foreground">{result}</pre>
+              ) : (
+                <div className="prose prose-sm max-w-none dark:prose-invert text-sm">
+                  <Streamdown>{result}</Streamdown>
+                </div>
+              )}
+            </ScrollArea>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

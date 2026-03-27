@@ -1,0 +1,309 @@
+import { useAuth } from "@/_core/hooks/useAuth";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { getLoginUrl } from "@/const";
+import { trpc } from "@/lib/trpc";
+import { useLocation } from "wouter";
+import {
+  BookOpen,
+  Brain,
+  GraduationCap,
+  MessageSquare,
+  Sparkles,
+  Users,
+  Zap,
+  ArrowRight,
+  School,
+  Star,
+} from "lucide-react";
+
+export default function Home() {
+  const { user, isAuthenticated } = useAuth();
+  const [, navigate] = useLocation();
+  const { data: teachers } = trpc.teachers.list.useQuery(undefined, { enabled: isAuthenticated });
+
+  const features = [
+    {
+      icon: <Brain className="w-6 h-6" />,
+      title: "IA Real e Inteligente",
+      description: "Powered por modelos de linguagem avançados para respostas precisas e educativas.",
+      color: "text-blue-500",
+      bg: "bg-blue-50",
+    },
+    {
+      icon: <GraduationCap className="w-6 h-6" />,
+      title: "Professores Virtuais",
+      description: "Cada professor tem personalidade, especialidade e estilo de ensino únicos.",
+      color: "text-purple-500",
+      bg: "bg-purple-50",
+    },
+    {
+      icon: <MessageSquare className="w-6 h-6" />,
+      title: "Chat Interativo",
+      description: "Interface moderna com suporte a markdown, histórico e múltiplas conversas.",
+      color: "text-teal-500",
+      bg: "bg-teal-50",
+    },
+    {
+      icon: <Sparkles className="w-6 h-6" />,
+      title: "Criação de Conteúdo",
+      description: "Gere documentos, slides, imagens e materiais educacionais com IA.",
+      color: "text-amber-500",
+      bg: "bg-amber-50",
+    },
+    {
+      icon: <School className="w-6 h-6" />,
+      title: "Gestão de Escolas",
+      description: "Organize professores por escola e matéria com painel administrativo completo.",
+      color: "text-green-500",
+      bg: "bg-green-50",
+    },
+    {
+      icon: <Zap className="w-6 h-6" />,
+      title: "Respostas Instantâneas",
+      description: "Obtenha ajuda imediata em qualquer matéria, a qualquer hora do dia.",
+      color: "text-rose-500",
+      bg: "bg-rose-50",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-border">
+        <div className="container flex items-center justify-between h-16">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+              <Brain className="w-5 h-5 text-primary-foreground" />
+            </div>
+            <span className="font-bold text-xl text-foreground" style={{ fontFamily: "Poppins, sans-serif" }}>
+              myaky<span className="text-primary">bot</span>
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            {isAuthenticated ? (
+              <>
+                <Button variant="ghost" onClick={() => navigate("/chat")}>
+                  <MessageSquare className="w-4 h-4 mr-2" />
+                  Chat
+                </Button>
+                {user?.role === "admin" && (
+                  <Button variant="ghost" onClick={() => navigate("/admin")}>
+                    Painel Admin
+                  </Button>
+                )}
+                <Button onClick={() => navigate("/chat")}>
+                  Começar a estudar
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </>
+            ) : (
+              <Button asChild>
+                <a href={getLoginUrl()}>
+                  Entrar
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </a>
+              </Button>
+            )}
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50/30 to-teal-50/50 pointer-events-none" />
+        <div className="absolute top-20 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="container relative py-20 lg:py-28">
+          <div className="max-w-3xl">
+            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20 hover:bg-primary/15">
+              <Sparkles className="w-3 h-3 mr-1" />
+              Plataforma Educacional com IA
+            </Badge>
+            <h1
+              className="text-5xl lg:text-6xl font-extrabold leading-tight mb-6 text-foreground"
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            >
+              Aprenda com{" "}
+              <span className="gradient-text">professores virtuais</span>{" "}
+              inteligentes
+            </h1>
+            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+              O <strong>myaky bot</strong> conecta alunos a professores virtuais especializados,
+              powered por IA real. Tire dúvidas, crie materiais e evolua no seu aprendizado.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              {isAuthenticated ? (
+                <Button size="lg" onClick={() => navigate("/chat")} className="gap-2 text-base px-8">
+                  <MessageSquare className="w-5 h-5" />
+                  Ir para o Chat
+                </Button>
+              ) : (
+                <Button size="lg" asChild className="gap-2 text-base px-8">
+                  <a href={getLoginUrl()}>
+                    <Zap className="w-5 h-5" />
+                    Começar gratuitamente
+                  </a>
+                </Button>
+              )}
+              <Button size="lg" variant="outline" onClick={() => navigate("/chat")} className="gap-2 text-base">
+                <BookOpen className="w-5 h-5" />
+                Ver professores
+              </Button>
+            </div>
+
+            {/* Stats */}
+            <div className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-border/50">
+              {[
+                { label: "Professores virtuais", value: "10+" },
+                { label: "Matérias disponíveis", value: "20+" },
+                { label: "Disponibilidade", value: "24/7" },
+              ].map((stat) => (
+                <div key={stat.label}>
+                  <div className="text-2xl font-bold text-primary" style={{ fontFamily: "Poppins, sans-serif" }}>
+                    {stat.value}
+                  </div>
+                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section className="py-20 bg-white">
+        <div className="container">
+          <div className="text-center mb-14">
+            <Badge className="mb-3 bg-secondary text-secondary-foreground border-0">
+              Funcionalidades
+            </Badge>
+            <h2
+              className="text-3xl lg:text-4xl font-bold text-foreground mb-4"
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            >
+              Tudo que você precisa para aprender
+            </h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Uma plataforma completa que combina IA avançada com uma experiência educacional personalizada.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((feature) => (
+              <div
+                key={feature.title}
+                className="p-6 rounded-2xl border border-border bg-card hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 group"
+              >
+                <div className={`w-12 h-12 rounded-xl ${feature.bg} ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                  {feature.icon}
+                </div>
+                <h3 className="font-semibold text-foreground mb-2" style={{ fontFamily: "Poppins, sans-serif" }}>
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Teachers Preview */}
+      {isAuthenticated && teachers && teachers.length > 0 && (
+        <section className="py-20 bg-gradient-to-br from-background to-secondary/20">
+          <div className="container">
+            <div className="text-center mb-12">
+              <h2
+                className="text-3xl font-bold text-foreground mb-3"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                Conheça nossos professores
+              </h2>
+              <p className="text-muted-foreground">Selecione um professor e comece a aprender agora</p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+              {teachers.slice(0, 8).map((teacher) => (
+                <button
+                  key={teacher.id}
+                  onClick={() => navigate(`/chat/${teacher.id}`)}
+                  className="p-4 rounded-2xl bg-card border border-border hover:border-primary/40 hover:shadow-md transition-all text-center group"
+                >
+                  <div className="w-16 h-16 rounded-full mx-auto mb-3 overflow-hidden bg-gradient-to-br from-primary/20 to-purple-500/20 flex items-center justify-center">
+                    {teacher.avatarUrl ? (
+                      <img src={teacher.avatarUrl} alt={teacher.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <GraduationCap className="w-8 h-8 text-primary" />
+                    )}
+                  </div>
+                  <div className="font-medium text-sm text-foreground group-hover:text-primary transition-colors" style={{ fontFamily: "Poppins, sans-serif" }}>
+                    {teacher.name}
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-1">{teacher.subject}</div>
+                </button>
+              ))}
+            </div>
+            <div className="text-center mt-8">
+              <Button onClick={() => navigate("/chat")} variant="outline" className="gap-2">
+                <Users className="w-4 h-4" />
+                Ver todos os professores
+              </Button>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CTA Section */}
+      <section className="py-20 bg-primary">
+        <div className="container text-center">
+          <div className="max-w-2xl mx-auto">
+            <Star className="w-10 h-10 text-primary-foreground/60 mx-auto mb-4" />
+            <h2
+              className="text-3xl lg:text-4xl font-bold text-primary-foreground mb-4"
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            >
+              Pronto para começar?
+            </h2>
+            <p className="text-primary-foreground/80 mb-8 text-lg">
+              Junte-se a milhares de estudantes que já aprendem com professores virtuais inteligentes.
+            </p>
+            {isAuthenticated ? (
+              <Button
+                size="lg"
+                variant="secondary"
+                onClick={() => navigate("/chat")}
+                className="gap-2 text-base px-8"
+              >
+                <MessageSquare className="w-5 h-5" />
+                Ir para o Chat
+              </Button>
+            ) : (
+              <Button size="lg" variant="secondary" asChild className="gap-2 text-base px-8">
+                <a href={getLoginUrl()}>
+                  <Zap className="w-5 h-5" />
+                  Começar agora — é grátis
+                </a>
+              </Button>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 border-t border-border bg-white">
+        <div className="container flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded bg-primary flex items-center justify-center">
+              <Brain className="w-4 h-4 text-primary-foreground" />
+            </div>
+            <span className="font-semibold text-foreground" style={{ fontFamily: "Poppins, sans-serif" }}>
+              myaky<span className="text-primary">bot</span>
+            </span>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            © 2026 myaky bot — Plataforma Educacional com IA
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
+}

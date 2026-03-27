@@ -1,0 +1,82 @@
+import { useAuth } from "@/_core/hooks/useAuth";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { getLoginUrl } from "@/const";
+import { useLocation } from "wouter";
+import { Brain, GraduationCap, Home, MessageSquare, Settings, User } from "lucide-react";
+
+export default function Profile() {
+  const { user, isAuthenticated, loading } = useAuth();
+  const [, navigate] = useLocation();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Brain className="w-8 h-8 text-primary animate-pulse" />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <p className="text-muted-foreground mb-4">Faça login para ver seu perfil.</p>
+          <Button asChild>
+            <a href={getLoginUrl()}>Entrar</a>
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border bg-card px-6 py-4 flex items-center gap-4">
+        <Button variant="ghost" size="icon" onClick={() => navigate("/")}>
+          <Home className="w-4 h-4" />
+        </Button>
+        <h1 className="font-bold text-lg" style={{ fontFamily: "Poppins, sans-serif" }}>
+          Meu Perfil
+        </h1>
+      </header>
+
+      <div className="container py-8 max-w-2xl">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-3">
+              <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
+                <User className="w-7 h-7 text-primary" />
+              </div>
+              <div>
+                <div className="text-xl">{user?.name ?? "Usuário"}</div>
+                <div className="text-sm text-muted-foreground font-normal">{user?.email}</div>
+              </div>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">Função:</span>
+              <Badge variant={user?.role === "admin" ? "default" : "secondary"}>
+                {user?.role === "admin" ? "Administrador" : user?.role === "teacher" ? "Professor" : "Aluno"}
+              </Badge>
+            </div>
+            <div className="flex flex-wrap gap-2 pt-2">
+              <Button onClick={() => navigate("/chat")} className="gap-2">
+                <MessageSquare className="w-4 h-4" />
+                Ir para o Chat
+              </Button>
+              {user?.role === "admin" && (
+                <Button variant="outline" onClick={() => navigate("/admin")} className="gap-2">
+                  <Settings className="w-4 h-4" />
+                  Painel Admin
+                </Button>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}

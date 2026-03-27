@@ -1,0 +1,648 @@
+import { useState, useRef, useEffect } from "react";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { trpc } from "@/lib/trpc";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
+import { getLoginUrl } from "@/const";
+import { Streamdown } from "streamdown";
+import { useParams, useLocation } from "wouter";
+import {
+  Brain,
+  GraduationCap,
+  MessageSquare,
+  Plus,
+  Send,
+  Trash2,
+  ChevronLeft,
+  Home,
+  Settings,
+  LogOut,
+  Menu,
+  X,
+  Sparkles,
+  FileText,
+} from "lucide-react";
+import { ContentCreator } from "@/components/ContentCreator";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+type Teacher = {
+  id: number;
+  name: string;
+  subject: string;
+  bio: string | null;
+  avatarUrl: string | null;
+  systemPrompt: string | null;
+  active: "yes" | "no";
+};
+
+type Conversation = {
+  id: number;
+  title: string | null;
+  teacherId: number;
+  userId: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type Message = {
+  id: number;
+  role: "user" | "assistant";
+  content: string;
+  createdAt: Date;
+};
+
+// ─── Teacher Avatar ───────────────────────────────────────────────────────────
+
+function TeacherAvatar({ teacher, size = "md" }: { teacher: Teacher; size?: "sm" | "md" | "lg" }) {
+  const sizes = { sm: "w-8 h-8", md: "w-10 h-10", lg: "w-14 h-14" };
+  const iconSizes = { sm: "w-4 h-4", md: "w-5 h-5", lg: "w-7 h-7" };
+  return (
+    <div className={`${sizes[size]} rounded-full overflow-hidden bg-gradient-to-br from-primary/20 to-purple-500/20 flex items-center justify-center flex-shrink-0`}>
+      {teacher.avatarUrl ? (
+        <img src={teacher.avatarUrl} alt={teacher.name} className="w-full h-full object-cover" />
+      ) : (
+        <GraduationCap className={`${iconSizes[size]} text-primary`} />
+      )}
+    </div>
+  );
+}
+
+// ─── Typing Indicator ─────────────────────────────────────────────────────────
+
+function TypingIndicator() {
+  return (
+    <div className="flex gap-3 chat-bubble">
+      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-purple-500/20 flex items-center justify-center flex-shrink-0">
+        <Brain className="w-4 h-4 text-primary" />
+      </div>
+      <div className="bg-card border border-border rounded-2xl rounded-tl-sm px-4 py-3">
+        <div className="flex gap-1.5 items-center h-5">
+          <div className="typing-dot w-2 h-2 rounded-full bg-muted-foreground" />
+          <div className="typing-dot w-2 h-2 rounded-full bg-muted-foreground" />
+          <div className="typing-dot w-2 h-2 rounded-full bg-muted-foreground" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Chat Component ──────────────────────────────────────────────────────
+
+export default function Chat() {
+  const { user, isAuthenticated, loading: authLoading, logout } = useAuth();
+  const params = useParams<{ teacherId?: string }>();
+  const [, navigate] = useLocation();
+
+  const [selectedTeacherId, setSelectedTeacherId] = useState<number | null>(
+    params.teacherId ? parseInt(params.teacherId) : null
+  );
+  const [selectedConvId, setSelectedConvId] = useState<number | null>(null);
+  const [inputValue, setInputValue] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [teacherPanelOpen, setTeacherPanelOpen] = useState(false);
+  const [contentCreatorOpen, setContentCreatorOpen] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const utils = trpc.useUtils();
+
+  // Queries
+  const { data: teachers = [] } = trpc.teachers.list.useQuery(undefined, { enabled: isAuthenticated });
+  const { data: conversations = [] } = trpc.chat.listConversations.useQuery(
+    { teacherId: selectedTeacherId ?? undefined },
+    { enabled: isAuthenticated }
+  );
+  const { data: messages = [], isLoading: messagesLoading } = trpc.chat.getMessages.useQuery(
+    { conversationId: selectedConvId! },
+    { enabled: !!selectedConvId }
+  );
+
+  const selectedTeacher = teachers.find((t) => t.id === selectedTeacherId) ?? null;
+  const selectedConv = conversations.find((c) => c.id === selectedConvId) ?? null;
+
+  // Mutations
+  const newConvMutation = trpc.chat.newConversation.useMutation({
+    onSuccess: (conv) => {
+      if (conv) {
+        utils.chat.listConversations.invalidate();
+        setSelectedConvId(conv.id);
+      }
+    },
+  });
+
+  const deleteConvMutation = trpc.chat.deleteConversation.useMutation({
+    onSuccess: () => {
+      utils.chat.listConversations.invalidate();
+      setSelectedConvId(null);
+    },
+  });
+
+  const sendMessageMutation = trpc.chat.sendMessage.useMutation({
+    onMutate: () => setIsTyping(true),
+    onSuccess: () => {
+      utils.chat.getMessages.invalidate({ conversationId: selectedConvId! });
+      utils.chat.listConversations.invalidate();
+      setIsTyping(false);
+    },
+    onError: (err) => {
+      setIsTyping(false);
+      toast.error("Erro ao enviar mensagem: " + err.message);
+    },
+  });
+
+  // Auto-scroll
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isTyping]);
+
+  // Auto-select first conversation when teacher changes
+  useEffect(() => {
+    if (conversations.length > 0 && !selectedConvId) {
+      setSelectedConvId(conversations[0].id);
+    }
+  }, [conversations]);
+
+  // Handle teacher selection from URL param
+  useEffect(() => {
+    if (params.teacherId) {
+      const id = parseInt(params.teacherId);
+      setSelectedTeacherId(id);
+    }
+  }, [params.teacherId]);
+
+  const handleSelectTeacher = async (teacher: Teacher) => {
+    setSelectedTeacherId(teacher.id);
+    setSelectedConvId(null);
+    setTeacherPanelOpen(false);
+    navigate(`/chat/${teacher.id}`);
+  };
+
+  const handleNewConversation = async () => {
+    if (!selectedTeacherId) {
+      toast.info("Selecione um professor primeiro.");
+      setTeacherPanelOpen(true);
+      return;
+    }
+    newConvMutation.mutate({ teacherId: selectedTeacherId });
+  };
+
+  const handleSendMessage = async () => {
+    const content = inputValue.trim();
+    if (!content) return;
+    if (!selectedConvId) {
+      toast.info("Selecione ou crie uma conversa primeiro.");
+      return;
+    }
+    setInputValue("");
+    sendMessageMutation.mutate({ conversationId: selectedConvId, content });
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  // Auth guard
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <Brain className="w-12 h-12 text-primary mx-auto mb-4 animate-pulse" />
+          <p className="text-muted-foreground">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center max-w-sm">
+          <Brain className="w-16 h-16 text-primary mx-auto mb-6" />
+          <h2 className="text-2xl font-bold mb-3" style={{ fontFamily: "Poppins, sans-serif" }}>
+            Acesso necessário
+          </h2>
+          <p className="text-muted-foreground mb-6">
+            Faça login para conversar com os professores virtuais.
+          </p>
+          <Button asChild size="lg" className="w-full">
+            <a href={getLoginUrl()}>Entrar na plataforma</a>
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-screen flex bg-background overflow-hidden">
+      {/* ── Sidebar ── */}
+      <aside
+        className={`${sidebarOpen ? "w-72" : "w-0"} flex-shrink-0 transition-all duration-300 overflow-hidden bg-sidebar text-sidebar-foreground flex flex-col border-r border-sidebar-border`}
+      >
+        {/* Sidebar Header */}
+        <div className="p-4 border-b border-sidebar-border flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-sidebar-primary flex items-center justify-center">
+              <Brain className="w-4 h-4 text-sidebar-primary-foreground" />
+            </div>
+            <span className="font-bold text-sidebar-foreground" style={{ fontFamily: "Poppins, sans-serif" }}>
+              myaky<span className="text-sidebar-primary">bot</span>
+            </span>
+          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-sidebar-foreground hover:bg-sidebar-accent w-8 h-8"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </Button>
+        </div>
+
+        {/* Selected Teacher */}
+        {selectedTeacher && (
+          <div className="p-4 border-b border-sidebar-border">
+            <div className="flex items-center gap-3">
+              <TeacherAvatar teacher={selectedTeacher} size="md" />
+              <div className="flex-1 min-w-0">
+                <div className="font-semibold text-sm text-sidebar-foreground truncate">
+                  {selectedTeacher.name}
+                </div>
+                <div className="text-xs text-sidebar-foreground/60 truncate">{selectedTeacher.subject}</div>
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-7 h-7 text-sidebar-foreground/60 hover:bg-sidebar-accent"
+                onClick={() => setTeacherPanelOpen(true)}
+              >
+                <Settings className="w-3.5 h-3.5" />
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* New Conversation Button */}
+        <div className="p-3">
+          <Button
+            className="w-full gap-2 bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90"
+            onClick={handleNewConversation}
+            disabled={newConvMutation.isPending}
+          >
+            <Plus className="w-4 h-4" />
+            Nova conversa
+          </Button>
+        </div>
+
+        {/* Conversations List */}
+        <ScrollArea className="flex-1 px-2">
+          {!selectedTeacherId ? (
+            <div className="text-center py-8 px-4">
+              <GraduationCap className="w-8 h-8 text-sidebar-foreground/30 mx-auto mb-2" />
+              <p className="text-xs text-sidebar-foreground/50">Selecione um professor para ver as conversas</p>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="mt-3 text-sidebar-primary text-xs"
+                onClick={() => setTeacherPanelOpen(true)}
+              >
+                Escolher professor
+              </Button>
+            </div>
+          ) : conversations.length === 0 ? (
+            <div className="text-center py-8 px-4">
+              <MessageSquare className="w-8 h-8 text-sidebar-foreground/30 mx-auto mb-2" />
+              <p className="text-xs text-sidebar-foreground/50">Nenhuma conversa ainda</p>
+            </div>
+          ) : (
+            <div className="space-y-1 py-2">
+              {conversations.map((conv) => (
+                <div
+                  key={conv.id}
+                  className={`group flex items-center gap-2 px-3 py-2.5 rounded-lg cursor-pointer transition-colors ${
+                    selectedConvId === conv.id
+                      ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                      : "hover:bg-sidebar-accent/50 text-sidebar-foreground/80"
+                  }`}
+                  onClick={() => setSelectedConvId(conv.id)}
+                >
+                  <MessageSquare className="w-3.5 h-3.5 flex-shrink-0 opacity-60" />
+                  <span className="text-xs flex-1 truncate">{conv.title ?? "Nova conversa"}</span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="w-5 h-5 opacity-0 group-hover:opacity-100 hover:text-destructive flex-shrink-0"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteConvMutation.mutate({ conversationId: conv.id });
+                    }}
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
+        </ScrollArea>
+
+        {/* Sidebar Footer */}
+        <div className="p-3 border-t border-sidebar-border space-y-1">
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-2 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground text-sm h-9"
+            onClick={() => navigate("/")}
+          >
+            <Home className="w-4 h-4" />
+            Início
+          </Button>
+          {user?.role === "admin" && (
+            <Button
+              variant="ghost"
+              className="w-full justify-start gap-2 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground text-sm h-9"
+              onClick={() => navigate("/admin")}
+            >
+              <Settings className="w-4 h-4" />
+              Painel Admin
+            </Button>
+          )}
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-2 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground text-sm h-9"
+            onClick={() => logout()}
+          >
+            <LogOut className="w-4 h-4" />
+            Sair
+          </Button>
+        </div>
+      </aside>
+
+      {/* ── Main Content ── */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Top Bar */}
+        <header className="h-14 border-b border-border bg-card flex items-center px-4 gap-3 flex-shrink-0">
+          {!sidebarOpen && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="w-8 h-8"
+              onClick={() => setSidebarOpen(true)}
+            >
+              <Menu className="w-4 h-4" />
+            </Button>
+          )}
+
+          {selectedTeacher ? (
+            <div className="flex items-center gap-3 flex-1">
+              <TeacherAvatar teacher={selectedTeacher} size="sm" />
+              <div>
+                <div className="font-semibold text-sm text-foreground" style={{ fontFamily: "Poppins, sans-serif" }}>
+                  {selectedTeacher.name}
+                </div>
+                <div className="text-xs text-muted-foreground">{selectedTeacher.subject}</div>
+              </div>
+              <Badge variant="secondary" className="ml-2 text-xs">
+                <Sparkles className="w-3 h-3 mr-1" />
+                IA Ativa
+              </Badge>
+            </div>
+          ) : (
+            <div className="flex-1">
+              <span className="text-sm text-muted-foreground">Selecione um professor para começar</span>
+            </div>
+          )}
+
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2 text-xs"
+              onClick={() => setContentCreatorOpen(true)}
+            >
+              <FileText className="w-3.5 h-3.5" />
+              Criar conteúdo
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2 text-xs"
+              onClick={() => setTeacherPanelOpen(true)}
+            >
+              <GraduationCap className="w-3.5 h-3.5" />
+              {selectedTeacher ? "Trocar professor" : "Escolher professor"}
+            </Button>
+          </div>
+        </header>
+
+        {/* Messages Area */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {!selectedConvId ? (
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center max-w-sm">
+                <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+                  <Brain className="w-10 h-10 text-primary" />
+                </div>
+                <h3
+                  className="text-xl font-bold text-foreground mb-3"
+                  style={{ fontFamily: "Poppins, sans-serif" }}
+                >
+                  {selectedTeacher ? `Olá! Sou ${selectedTeacher.name}` : "Bem-vindo ao myaky bot"}
+                </h3>
+                <p className="text-muted-foreground text-sm mb-6">
+                  {selectedTeacher
+                    ? `Especialista em ${selectedTeacher.subject}. Clique em "Nova conversa" para começarmos!`
+                    : "Selecione um professor e inicie uma conversa para começar a aprender."}
+                </p>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {selectedTeacher ? (
+                    <Button onClick={handleNewConversation} className="gap-2">
+                      <Plus className="w-4 h-4" />
+                      Nova conversa
+                    </Button>
+                  ) : (
+                    <Button onClick={() => setTeacherPanelOpen(true)} variant="outline" className="gap-2">
+                      <GraduationCap className="w-4 h-4" />
+                      Escolher professor
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : messagesLoading ? (
+            <div className="flex justify-center py-8">
+              <Brain className="w-6 h-6 text-primary animate-pulse" />
+            </div>
+          ) : messages.length === 0 ? (
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center max-w-sm">
+                {selectedTeacher && <TeacherAvatar teacher={selectedTeacher} size="lg" />}
+                <h3 className="text-lg font-semibold mt-4 mb-2" style={{ fontFamily: "Poppins, sans-serif" }}>
+                  {selectedTeacher ? `Conversa com ${selectedTeacher.name}` : "Nova conversa"}
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Envie uma mensagem para começar a conversa!
+                </p>
+                {selectedTeacher?.bio && (
+                  <p className="text-xs text-muted-foreground mt-3 italic">"{selectedTeacher.bio}"</p>
+                )}
+              </div>
+            </div>
+          ) : (
+            <>
+              {messages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`flex gap-3 chat-bubble ${msg.role === "user" ? "flex-row-reverse" : ""}`}
+                >
+                  {msg.role === "assistant" && selectedTeacher && (
+                    <TeacherAvatar teacher={selectedTeacher} size="sm" />
+                  )}
+                  {msg.role === "user" && (
+                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 text-primary-foreground text-xs font-bold">
+                      {user?.name?.charAt(0)?.toUpperCase() ?? "U"}
+                    </div>
+                  )}
+                  <div
+                    className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                      msg.role === "user"
+                        ? "bg-primary text-primary-foreground rounded-tr-sm"
+                        : "bg-card border border-border text-card-foreground rounded-tl-sm"
+                    }`}
+                  >
+                    {msg.role === "assistant" ? (
+                      <div className="prose prose-sm max-w-none dark:prose-invert">
+                        <Streamdown>{msg.content}</Streamdown>
+                      </div>
+                    ) : (
+                      <p>{msg.content}</p>
+                    )}
+                    <div className={`text-xs mt-1.5 opacity-50 ${msg.role === "user" ? "text-right" : ""}`}>
+                      {new Date(msg.createdAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {isTyping && <TypingIndicator />}
+            </>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Input Area */}
+        <div className="border-t border-border bg-card p-4">
+          <div className="flex gap-2 items-end max-w-4xl mx-auto">
+            <Input
+              ref={inputRef}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={
+                selectedConvId
+                  ? `Pergunte para ${selectedTeacher?.name ?? "o professor"}...`
+                  : "Selecione uma conversa para começar..."
+              }
+              disabled={!selectedConvId || sendMessageMutation.isPending}
+              className="flex-1 bg-background border-border focus-visible:ring-primary"
+            />
+            <Button
+              onClick={handleSendMessage}
+              disabled={!inputValue.trim() || !selectedConvId || sendMessageMutation.isPending}
+              size="icon"
+              className="flex-shrink-0"
+            >
+              <Send className="w-4 h-4" />
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground text-center mt-2">
+            Pressione Enter para enviar · Shift+Enter para nova linha
+          </p>
+        </div>
+      </div>
+
+      {/* ── Content Creator Panel (Overlay) ── */}
+      {contentCreatorOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setContentCreatorOpen(false)} />
+          <div className="relative ml-auto w-96 h-full bg-card border-l border-border shadow-2xl flex flex-col">
+            <ContentCreator
+              teacherId={selectedTeacherId ?? undefined}
+              onClose={() => setContentCreatorOpen(false)}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* ── Teacher Selection Panel (Overlay) ── */}
+      {teacherPanelOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setTeacherPanelOpen(false)} />
+          <div className="relative ml-auto w-80 h-full bg-card border-l border-border shadow-2xl flex flex-col">
+            <div className="p-4 border-b border-border flex items-center justify-between">
+              <h3 className="font-semibold text-foreground" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Escolher Professor
+              </h3>
+              <Button variant="ghost" size="icon" className="w-8 h-8" onClick={() => setTeacherPanelOpen(false)}>
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+            <ScrollArea className="flex-1 p-4">
+              {teachers.length === 0 ? (
+                <div className="text-center py-8">
+                  <GraduationCap className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
+                  <p className="text-sm text-muted-foreground">Nenhum professor cadastrado ainda.</p>
+                  {user?.role === "admin" && (
+                    <Button
+                      variant="link"
+                      size="sm"
+                      className="mt-2"
+                      onClick={() => { setTeacherPanelOpen(false); navigate("/admin"); }}
+                    >
+                      Cadastrar professor
+                    </Button>
+                  )}
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {teachers.filter((t) => t.active === "yes").map((teacher) => (
+                    <button
+                      key={teacher.id}
+                      onClick={() => handleSelectTeacher(teacher)}
+                      className={`w-full flex items-center gap-3 p-3 rounded-xl border transition-all text-left ${
+                        selectedTeacherId === teacher.id
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:border-primary/40 hover:bg-muted/50"
+                      }`}
+                    >
+                      <TeacherAvatar teacher={teacher} size="md" />
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-sm text-foreground truncate" style={{ fontFamily: "Poppins, sans-serif" }}>
+                          {teacher.name}
+                        </div>
+                        <div className="text-xs text-muted-foreground truncate">{teacher.subject}</div>
+                        {teacher.bio && (
+                          <div className="text-xs text-muted-foreground/70 truncate mt-0.5 italic">
+                            {teacher.bio.slice(0, 50)}...
+                          </div>
+                        )}
+                      </div>
+                      {selectedTeacherId === teacher.id && (
+                        <Badge className="text-xs flex-shrink-0">Ativo</Badge>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </ScrollArea>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
