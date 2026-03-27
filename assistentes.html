@@ -3,51 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistentes IA - Professores do Paraná</title>
+    <title>Acessar MyAkyBot</title>
     <style>
-        /* Mesmo estilo das outras páginas – copie se necessário */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #999;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
-
-    <header>
-        <h1>Assistentes IA para Professores</h1>
-        <p>Assistentes prontos para ajudar no planejamento, inclusão, correção e muito mais – use direto no navegador</p>
-    </header>
-
-    <nav>
-        <!-- Menu completo -->
-    </nav>
-
     <div class="container">
-        <section>
-            <h2>Assistente de Planejamento de Aula</h2>
-            <p>Pergunte: "Crie plano de aula sobre frações para 6º ano alinhado à BNCC"</p>
-        </section>
-
-        <section>
-            <h2>Assistente de Inclusão</h2>
-            <p>Pergunte: "Como adaptar aula de matemática para aluno com TDAH?"</p>
-        </section>
-
-        <section>
-            <h2>Assistente de Redação</h2>
-            <p>Pergunte: "Corrija esta redação ENEM e dê nota com justificativa"</p>
-        </section>
-
-        <section>
-            <h2>Assistente de Saúde Mental</h2>
-            <p>Pergunte: "Dicas para lidar com estresse no final do bimestre"</p>
-        </section>
-
-        <p style="text-align:center; font-size:1.5rem; margin:3rem 0; color:var(--verde-sust);">
-            Copie e cole esses prompts em qualquer IA gratuita (Gemini, Copilot, Claude).
-        </p>
+        <h1>Bem-vindo ao MyAkyBot</h1>
+        <p>Clique no botão abaixo para acessar a plataforma MyAkyBot e começar a utilizar nossos serviços.</p>
+        
+        <a href="https://myakybot-test.manus.space/" class="btn">Acessar MyAkyBot</a>
+        
+        <div class="info">
+            <p>Você será redirecionado para a plataforma em uma nova aba.</p>
+        </div>
     </div>
-
-    <footer>
-        <!-- Footer padrão -->
-    </footer>
-
 </body>
 </html>
