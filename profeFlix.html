@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Nexus Streaming</title>
+<title>NEXUS HUB SUPREMO</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -11,52 +11,13 @@ body{
  background:#0a0a0f;
  color:white;
  font-family:Arial;
- overflow-x:hidden;
 }
 
-/* INTRO */
-#intro{
- position:fixed;
- width:100%;height:100%;
- background:black;
- display:flex;
- justify-content:center;
- align-items:center;
- z-index:9999;
- flex-direction:column;
-}
-
-#logo{
- width:500px;
- opacity:0;
- filter:drop-shadow(0 0 30px #a855f7);
- animation:logoIn 2s ease forwards;
-}
-
-.light{
- position:absolute;
- width:300px;height:300px;
- background:radial-gradient(circle,#a855f7,transparent);
- animation:light 2s ease;
-}
-
-@keyframes logoIn{
- from{opacity:0; transform:scale(0.5)}
- to{opacity:1; transform:scale(1)}
-}
-
-@keyframes light{
- from{opacity:0; transform:scale(0.2)}
- to{opacity:1; transform:scale(3)}
-}
-
-/* HEADER */
 header{
  display:flex;
  justify-content:space-between;
  padding:15px;
- background:rgba(0,0,0,0.7);
- backdrop-filter:blur(10px);
+ background:#000;
  position:sticky;
  top:0;
 }
@@ -68,171 +29,132 @@ header{
  width:250px;
 }
 
-/* HERO */
-.hero{
- height:50vh;
- display:flex;
- align-items:center;
- padding:40px;
- background:linear-gradient(to right,#000,transparent),
- url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4');
- background-size:cover;
-}
-
-.hero h1{
- font-size:40px;
-}
-
-/* ROWS */
-.row{
- padding:20px;
-}
-
-.cards{
- display:flex;
- gap:10px;
- overflow-x:auto;
-}
+.row{padding:20px}
+.cards{display:flex;gap:10px;overflow-x:auto}
 
 .card{
  min-width:200px;
+ background:#111;
  border-radius:10px;
  overflow:hidden;
- background:#111;
  cursor:pointer;
  transition:0.3s;
- position:relative;
 }
 
-.card:hover{
- transform:scale(1.15);
-}
+.card:hover{transform:scale(1.1)}
 
-.card img{
- width:100%;
-}
+.card img{width:100%}
 
-.card p{
- padding:5px;
- font-size:14px;
-}
-
-/* PLAYER */
-.player iframe{
- width:100%;
- height:400px;
- border:none;
- margin-top:10px;
-}
-
-/* GLOW UI */
-.glow{
- box-shadow:0 0 20px #a855f7;
-}
-
-/* FADE */
-.fade{
- animation:fadeOut 2s forwards;
-}
-
-@keyframes fadeOut{
- to{opacity:0;visibility:hidden}
-}
+.player iframe{width:100%;height:400px;border:none}
 </style>
 </head>
 
 <body>
 
-<!-- INTRO -->
-<div id="intro">
- <div class="light"></div>
- <img src="Logo.png" id="logo">
- <audio id="sound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
-</div>
-
-<!-- SITE -->
 <header>
- <h2>NEXUS</h2>
- <input id="search" placeholder="Buscar...">
+<h2>NEXUS HUB</h2>
+<input id="search" placeholder="Buscar tudo...">
 </header>
-
-<div class="hero">
- <div>
-  <h1>Bem-vindo ao Nexus</h1>
-  <p>Streaming nível Hollywood</p>
- </div>
-</div>
 
 <div class="player" id="player"></div>
 
 <div class="row">
- <h2>🔥 Tendências</h2>
- <div class="cards" id="trend"></div>
+<h2>🔥 Filmes</h2>
+<div class="cards" id="movies"></div>
 </div>
 
 <div class="row">
- <h2>🎬 Filmes</h2>
- <div class="cards" id="filmes"></div>
+<h2>🎌 Animes</h2>
+<div class="cards" id="anime"></div>
 </div>
 
 <div class="row">
- <h2>🎌 Animes</h2>
- <div class="cards" id="animes"></div>
+<h2>🎧 Música</h2>
+<div id="music"></div>
+</div>
+
+<div class="row">
+<h2>📚 Livros</h2>
+<div id="books"></div>
 </div>
 
 <script>
-const KEY = "AIzaSyAbJX9WQwxIO2DP-ud_3kCzDCJ-5MqjxU4";
-
-// INTRO CINEMA
-window.onload = ()=>{
- setTimeout(()=>{document.getElementById('sound').play()},800);
-
- setTimeout(()=>{
-  document.getElementById('intro').classList.add('fade');
- },5000);
-
- setTimeout(()=>{
-  document.getElementById('intro').style.display='none';
- },7000);
-};
+const TMDB = "2618a134d307bed39b5be6d0ec791453";
 
 // PLAYER
-function play(id){
+function playYT(id){
  player.innerHTML=`<iframe src="https://www.youtube.com/embed/${id}" allowfullscreen></iframe>`;
  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // CARD
-function createCard(v){
+function card(img,title,click){
  let d=document.createElement('div');
- d.className='card glow';
- d.innerHTML=`<img src="${v.snippet.thumbnails.medium.url}">
- <p>${v.snippet.title}</p>`;
- d.onclick=()=>play(v.id.videoId);
+ d.className="card";
+ d.innerHTML=`<img src="${img}"><p>${title}</p>`;
+ d.onclick=click;
  return d;
 }
 
-// LOAD
-async function load(q,id){
- let r=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&type=video&maxResults=10&key=${KEY}`);
- let data=await r.json();
+// FILMES (TMDB)
+fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${TMDB}`)
+.then(r=>r.json())
+.then(d=>{
+ d.results.forEach(m=>{
+  movies.appendChild(
+   card(
+    "https://image.tmdb.org/t/p/w500"+m.poster_path,
+    m.title,
+    ()=>searchYT(m.title+" trailer")
+   )
+  );
+ });
+});
 
- let c=document.getElementById(id);
- c.innerHTML="";
- data.items.forEach(v=>c.appendChild(createCard(v)));
+// ANIME (JIKAN)
+fetch("https://api.jikan.moe/v4/anime")
+.then(r=>r.json())
+.then(d=>{
+ d.data.forEach(a=>{
+  anime.appendChild(
+   card(
+    a.images.jpg.image_url,
+    a.title,
+    ()=>searchYT(a.title+" anime")
+   )
+  );
+ });
+});
+
+// YOUTUBE BUSCA
+async function searchYT(q){
+ let res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&key=AIzaSyAbJX9WQwxIO2DP-ud_3kCzDCJ-5MqjxU4`);
+ let data = await res.json();
+ let vid = data.items[0].id.videoId;
+ playYT(vid);
 }
 
-// SEARCH
-search.oninput=()=>{
- if(search.value.length>2){
-  load(search.value,"trend");
+// MÚSICA (SPOTIFY EMBED)
+music.innerHTML = `
+<iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M"
+width="100%" height="200"></iframe>
+`;
+
+// LIVROS
+fetch("https://openlibrary.org/search.json?q=anime")
+.then(r=>r.json())
+.then(d=>{
+ d.docs.slice(0,10).forEach(b=>{
+  books.innerHTML += `<p>${b.title}</p>`;
+ });
+});
+
+// BUSCA GLOBAL
+search.oninput = ()=>{
+ if(search.value.length > 2){
+  searchYT(search.value);
  }
 };
-
-// INIT
-load("filmes","trend");
-load("filmes completos","filmes");
-load("anime","animes");
 </script>
 
 </body>
