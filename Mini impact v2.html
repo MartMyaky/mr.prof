@@ -1,407 +1,201 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 KIT TURBO 10X - 8 Mini Games do Professor</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap');
-        body { font-family: 'Poppins', system-ui, sans-serif; }
-        .glass { background: rgba(255,255,255,0.12); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.25); }
-        .game-card { transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1); }
-        .game-card:hover { transform: scale(1.12) rotate(3deg); box-shadow: 0 40px 80px -20px rgb(0 0 0 / 0.5); }
-        .title-glow { text-shadow: 0 0 40px rgba(255,255,255,0.9); }
-        canvas#confetti { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999; }
-    </style>
-</head>
-<body class="bg-gradient-to-br from-indigo-700 via-purple-700 to-pink-700 text-white min-h-screen overflow-hidden">
-    <div class="flex h-screen">
-        <!-- SIDEBAR -->
-        <div class="w-80 glass border-r border-white/30 flex flex-col">
-            <div class="p-8 text-center border-b border-white/20">
-                <div class="flex justify-center items-center gap-4 mb-4">
-                    <div class="text-7xl">🎓</div>
-                    <div>
-                        <h1 class="text-5xl font-black tracking-tighter title-glow">KIT TURBO</h1>
-                        <p class="text-2xl -mt-2 font-medium">10X para Professores</p>
-                    </div>
-                </div>
-                <p class="text-white/70 text-sm">8 jogos completos • Sons • Confetti • 100% offline</p>
-            </div>
+<meta charset="UTF-8">
+<title>ProfBooks Elite</title>
 
-            <div class="flex-1 p-6 overflow-y-auto space-y-6" id="menu"></div>
-
-            <div class="p-6 border-t border-white/20">
-                <div onclick="toggleSound()" id="soundBtn" class="glass rounded-3xl p-5 flex items-center gap-4 cursor-pointer hover:bg-white/20">
-                    <i class="fa-solid fa-volume-high text-3xl" id="soundIcon"></i>
-                    <div class="flex-1">
-                        <div class="font-semibold text-lg">Som ativado</div>
-                        <div class="text-xs text-white/60">Clique para mutar</div>
-                    </div>
-                </div>
-                <button onclick="toggleFullscreen()" class="mt-4 w-full py-5 bg-white/10 hover:bg-white/20 rounded-3xl font-semibold flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-expand"></i> Modo Projetor (F11)
-                </button>
-            </div>
-        </div>
-
-        <!-- MAIN AREA -->
-        <div class="flex-1 flex flex-col">
-            <div class="h-20 glass border-b border-white/20 px-10 flex items-center justify-between">
-                <button onclick="showHome()" class="flex items-center gap-4 text-2xl font-semibold hover:text-yellow-300 transition">
-                    <i class="fa-solid fa-house"></i>
-                    <span>Início</span>
-                </button>
-
-                <div class="flex gap-8">
-                    <button onclick="randomGame()" class="flex items-center gap-3 hover:text-yellow-300 transition">
-                        <i class="fa-solid fa-dice text-2xl"></i>
-                        <span class="font-medium">Jogo Aleatório</span>
-                    </button>
-                    <button onclick="launchConfetti()" class="flex items-center gap-3 hover:text-pink-300 transition">
-                        <i class="fa-solid fa-party-horn text-2xl"></i>
-                        <span class="font-medium">Surpreenda a Turma!</span>
-                    </button>
-                </div>
-
-                <div class="flex items-center gap-5">
-                    <div class="text-right">
-                        <div class="text-xs opacity-70">Professor(a)</div>
-                        <div id="profName" class="font-semibold text-xl"></div>
-                    </div>
-                    <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-4xl">👩‍🏫</div>
-                </div>
-            </div>
-
-            <!-- CONTEÚDO -->
-            <div class="flex-1 p-12 overflow-auto" id="mainContent">
-                <div id="homeScreen" class="max-w-5xl mx-auto text-center pt-20">
-                    <h1 class="text-7xl font-black title-glow leading-none mb-6">PRONTO PARA A<br>AULA MAIS DIVERTIDA?</h1>
-                    <p class="text-3xl text-white/90 mb-12">Escolha qualquer jogo abaixo ou clique em “Jogo Aleatório”</p>
-                    <button onclick="randomGame()" class="bg-white text-purple-700 font-black text-3xl px-20 py-8 rounded-3xl shadow-2xl hover:scale-110 transition flex items-center gap-6 mx-auto">
-                        JOGAR AGORA <i class="fa-solid fa-arrow-right text-5xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <canvas id="confetti"></canvas>
-
-    <script>
-        // ==================== CONFIGURAÇÕES GLOBAIS ====================
-        let audioCtx;
-        let soundEnabled = true;
-
-        function initAudio() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-
-        function playSound(freq, duration = 80, type = 'sine', vol = 0.4) {
-            if (!soundEnabled || !audioCtx) return;
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = type;
-            osc.frequency.value = freq;
-            gain.gain.value = vol;
-            osc.connect(gain).connect(audioCtx.destination);
-            osc.start();
-            setTimeout(() => osc.stop(), duration);
-        }
-
-        function playClick() { playSound(900, 50, 'square', 0.3); }
-        function playSuccess() { playSound(1100, 80); playSound(1400, 120, 'triangle'); }
-        function playWin() { 
-            playSound(800, 150); playSound(1000, 150); playSound(1400, 500, 'triangle', 0.6);
-            launchConfetti(true);
-        }
-        function playLose() { playSound(300, 400, 'sawtooth', 0.6); }
-
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            document.getElementById('soundIcon').classList.toggle('fa-volume-high', soundEnabled);
-            document.getElementById('soundIcon').classList.toggle('fa-volume-xmark', !soundEnabled);
-            localStorage.setItem('soundEnabled', soundEnabled);
-        }
-
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) document.documentElement.requestFullscreen();
-            else document.exitFullscreen();
-        }
-
-        function launchConfetti(big = false) {
-            const count = big ? 400 : 180;
-            confetti({ particleCount: count, spread: 100, origin: { y: 0.6 } });
-            setTimeout(() => confetti({ particleCount: count/1.5, angle: 60, spread: 80, origin: { x: 0.1 } }), 180);
-        }
-
-        // ==================== MENU ====================
-        const jogos = [
-            {id:1, emoji:"🕹️", titulo:"Jogo da Velha", desc:"Estratégia clássica", cor:"from-blue-500 to-cyan-400", time:"3 min"},
-            {id:2, emoji:"🧠", titulo:"Memória Turbo", desc:"Concentração animal", cor:"from-emerald-500 to-teal-400", time:"5 min"},
-            {id:3, emoji:"✂️", titulo:"Pedra Papel Tesoura", desc:"Contra a IA", cor:"from-rose-500 to-orange-400", time:"2 min"},
-            {id:4, emoji:"🎯", titulo:"Quiz Turbo", desc:"Matéria personalizável", cor:"from-violet-500 to-purple-400", time:"8 min"},
-            {id:5, emoji:"🏴‍☠️", titulo:"Forca Educativa", desc:"Vocabulário", cor:"from-amber-500 to-yellow-400", time:"6 min"},
-            {id:6, emoji:"🔢", titulo:"Adivinhe o Número", desc:"Raciocínio lógico", cor:"from-lime-500 to-green-400", time:"4 min"},
-            {id:7, emoji:"🌈", titulo:"Simon Turbo", desc:"Memória sequencial", cor:"from-indigo-500 to-blue-400", time:"5 min"},
-            {id:8, emoji:"🐹", titulo:"Bata na Toupeira", desc:"Reflexos insanos", cor:"from-orange-500 to-red-400", time:"4 min"}
-        ];
-
-        function criarMenu() {
-            const menu = document.getElementById('menu');
-            menu.innerHTML = jogos.map(j => `
-                <div onclick="abrirJogo(${j.id});playClick()" class="game-card glass rounded-3xl p-6 cursor-pointer flex gap-6 items-center group">
-                    <div class="w-20 h-20 flex-shrink-0 bg-gradient-to-br ${j.cor} rounded-2xl text-6xl flex items-center justify-center shadow-inner">${j.emoji}</div>
-                    <div class="flex-1 min-w-0">
-                        <div class="font-bold text-2xl group-hover:text-yellow-300 transition">${j.titulo}</div>
-                        <div class="text-white/70">${j.desc}</div>
-                        <div class="text-xs mt-3 bg-white/20 inline-block px-4 py-1 rounded-full">${j.time}</div>
-                    </div>
-                    <i class="fa-solid fa-arrow-right text-4xl opacity-0 group-hover:opacity-100 transition"></i>
-                </div>
-            `).join('');
-        }
-
-        function abrirJogo(id) {
-            const html = gameCodes[id-1];
-            const nova = window.open('', '_blank');
-            nova.document.write(html);
-            nova.document.close();
-        }
-
-        function randomGame() {
-            const rand = Math.floor(Math.random() * 8) + 1;
-            abrirJogo(rand);
-            launchConfetti();
-        }
-
-        function showHome() {
-            document.getElementById('homeScreen').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // ==================== OS 8 JOGOS COMPLETOS (VERSÃO 10X) ====================
-        const gameCodes = [
-            // 1. JOGO DA VELHA
-`<!DOCTYPE html>
-<html lang="pt"><head><meta charset="UTF-8"><title>Jogo da Velha Turbo</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-<style>body{font-family:Poppins,sans-serif}</style></head>
-<body class="bg-gradient-to-br from-blue-900 to-indigo-900 min-h-screen flex items-center justify-center text-white">
-<div class="glass max-w-md w-full rounded-3xl p-10 text-center">
-<h1 class="text-5xl font-black mb-2">🕹️ JOGO DA VELHA</h1>
-<div id="status" class="text-3xl font-bold h-14">Vez do X</div>
-<div id="board" class="grid grid-cols-3 gap-4 mx-auto" style="width:360px"></div>
-<div class="flex justify-center gap-6 mt-12">
-<button onclick="resetGame()" class="bg-white/10 hover:bg-white/20 px-10 py-4 rounded-2xl font-semibold">Novo Jogo</button>
-<button onclick="window.close()" class="bg-red-500/30 hover:bg-red-500/40 px-10 py-4 rounded-2xl font-semibold">Fechar</button>
-</div>
-</div>
-<script>
-let board = Array(9).fill(null), current = "X";
-const ctx = new (window.AudioContext||window.webkitAudioContext)();
-function play(f,d=80){const o=ctx.createOscillator();o.frequency.value=f;o.connect(ctx.destination);o.start();setTimeout(()=>o.stop(),d);}
-function createBoard(){const b=document.getElementById("board");b.innerHTML="";for(let i=0;i<9;i++){const c=document.createElement("div");c.className="aspect-square bg-white/10 hover:bg-white/20 text-8xl flex items-center justify-center rounded-3xl cursor-pointer transition-all active:scale-90";c.dataset.i=i;c.onclick=()=>{if(board[i]||checkWin())return;board[i]=current;c.textContent=current;play(current==="X"?920:680);if(checkWin()){document.getElementById("status").innerHTML=\`🎉 \${current} VENCEU!\`;confetti({particleCount:500});playWin();}else if(board.every(x=>x)){document.getElementById("status").innerHTML="Empate!";}else{current=current==="X"?"O":"X";document.getElementById("status").textContent=\`Vez do \${current}\`;}}};b.appendChild(c);}}
-function checkWin(){const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];return w.some(a=>board[a[0]]&&board[a[0]]===board[a[1]]&&board[a[0]]===board[a[2]]);}
-function resetGame(){board=Array(9).fill(null);current="X";document.getElementById("status").textContent="Vez do X";createBoard();}
-createBoard();
-</script></body></html>`,
-
-            // 2. MEMÓRIA
-`<!DOCTYPE html>
-<html lang="pt"><head><meta charset="UTF-8"><title>Memória Turbo</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-</head><body class="bg-gradient-to-br from-emerald-900 to-teal-900 min-h-screen flex items-center justify-center">
-<div class="glass rounded-3xl p-12 max-w-lg">
-<h1 class="text-5xl font-black text-center mb-6">🧠 MEMÓRIA TURBO</h1>
-<div id="score" class="text-center text-3xl font-bold mb-8">0 pontos • 0/8</div>
-<div id="grid" class="grid grid-cols-4 gap-6"></div>
-<button onclick="resetGame()" class="mt-12 w-full py-6 bg-white text-emerald-800 font-bold text-2xl rounded-3xl">Novo Jogo</button>
-</div>
-<script>
-const emojis = ["🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼"];
-let cards = [...emojis,...emojis], flipped = [], matched = 0, score = 0;
-const ctx = new (window.AudioContext||window.webkitAudioContext)();
-function play(f,d=100){const o=ctx.createOscillator();o.frequency.value=f;o.connect(ctx.destination);o.start();setTimeout(()=>o.stop(),d);}
-function shuffle(a){return a.sort(()=>Math.random()-0.5);}
-function createGrid(){const g=document.getElementById("grid");g.innerHTML="";shuffle(cards).forEach(e=>{const card=document.createElement("div");card.className="w-24 h-24 perspective cursor-pointer";card.innerHTML=\`<div class="relative w-full h-full transition-transform duration-700" style="transform-style:preserve-3d"><div class="absolute inset-0 bg-white rounded-3xl flex items-center justify-center text-7xl shadow-2xl" style="backface-visibility:hidden">❓</div><div class="absolute inset-0 bg-white rounded-3xl flex items-center justify-center text-7xl shadow-2xl" style="backface-visibility:hidden;transform:rotateY(180deg)">\${e}</div></div>\`;card.onclick=()=>flipCard(card,e);g.appendChild(card);});}
-function flipCard(el,emoji){if(flipped.length===2||el.querySelector("div").style.transform==="rotateY(180deg)")return;el.querySelector("div").style.transform="rotateY(180deg)";flipped.push({el,emoji});if(flipped.length===2)setTimeout(checkMatch,700);}
-function checkMatch(){const [a,b]=flipped;if(a.emoji===b.emoji){matched++;score+=30;document.getElementById("score").textContent=\`\${score} pontos • \${matched}/8\`;play(1300,80);play(1600,120);if(matched===8){confetti({particleCount:600});playWin();}}else{a.el.querySelector("div").style.transform="";b.el.querySelector("div").style.transform="";play(400,200);}flipped=[];}
-function resetGame(){flipped=[];matched=0;score=0;document.getElementById("score").textContent="0 pontos • 0/8";createGrid();}
-createGrid();
-</script></body></html>`,
-
-            // 3. PEDRA PAPEL TESOURA
-`<!DOCTYPE html>
-<html lang="pt"><head><meta charset="UTF-8"><title>Pedra Papel Tesoura Turbo</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-</head><body class="bg-gradient-to-br from-rose-900 to-orange-900 min-h-screen flex items-center justify-center text-white">
-<div class="glass max-w-md w-full rounded-3xl p-12 text-center">
-<h1 class="text-5xl font-black mb-8">✂️ PEDRA PAPEL TESOURA</h1>
-<div class="flex justify-center gap-8 mb-12">
-<button onclick="play('pedra')" class="text-8xl hover:scale-125 transition">🪨</button>
-<button onclick="play('papel')" class="text-8xl hover:scale-125 transition">📄</button>
-<button onclick="play('tesoura')" class="text-8xl hover:scale-125 transition">✂️</button>
-</div>
-<div id="result" class="text-3xl font-bold h-20"></div>
-<div class="flex justify-around text-2xl font-medium"><div>Você: <span id="ps">0</span></div><div>PC: <span id="cs">0</span></div></div>
-<button onclick="resetScores()" class="mt-8 bg-white/10 hover:bg-white/20 px-10 py-4 rounded-2xl">Zerar Pontos</button>
-</div>
-<script>
-let ps=0,cs=0;const ctx=new(window.AudioContext||window.webkitAudioContext)();
-function play(f,d=80){const o=ctx.createOscillator();o.frequency.value=f;o.connect(ctx.destination);o.start();setTimeout(()=>o.stop(),d);}
-function playMove(m){
-const opts=["pedra","papel","tesoura"];
-const pc=opts[Math.floor(Math.random()*3)];
-let msg="",win=false;
-if(m===pc)msg="Empate!";
-else if((m==="pedra"&&pc==="tesoura")||(m==="papel"&&pc==="pedra")||(m==="tesoura"&&pc==="papel")){msg="Você venceu! 🎉";ps++;win=true;}else{msg="PC venceu 😢";cs++;}
-document.getElementById("result").innerHTML=\`Você: \${m} × PC: \${pc}<br>\${msg}\`;
-document.getElementById("ps").textContent=ps;
-document.getElementById("cs").textContent=cs;
-if(win){confetti({particleCount:300});play(1200,150);play(1600,300);}else play(400,250);
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
 }
-function resetScores(){ps=cs=0;document.getElementById("ps").textContent="0";document.getElementById("cs").textContent="0";document.getElementById("result").innerHTML="";}
-</script></body></html>`,
 
-            // 4. QUIZ
-`<!DOCTYPE html>
-<html lang="pt"><head><meta charset="UTF-8"><title>Quiz Turbo</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-</head><body class="bg-gradient-to-br from-violet-900 to-purple-900 min-h-screen flex items-center justify-center">
-<div class="glass max-w-2xl w-full rounded-3xl p-12">
-<h1 class="text-5xl font-black text-center mb-10">🎯 QUIZ TURBO</h1>
-<div id="startScreen" class="text-center"><button onclick="startQuiz()" class="bg-white text-violet-800 font-black text-4xl px-20 py-8 rounded-3xl">INICIAR QUIZ</button></div>
-<div id="gameScreen" class="hidden">
-<div class="flex justify-between text-xl mb-8"><span>Pergunta <span id="qnum">1</span>/8</span><span>Pontos: <span id="pts">0</span></span></div>
-<h2 id="pergunta" class="text-3xl font-semibold mb-10"></h2>
-<div id="opcoes" class="space-y-4"></div>
-</div>
-<div id="endScreen" class="hidden text-center">
-<h2 id="finalScore" class="text-7xl font-black"></h2>
-<p id="msgFinal" class="text-3xl mt-6"></p>
-<button onclick="location.reload()" class="mt-12 bg-white text-violet-800 font-bold text-2xl px-16 py-6 rounded-3xl">Jogar Novamente</button>
-</div>
-</div>
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at center, #1a1405, #050301);
+    overflow: hidden;
+}
+
+/* estrelas douradas */
+.stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/stardust.png');
+    opacity: 0.25;
+    filter: sepia(1) hue-rotate(20deg) saturate(2);
+}
+
+/* aura dourada */
+.aura {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(255,215,0,0.35), transparent 70%);
+    border-radius: 50%;
+    animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.4); opacity: 0.25; }
+    100% { transform: scale(1); opacity: 0.6; }
+}
+
+/* container vidro premium */
+.container {
+    position: relative;
+    padding: 50px;
+    border-radius: 25px;
+    backdrop-filter: blur(20px);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,215,0,0.3);
+    box-shadow: 
+        0 0 80px rgba(255,215,0,0.25),
+        inset 0 0 20px rgba(255,255,255,0.1);
+    text-align: center;
+}
+
+/* ícone */
+.icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+    animation: float 2.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px gold);
+}
+
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* título */
+.title {
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 4px;
+    margin-bottom: 25px;
+    opacity: 0.85;
+}
+
+/* botão premium */
+.button {
+    position: relative;
+    padding: 18px 55px;
+    font-size: 20px;
+    color: #fff;
+    border-radius: 14px;
+    text-decoration: none;
+    background: linear-gradient(145deg, #d4af37, #fff6cc);
+    color: #3a2b00;
+    font-weight: bold;
+    overflow: hidden;
+    display: inline-block;
+    transition: 0.4s;
+    box-shadow: 
+        0 0 25px rgba(255,215,0,0.6),
+        inset 0 0 10px rgba(255,255,255,0.5);
+}
+
+/* borda energética */
+.button::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #fff, #ffd700, #fff);
+    background-size: 300%;
+    animation: glow 4s linear infinite;
+    z-index: -1;
+}
+
+@keyframes glow {
+    0% { background-position: 0%; }
+    100% { background-position: 300%; }
+}
+
+/* brilho passando */
+.button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.9),
+        transparent
+    );
+    transition: 0.6s;
+}
+
+.button:hover::after {
+    left: 140%;
+}
+
+/* hover */
+.button:hover {
+    transform: scale(1.12);
+    box-shadow: 
+        0 0 50px rgba(255,215,0,0.9),
+        inset 0 0 15px rgba(255,255,255,0.6);
+}
+
+/* partículas douradas */
+.particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: radial-gradient(circle, #ffd700, #ffb700);
+    border-radius: 50%;
+    box-shadow: 0 0 10px gold;
+    animation: rise linear infinite;
+}
+
+@keyframes rise {
+    from {
+        transform: translateY(100vh);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-10vh);
+        opacity: 0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+<div class="aura"></div>
+
 <script>
-const perguntas=[{q:"Capital do Brasil?",o:["Rio","Brasília","SP","Salvador"],r:1},{q:"15+27=",o:["32","42","52","38"],r:1},{q:"Pintor da Mona Lisa?",o:["Van Gogh","Da Vinci","Picasso","Miguel"],r:1},{q:"Maior planeta?",o:["Terra","Marte","Júpiter","Saturno"],r:2},{q:"Quantos continentes?",o:["5","6","7","8"],r:2},{q:"2×9=",o:["16","18","20","22"],r:1},{q:"Cor do céu?",o:["Azul","Verde","Vermelho","Amarelo"],r:0},{q:"País com mais habitantes?",o:["Índia","China","EUA","Brasil"],r:1}];
-let atual=0,pontos=0;
-const ctx=new(window.AudioContext||window.webkitAudioContext)();
-function play(f){const o=ctx.createOscillator();o.frequency.value=f;o.connect(ctx.destination);o.start();setTimeout(()=>o.stop(),100);}
-function startQuiz(){document.getElementById("startScreen").classList.add("hidden");document.getElementById("gameScreen").classList.remove("hidden");carregarPergunta();}
-function carregarPergunta(){const p=perguntas[atual];document.getElementById("qnum").textContent=atual+1;document.getElementById("pts").textContent=pontos;document.getElementById("pergunta").textContent=p.q;const ops=document.getElementById("opcoes");ops.innerHTML="";p.o.forEach((opt,i)=>{const btn=document.createElement("button");btn.className="w-full text-left p-6 bg-white/10 hover:bg-white/20 rounded-2xl text-2xl transition";btn.textContent=opt;btn.onclick=()=>responder(i,btn,p.r);ops.appendChild(btn);});}
-function responder(escolha,btn,certa){if(escolha===certa){pontos+=10;btn.classList.add("bg-emerald-400","text-black");play(1400);if(atual===perguntas.length-1){setTimeout(mostrarFim,800);}}else{btn.classList.add("bg-red-400");play(400);}setTimeout(()=>{atual++;if(atual<perguntas.length)carregarPergunta();else mostrarFim();},900);}
-function mostrarFim(){document.getElementById("gameScreen").classList.add("hidden");const end=document.getElementById("endScreen");end.classList.remove("hidden");document.getElementById("finalScore").textContent=pontos+" pts";const perc=Math.round(pontos/80*100);document.getElementById("msgFinal").innerHTML=\`Acertou \${perc}%!<br>Parabéns! 👏\`;if(perc>=70)confetti({particleCount:400});}
-</script></body></html>`,
+for (let i = 0; i < 30; i++) {
+    let p = document.createElement("div");
+    p.className = "particle";
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.animationDuration = (3 + Math.random() * 5) + "s";
+    document.body.appendChild(p);
+}
+</script>
 
-            // 5. FORCA
-`<!DOCTYPE html>
-<html lang="pt"><head><meta charset="UTF-8"><title>Forca Educativa</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-</head><body class="bg-gradient-to-br from-amber-900 to-yellow-900 min-h-screen flex items-center justify-center text-white">
-<div class="glass rounded-3xl p-12 max-w-lg text-center">
-<h1 class="text-5xl font-black mb-6">🏴‍☠️ FORCA EDUCATIVA</h1>
-<div id="forca" class="text-8xl mb-8">🪓</div>
-<div id="palavra" class="text-5xl tracking-widest mb-10 font-mono"></div>
-<div id="letras" class="grid grid-cols-7 gap-3"></div>
-<div id="msg" class="text-3xl mt-12 h-12"></div>
-</div>
-<script>
-const palavras=["ESCOLA","PROFESSOR","ALUNO","MATEMATICA","HISTORIA","CIENCIA","GEOGRAFIA","PORTUGUES","INGLES","BIOLOGIA"];
-let palavra=palavras[Math.floor(Math.random()*palavras.length)], exibida=Array(palavra.length).fill("_"), erros=0;
-const ctx=new(window.AudioContext||window.webkitAudioContext)();
-function play(f){const o=ctx.createOscillator();o.frequency.value=f;o.connect(ctx.destination);o.start();setTimeout(()=>o.stop(),120);}
-function desenhar(){document.getElementById("palavra").textContent=exibida.join(" ");document.getElementById("forca").textContent=["🪓","☠️","💀","🦴","🦴🦴","🦴🦴🦴","💀💀💀"][erros]||"💀";}
-function criarTeclado(){const d=document.getElementById("letras");d.innerHTML="";for(let i=65;i<=90;i++){const l=String.fromCharCode(i);const btn=document.createElement("button");btn.className="w-12 h-12 bg-white/10 hover:bg-white/30 text-2xl font-bold rounded-2xl";btn.textContent=l;btn.onclick=()=>{btn.disabled=true;let ac=false;for(let j=0;j<palavra.length;j++)if(palavra[j]===l){exibida[j]=l;ac=true;play(1200);}if(!ac){erros++;play(400);}desenhar();if(!exibida.includes("_")){document.getElementById("msg").innerHTML=\`🎉 Palavra: <b>\${palavra}</b>\`;confetti({particleCount:400});}else if(erros>=6){document.getElementById("msg").innerHTML=\`☠️ Era <b>\${palavra}</b>\`;}}};d.appendChild(btn);}}
-desenhar();criarTeclado();
-</script></body></html>`,
+<div class="container">
+    <div class="icon">📚✨</div>
+    <div class="title">PORTAL PREMIUM</div>
 
-            // 6. ADIVINHE O NÚMERO
-`<!DOCTYPE html>
-<html lang="pt"><head><meta charset="UTF-8"><title>Adivinhe o Número</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-</head><body class="bg-gradient-to-br from-lime-900 to-green-900 min-h-screen flex items-center justify-center text-white">
-<div class="glass max-w-md w-full rounded-3xl p-12 text-center">
-<h1 class="text-5xl font-black mb-8">🔢 ADIVINHE O NÚMERO</h1>
-<p class="mb-8">1 a 100 • 10 tentativas</p>
-<input id="palpite" type="number" min="1" max="100" class="w-32 text-center text-6xl bg-white/10 rounded-2xl py-4 outline-none">
-<button onclick="tentar()" class="mt-6 bg-white text-green-800 font-bold px-16 py-6 rounded-3xl text-2xl">ENVIAR</button>
-<div id="dica" class="text-4xl font-bold mt-12 h-20"></div>
-<div class="text-2xl">Tentativas: <span id="rest" class="font-black">10</span></div>
+    <a href="https://profbooks-d6ytuoyw.manus.space/" target="_blank" class="button">
+        🚀 Acessar ProfBooks
+    </a>
 </div>
-<script>
-let secreto=Math.floor(Math.random()*100)+1,tent=10;
-const ctx=new(window.AudioContext||window.webkitAudioContext)();
-function play(f){const o=ctx.createOscillator();o.frequency.value=f;o.connect(ctx.destination);o.start();setTimeout(()=>o.stop(),100);}
-function tentar(){const p=parseInt(document.getElementById("palpite").value);if(!p)return;tent--;document.getElementById("rest").textContent=tent;if(p===secreto){document.getElementById("dica").innerHTML=\`🎉 ERA \${secreto}!\`;confetti({particleCount:500});play(1400);play(1800,400);}else if(tent===0){document.getElementById("dica").innerHTML=\`☠️ Era \${secreto}\`;}else{document.getElementById("dica").textContent=p<secreto?"📈 Mais alto!":"📉 Mais baixo!";play(p<secreto?800:600);}}
-</script></body></html>`,
 
-            // 7. SIMON
-`<!DOCTYPE html>
-<html lang="pt"><head><meta charset="UTF-8"><title>Simon Turbo</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-</head><body class="bg-gradient-to-br from-indigo-900 to-blue-900 min-h-screen flex items-center justify-center text-white">
-<div class="glass rounded-3xl p-12 text-center">
-<h1 class="text-5xl font-black mb-10">🌈 SIMON TURBO</h1>
-<div class="grid grid-cols-2 gap-8 w-80 mx-auto">
-<div id="0" onclick="clicar(0)" class="pad w-40 h-40 bg-emerald-500 rounded-3xl cursor-pointer active:brightness-150"></div>
-<div id="1" onclick="clicar(1)" class="pad w-40 h-40 bg-red-500 rounded-3xl cursor-pointer active:brightness-150"></div>
-<div id="2" onclick="clicar(2)" class="pad w-40 h-40 bg-blue-500 rounded-3xl cursor-pointer active:brightness-150"></div>
-<div id="3" onclick="clicar(3)" class="pad w-40 h-40 bg-yellow-400 rounded-3xl cursor-pointer active:brightness-150"></div>
-</div>
-<div id="status" class="text-3xl mt-12 font-bold">Clique INICIAR</div>
-<button onclick="iniciar()" class="mt-8 bg-white text-black font-black px-16 py-6 rounded-3xl text-2xl">INICIAR</button>
-</div>
-<script>
-let seq=[],jog=[],cores=["0","1","2","3"];
-const ctx=new(window.AudioContext||window.webkitAudioContext)();
-function play(f){const o=ctx.createOscillator();o.frequency.value=f;o.connect(ctx.destination);o.start();setTimeout(()=>o.stop(),300);}
-function iniciar(){seq=[];jog=[];proxima();}
-function proxima(){seq.push(Math.floor(Math.random()*4));mostrarSeq();}
-function mostrarSeq(){let i=0;const iv=setInterval(()=>{const el=document.getElementById(seq[i]);el.classList.add("brightness-150");play(400+seq[i]*200);setTimeout(()=>{el.classList.remove("brightness-150");},300);i++;if(i>=seq.length)clearInterval(iv);},600);jog=[];}
-function clicar(c){const el=document.getElementById(c);el.classList.add("brightness-150");play(600+c*180);setTimeout(()=>el.classList.remove("brightness-150"),200);jog.push(c);if(jog[jog.length-1]!==seq[jog.length-1]){document.getElementById("status").innerHTML=\`❌ Pontos: \${seq.length-1}\`;return;}if(jog.length===seq.length){document.getElementById("status").innerHTML="✅ Próxima...";setTimeout(proxima,600);}}
-</script></body></html>`,
-
-            // 8. BATA NA TOUPEIRA
-`<!DOCTYPE html>
-<html lang="pt"><head><meta charset="UTF-8"><title>Bata na Toupeira</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-</head><body class="bg-gradient-to-br from-orange-900 to-red-900 min-h-screen flex items-center justify-center text-white">
-<div class="glass rounded-3xl p-12 text-center">
-<h1 class="text-5xl font-black mb-8">🐹 BATA NA TOUPEIRA!</h1>
-<div id="placar" class="text-4xl font-bold mb-12">Pontos: 0 | Tempo: 30s</div>
-<div id="grid" class="grid grid-cols-3 gap-8 mx-auto" style="width:420px"></div>
-<button onclick="iniciarJogo()" class="mt-12 bg-white text-orange-800 font-black text-3xl px-16 py-8 rounded-3xl">COMEÇAR</button>
-</div>
-<script>
-let pontos=0,tempo=30,timer,intervalo;
-const ctx=new(window.AudioContext||window.webkitAudioContext)();
-function play(f){const o=ctx.createOscillator();o.frequency.value=f;o.connect(ctx.destination);o.start();setTimeout(()=>o.stop(),80);}
-function criarGrid(){const g=document.getElementById("grid");g.innerHTML="";for(let i=0;i<9;i++){const bur=document.createElement("div");bur.className="w-32 h-32 bg-[#2c1600] rounded-full relative overflow-hidden cursor-pointer";const toup=document.createElement("div");toup.className="toupeira absolute -bottom-20 left-1/2 -translate-x-1/2 text-8xl transition-all duration-200";toup.textContent="🐹";toup.onclick=()=>{pontos+=20;document.getElementById("placar").textContent=\`Pontos: \${pontos} | Tempo: \${tempo}s\`;toup.style.bottom="-20px";play(1100);setTimeout(()=>toup.style.bottom="-80px",300);};bur.appendChild(toup);g.appendChild(bur);}}
-function aparecer(){const toups=document.querySelectorAll(".toupeira");const r=Math.floor(Math.random()*9);toups[r].style.bottom="0px";setTimeout(()=>{toups[r].style.bottom="-80px";},650);}
-function iniciarJogo(){pontos=0;tempo=30;document.getElementById("placar").textContent="Pontos: 0 | Tempo: 30s";criarGrid();clearInterval(timer);clearInterval(intervalo);timer=setInterval(()=>{tempo--;document.getElementById("placar").textContent=\`Pontos: \${pontos} | Tempo: \${tempo}s\`;if(tempo<=0){clearInterval(timer);alert(\`⏰ Fim! Pontuação: \${pontos}\`);}},1000);intervalo=setInterval(aparecer,650);}
-</script></body></html>`
-        ];
-
-        // ==================== INICIALIZAÇÃO ====================
-        window.onload = () => {
-            initAudio();
-            criarMenu();
-            soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
-            document.getElementById('soundIcon').classList.toggle('fa-volume-xmark', !soundEnabled);
-            document.getElementById('profName').textContent = prompt("Qual seu nome, professor(a)?", "Super Professor") || "Super Professor";
-            launchConfetti();
-        };
-    </script>
 </body>
 </html>
