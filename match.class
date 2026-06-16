@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encaixe os Números</title>
+
+<style>
+body{
+    margin:0;
+    background:#1e1e2e;
+    color:white;
+    font-family:Arial;
+    text-align:center;
+}
+
+h1{
+    margin:10px;
+}
+
+canvas{
+    background:#2d2d44;
+    border:3px solid white;
+    margin-top:10px;
+    touch-action:none;
+}
+</style>
+</head>
+<body>
+
+<h1>🧮 Encaixe os Números</h1>
+<p>Arraste cada número para o local correto.</p>
+
+<canvas id="game" width="800" height="500"></canvas>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let score = 0;
+
+const slots = [
+    {x:120,y:100,w:100,h:100,value:1},
+    {x:350,y:100,w:100,h:100,value:2},
+    {x:580,y:100,w:100,h:100,value:3}
+];
+
+const numbers = [
+    {x:100,y:350,w:80,h:80,value:3,locked:false},
+    {x:350,y:350,w:80,h:80,value:1,locked:false},
+    {x:600,y:350,w:80,h:80,value:2,locked:false}
+];
+
+let dragging = null;
+let offsetX = 0;
+let offsetY = 0;
+
+function draw(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle="white";
+    ctx.font="30px Arial";
+    ctx.fillText("Pontuação: "+score,20,40);
+
+    slots.forEach(slot=>{
+        ctx.fillStyle="#444";
+        ctx.fillRect(slot.x,slot.y,slot.w,slot.h);
+
+        ctx.strokeStyle="white";
+        ctx.lineWidth=3;
+        ctx.strokeRect(slot.x,slot.y,slot.w,slot.h);
+
+        ctx.fillStyle="yellow";
+        ctx.font="40px Arial";
+        ctx.fillText(slot.value,slot.x+40,slot.y+60);
+    });
+
+    numbers.forEach(num=>{
+        ctx.fillStyle=num.locked ? "#00aa00" : "#00ccff";
+        ctx.fillRect(num.x,num.y,num.w,num.h);
+
+        ctx.strokeStyle="white";
+        ctx.strokeRect(num.x,num.y,num.w,num.h);
+
+        ctx.fillStyle="white";
+        ctx.font="40px Arial";
+        ctx.fillText(num.value,num.x+30,num.y+55);
+    });
+
+    if(score === slots.length){
+        ctx.fillStyle="lime";
+        ctx.font="50px Arial";
+        ctx.fillText("VOCÊ VENCEU!",250,250);
+    }
+}
+
+function getMousePos(e){
+    const rect = canvas.getBoundingClientRect();
+    return {
+        x:e.clientX-rect.left,
+        y:e.clientY-rect.top
+    };
+}
+
+canvas.addEventListener("mousedown",(e)=>{
+    const pos = getMousePos(e);
+
+    for(let num of numbers){
+        if(
+            !num.locked &&
+            pos.x>num.x &&
+            pos.x<num.x+num.w &&
+            pos.y>num.y &&
+            pos.y<num.y+num.h
+        ){
+            dragging=num;
+            offsetX=pos.x-num.x;
+            offsetY=pos.y-num.y;
+            break;
+        }
+    }
+});
+
+canvas.addEventListener("mousemove",(e)=>{
+    if(!dragging) return;
+
+    const pos=getMousePos(e);
+
+    dragging.x=pos.x-offsetX;
+    dragging.y=pos.y-offsetY;
+});
+
+canvas.addEventListener("mouseup",()=>{
+
+    if(!dragging) return;
+
+    for(let slot of slots){
+
+        const centerX = dragging.x + dragging.w/2;
+        const centerY = dragging.y + dragging.h/2;
+
+        if(
+            centerX>slot.x &&
+            centerX<slot.x+slot.w &&
+            centerY>slot.y &&
+            centerY<slot.y+slot.h
+        ){
+
+            if(dragging.value===slot.value){
+
+                dragging.x=slot.x+10;
+                dragging.y=slot.y+10;
+                dragging.locked=true;
+                score++;
+
+            }
+        }
+    }
+
+    dragging=null;
+});
+
+draw();
+
+function gameLoop(){
+    draw();
+    requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+</script>
+
+</body>
+</html>
