@@ -147,6 +147,7 @@ footer{
   padding:28px 12px 40px;
 }
 </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -154,6 +155,22 @@ footer{
   <h1>🧠 Laboratório Educacional V5 Completo</h1>
   <p>Gerador inteligente de atividades, gabaritos, revisão, apoio ao professor e múltiplas matérias</p>
 </header>
+  <nav>
+    <div class="nav-inner">
+      <a href="Home.html" class="nav-logo">📚 Portal PR</a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">&#9776;</button>
+      <div class="nav-links">
+        <a href="Home.html">Início</a>
+        <a href="calendario.html">Calendário</a>
+        <a href="ia-geral.html">IA</a>
+        <a href="assistentes.html">Assistentes</a>
+        <a href="inclusao.html">Inclusão</a>
+        <a href="planos-bncc.html">BNCC</a>
+        <a href="recursos-gratuitos.html">Recursos</a>
+        <a href="doar.html">Apoiar</a>
+      </div>
+    </div>
+  </nav>
 
 <div class="container">
 
@@ -1281,14 +1298,16 @@ function exportarAtividadeBase(){
         pre{white-space:pre-wrap;font-family:Arial,sans-serif}
         hr{margin:30px 0}
       </style>
-    </head>
+      <link rel="stylesheet" href="styles.css">
+</head>
     <body>
       <h1>Atividade</h1>
       <pre>${atividade}</pre>
       <hr>
       <h2>Gabarito</h2>
       <pre>${gabarito}</pre>
-    </body>
+      <script src="script.js"></script>
+</body>
     </html>
   `);
   w.document.close();
@@ -1358,5 +1377,6 @@ function limparTudo(){
 criarToolbar();
 </script>
 
+  <script src="script.js"></script>
 </body>
 </html>

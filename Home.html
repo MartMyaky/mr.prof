@@ -1,230 +1,215 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17981574632"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'AW-17981574632');
-</script>
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Professores do Paraná - MyakyBot & Recursos Educacionais</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portal Professores do Paraná - Recursos educacionais, MyakyBot, BNCC, inclusão, IA na sala de aula e muito mais. Tudo gratuito!">
+  <meta name="keywords" content="professores, Paraná, BNCC, inclusão, IA educacional, MyakyBot, recursos pedagógicos">
+  <meta name="author" content="Portal Professores do Paraná">
+  <title>Professores do Paraná - MyakyBot & Recursos Educacionais</title>
+  <link rel="stylesheet" href="styles.css">
 
-<style>
-:root{
---azul-pr:#004080;
---azul-claro:#0066cc;
---branco:#ffffff;
---cinza-claro:#f4f4f4;
---verde-sust:#2e7d32;
---vermelho-pr:#c8102e;
-}
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17981574632"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-17981574632');
+  </script>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+  <style>
+    /* Estilos específicos da Home */
+    .welcome-section {
+      text-align: center;
+      padding: 3rem 2rem;
+    }
 
-body{
-font-family:'Segoe UI',sans-serif;
-background:var(--cinza-claro);
-color:#333;
-line-height:1.6;
-}
+    .welcome-section h2 {
+      margin-bottom: 1rem;
+    }
 
-header{
-background:linear-gradient(to right,var(--azul-pr),var(--verde-sust));
-color:white;
-text-align:center;
-padding:4rem 1rem;
-}
+    .welcome-section p {
+      font-size: 1.15rem;
+      max-width: 700px;
+      margin: 0 auto 1rem;
+      color: var(--text-light);
+    }
 
-header h1{
-font-size:3.5rem;
-margin-bottom:.5rem;
-}
+    .welcome-highlight {
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 1.15rem;
+      margin-top: 1.5rem;
+    }
 
-nav{
-background:var(--azul-pr);
-padding:1rem;
-text-align:center;
-position:sticky;
-top:0;
-z-index:100;
-box-shadow:0 2px 10px rgba(0,0,0,.2);
-}
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
 
-nav a{
-color:white;
-margin:0 1rem;
-text-decoration:none;
-font-weight:bold;
-font-size:1.1rem;
-}
+    .pagebtn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: var(--text-white);
+      padding: 1rem 1.2rem;
+      border-radius: var(--font-radius);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all var(--transition);
+      box-shadow: var(--shadow);
+      text-align: center;
+      line-height: 1.4;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
 
-nav a:hover{
-color:var(--vermelho-pr);
-}
+    .pagebtn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
 
-.container{
-max-width:1200px;
-margin:2rem auto;
-padding:0 1rem;
-}
+    .pagebtn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      color: var(--text-white);
+    }
 
-section{
-background:white;
-padding:2.5rem;
-margin-bottom:2rem;
-border-radius:12px;
-box-shadow:0 6px 20px rgba(0,0,0,.12);
-}
+    .pagebtn:hover::before {
+      opacity: 1;
+    }
 
-h2{
-color:var(--verde-sust);
-font-size:2.4rem;
-margin-bottom:1.5rem;
-text-align:center;
-}
+    .pagebtn:active {
+      transform: translateY(-1px);
+    }
 
-.pagebtn{
-display:block;
-background:linear-gradient(135deg,#0066cc,#2e7d32);
-color:white;
-padding:14px;
-text-align:center;
-border-radius:10px;
-text-decoration:none;
-font-weight:bold;
-transition:.3s;
-box-shadow:0 4px 10px rgba(0,0,0,.15);
-}
+    @media (max-width: 768px) {
+      .library-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+      }
+      .pagebtn {
+        padding: 0.8rem 0.8rem;
+        font-size: 0.85rem;
+      }
+      .welcome-section {
+        padding: 2rem 1rem;
+      }
+    }
 
-.pagebtn:hover{
-transform:scale(1.05);
-background:linear-gradient(135deg,#004080,#1b5e20);
-}
-
-footer{
-background:var(--azul-pr);
-color:white;
-text-align:center;
-padding:3rem 1rem;
-margin-top:4rem;
-}
-
-footer a{
-color:var(--azul-claro);
-text-decoration:none;
-margin:0 1rem;
-}
-
-footer a:hover{
-text-decoration:underline;
-}
-
-@media (max-width:768px){
-header h1{
-font-size:2.5rem;
-}
-
-nav a{
-margin:.6rem;
-font-size:1rem;
-display:block;
-}
-}
-</style>
+    @media (max-width: 480px) {
+      .library-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.6rem;
+      }
+      .pagebtn {
+        padding: 0.7rem 0.5rem;
+        font-size: 0.8rem;
+        border-radius: 12px;
+      }
+    }
+  </style>
 </head>
-
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-c1493437-ddbc-49dd-a018-0731b6b5014b" data-elfsight-app-lazy></div>
 
 <body>
 
-<header>
-<h1>Professores do Paraná</h1>
-<p>Recursos educacionais, MyakyBot, BNCC, inclusão, IA na sala de aula e muito mais – tudo gratuito!</p>
-<p>Este site foi criado por um único aluno em 3 semanas e 5 dias. Nome do aluno: Matheus Rogério Alves Myaky Cenne. Se puder ajudar a manter o site, clique em doar PIX.</p>
-</header>
+  <!-- Header -->
+  <header>
+    <h1>Professores do Paraná</h1>
+    <p>Recursos educacionais, MyakyBot, BNCC, inclusão, IA na sala de aula e muito mais – tudo gratuito!</p>
+  </header>
 
-<nav>
-<a href="doar.html">💛 Doar</a>
-<a href="index.html">Início</a>
-<a href="calendario.html">Calendário</a>
-<a href="ia-geral.html">IA</a>
-<a href="assistentes.html">Assistentes</a>
-<a href="bncc.html">BNCC</a>
-<a href="planos-bncc.html">Planos</a>
-<a href="inclusao.html">Inclusão</a>
-<a href="recursos-gratuitos.html">Recursos</a>
-<a href="contato.html">Contato</a>
-</nav>
+  <!-- Navegação Responsiva -->
+  <nav>
+    <div class="nav-inner">
+      <a href="Home.html" class="nav-logo">📚 Portal PR</a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">&#9776;</button>
+      <div class="nav-links">
+        <a href="Home.html">Início</a>
+        <a href="calendario.html">Calendário</a>
+        <a href="ia-geral.html">IA</a>
+        <a href="assistentes.html">Assistentes</a>
+        <a href="inclusao.html">Inclusão</a>
+        <a href="planos-bncc.html">BNCC</a>
+        <a href="recursos-gratuitos.html">Recursos</a>
+        <a href="doar.html">Apoiar</a>
+      </div>
+    </div>
+  </nav>
 
-<div class="container">
+  <!-- Conteúdo Principal -->
+  <div class="container">
 
-<section>
-<h2>Bem-vindo ao portal dos Professores do Paraná</h2>
-<p style="font-size:1.3rem;text-align:center">
-Aqui você encontra ferramentas, planos de aula, recursos BNCC, dicas de inclusão, tutoriais de IA, saúde mental docente, projetos prontos e o MyakyBot.
-</p>
-<p style="text-align:center;margin:2rem 0;font-size:1.4rem;font-weight:bold;color:var(--verde-sust)">
-Tudo criado por um único aluno, para professores com amor.
-</p>
-</section>
+    <!-- Seção de Boas-vindas -->
+    <section class="welcome-section">
+      <h2>Bem-vindo ao portal dos Professores do Paraná</h2>
+      <p>Aqui você encontra ferramentas, planos de aula, recursos BNCC, dicas de inclusão, tutoriais de IA, saúde mental docente, projetos prontos e o MyakyBot.</p>
+      <p class="welcome-highlight">Tudo criado com amor para professores.</p>
+    </section>
 
-<section>
-<h2>📚 Biblioteca Completa do Portal</h2>
+    <!-- Biblioteca de Recursos -->
+    <section>
+      <h2>📚 Biblioteca Completa do Portal</h2>
 
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px">
+      <div class="library-grid">
+        <a href="Minha musica.html" class="pagebtn">🎵 Minha Música</a>
+        <a href="Mini impact v2.html" class="pagebtn">📚 Livraria dos Prof</a>
+        <a href="ODS na Escola.html" class="pagebtn">🌍 Aprenda se Divertindo</a>
+        <a href="Recursos BNCC.html" class="pagebtn">📘 Recursos BNCC</a>
+        <a href="Saude mental.html" class="pagebtn">🧠 Saúde Mental</a>
+        <a href="Tempo-livre.html" class="pagebtn">🎮 Tempo Livre</a>
+        <a href="assistentes.html" class="pagebtn">🤖 Assistentes IA</a>
+        <a href="atualidades-2026.html" class="pagebtn">📰 Atualidades 2026</a>
+        <a href="avaliacao-formativa.html" class="pagebtn">📊 Avaliação Formativa</a>
+        <a href="calendario.html" class="pagebtn">📅 Calendário</a>
+        <a href="carreira-docente.html" class="pagebtn">👩‍🏫 Carreira Docente</a>
+        <a href="dicas-para-professor-iniciante.html" class="pagebtn">📚 Professor Iniciante</a>
+        <a href="doar.html" class="pagebtn">💛 Apoiar o Projeto</a>
+        <a href="docs.html" class="pagebtn">📝 Editor Docs</a>
+        <a href="google-classroom-ia.html" class="pagebtn">🏫 Classroom + IA</a>
+        <a href="ia-chat.html" class="pagebtn">💬 IA Chat</a>
+        <a href="ia-geral.html" class="pagebtn">🧠 IA Geral</a>
+        <a href="inclusao.html" class="pagebtn">♿ Inclusão</a>
+        <a href="index.html" class="pagebtn">🏠 Página Inicial</a>
+        <a href="planos-bncc.html" class="pagebtn">📑 Planos BNCC</a>
+        <a href="profeFlix.html" class="pagebtn">🎬 ProfeFlix</a>
+        <a href="professoress.html" class="pagebtn">👨‍🏫 Professoress</a>
+        <a href="lab.html" class="pagebtn">🔬 Gerador de Aulas</a>
+        <a href="projetos-interdisciplinares.html" class="pagebtn">🔬 Projetos</a>
+        <a href="recuperacao-paralela.html" class="pagebtn">📖 Recuperação</a>
+        <a href="recursos-gratuitos.html" class="pagebtn">🧰 Recursos Gratuitos</a>
+        <a href="saude-mental-professor.html" class="pagebtn">❤️ Saúde do Professor</a>
+        <a href="tutoriais-ia.html" class="pagebtn">📖 Tutoriais IA</a>
+      </div>
+    </section>
 
-<a href="Minha musica.html" class="pagebtn">🎵 Minha Música</a>
-<a href="Mini impact v2.html" class="pagebtn">📚Livraria dos prof📚</a>
-<a href="ODS na Escola.html" class="pagebtn">🌍 APRENDA SE DIVERTINDO</a>
-<a href="Recursos BNCC.html" class="pagebtn">📘 Recursos BNCC</a>
-<a href="Saude mental.html" class="pagebtn">🧠 Saúde Mental</a>
-<a href="Tempo-livre.html" class="pagebtn">🎮 Tempo Livre</a>
-<a href="assistentes.html" class="pagebtn">🤖 Assistentes IA</a>
-<a href="atualidades-2026.html" class="pagebtn">📰 Atualidades 2026</a>
-<a href="avaliacao-formativa.html" class="pagebtn">📊 Avaliação Formativa</a>
-<a href="calendario.html" class="pagebtn">📅 Calendário</a>
-<a href="carreira-docente.html" class="pagebtn">👩‍🏫 Carreira Docente</a>
-<a href="dicas-para-professor-iniciante.html" class="pagebtn">📚 Professor Iniciante</a>
-<a href="doar.html" class="pagebtn">💛 Apoiar o Projeto</a>
-<a href="docs.html" class="pagebtn">📝 Editor Docs</a>
-<a href="google-classroom-ia.html" class="pagebtn">🏫 Classroom + IA</a>
-<a href="google280d6a09e63f9b20.html" class="pagebtn">✅ Verificação Google</a>
-<a href="ia-chat.html" class="pagebtn">💬 IA Chat</a>
-<a href="ia-geral.html" class="pagebtn">🧠 IA Geral</a>
-<a href="inclusao.html" class="pagebtn">♿ Inclusão</a>
-<a href="index.html" class="pagebtn">🏠 Página Inicial</a>
-<a href="planos-bncc.html" class="pagebtn">📑 Planos BNCC</a>
-<a href="profeFlix.html" class="pagebtn">🎬 ProfeFlix</a>
-<a href="professoress.html" class="pagebtn">👨‍🏫 Professoress</a>
-<a href="lab.html" class="pagebtn">gerador de aulas</a>
-<a href="projetos-interdisciplinares.html" class="pagebtn">🔬 Projetos</a>
-<a href="recuperacao-paralela.html" class="pagebtn">📖 Recuperação</a>
-<a href="recursos-gratuitos.html" class="pagebtn">🧰 Recursos Gratuitos</a>
-<a href="saude-mental-professor.html" class="pagebtn">❤️ Saúde do Professor</a>
-<a href="tutoriais-ia.html" class="pagebtn">📖 Tutoriais IA</a>
+  </div>
 
-</div>
-</section>
+  <!-- Rodapé -->
+  <footer>
+    <p>© 2026 Professores do Paraná</p>
+    <p>Criado com amor para a comunidade docente</p>
+    <p>Colégio Estadual Professor José Carlos Pinotti – Londrina / PR</p>
+  </footer>
 
-</div>
+  <!-- Chatbot Elfsight (mantido do original) -->
+  <div class="elfsight-app-c1493437-ddbc-49dd-a018-0731b6b5014b" data-elfsight-app-lazy></div>
 
-<footer>
-<p>© 2026 Professores do Paraná</p>
-<p>Criador principal: Matheus Rogério Alves Myaky Cenne</p>
-<p>Colégio Estadual Professor José Carlos Pinotti – Londrina / PR</p>
-</footer>
+  <script src="script.js"></script>
+  <script src="https://elfsightcdn.com/platform.js" async></script>
+  <script src="https://universe-static.elfsightcdn.com/app-releases/ai-chatbot/stable/v1.23.4/58ba49b577459baf91e96467e6bc8b897a9bee6b/widget/aiChatbot.js" async charset="UTF-8"></script>
 
 </body>
 </html>
-

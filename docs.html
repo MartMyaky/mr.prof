@@ -40,6 +40,7 @@
     .print-frame{position:fixed;width:0;height:0;border:0;opacity:0}
     @media(max-width:900px){main{grid-template-columns:1fr}aside{position:static}}
   </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
@@ -55,6 +56,22 @@
       </div>
     </div>
   </header>
+  <nav>
+    <div class="nav-inner">
+      <a href="Home.html" class="nav-logo">📚 Portal PR</a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">&#9776;</button>
+      <div class="nav-links">
+        <a href="Home.html">Início</a>
+        <a href="calendario.html">Calendário</a>
+        <a href="ia-geral.html">IA</a>
+        <a href="assistentes.html">Assistentes</a>
+        <a href="inclusao.html">Inclusão</a>
+        <a href="planos-bncc.html">BNCC</a>
+        <a href="recursos-gratuitos.html">Recursos</a>
+        <a href="doar.html">Apoiar</a>
+      </div>
+    </div>
+  </nav>
 
   <main>
     <aside class="card">
@@ -193,7 +210,15 @@
     }
 
     function criarDocumentoDeImpressao(conteudo){
-      return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Documento Matemática</title><style>@page{size:A4;margin:18mm}body{font-family:Arial;padding:0;line-height:1.6}h1{font-size:24px}</style></head><body><h1>Documento de Matemática</h1><div>${conteudo || '<p></p>'}</div></body></html>`;
+      return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Documento Matemática</title><style>@page{size:A4;margin:18mm}body{font-family:Arial;padding:0;line-height:1.6}h1{font-size:24px}</style>  <link rel="stylesheet" href="styles.css">
+</head><body><h1>Documento de Matemática</h1><div>${conteudo || '<p></p>'}</div>  <script src="script.js"></script>
+
+  <footer>
+    <p>© 2026 Professores do Paraná</p>
+    <p>Criado com amor para a comunidade docente</p>
+    <p>Colégio Estadual Professor José Carlos Pinotti – Londrina / PR</p>
+  </footer>
+</body></html>`;
     }
 
     function salvarPDF(){
@@ -215,5 +240,12 @@
     carregarTexto();
     runTests();
   </script>
+  <script src="script.js"></script>
+
+  <footer>
+    <p>© 2026 Professores do Paraná</p>
+    <p>Criado com amor para a comunidade docente</p>
+    <p>Colégio Estadual Professor José Carlos Pinotti – Londrina / PR</p>
+  </footer>
 </body>
 </html>

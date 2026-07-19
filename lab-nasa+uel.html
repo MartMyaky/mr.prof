@@ -167,8 +167,25 @@
     @media (max-width:1280px){.layout{grid-template-columns:1fr}.labScene{min-height:1220px}.chemStation{width:calc(100% - 48px)}.physStation{left:24px;bottom:330px;width:calc(50% - 30px)}.microStation{right:24px;bottom:330px;width:calc(50% - 30px)}}
     @media (max-width:860px){.labScene{min-height:1540px}.holoBoard,.backMonitor{position:relative;top:auto;left:auto;right:auto;width:100%;margin-bottom:12px}.shelf{top:430px;width:300px}.draggableField{top:520px;height:210px}.chemStation,.physStation,.microStation{left:24px;right:24px;width:auto}.microStation{bottom:82px}.physStation{bottom:350px}.chemStation{bottom:618px;height:260px}.bench{height:900px}.cabinet{right:24px;left:24px;bottom:940px;width:auto}.robotDock{left:24px;bottom:820px}.sinkArea{left:24px;bottom:700px}.lessonBanner{left:24px;bottom:610px;width:260px}}
   </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <nav>
+    <div class="nav-inner">
+      <a href="Home.html" class="nav-logo">📚 Portal PR</a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">&#9776;</button>
+      <div class="nav-links">
+        <a href="Home.html">Início</a>
+        <a href="calendario.html">Calendário</a>
+        <a href="ia-geral.html">IA</a>
+        <a href="assistentes.html">Assistentes</a>
+        <a href="inclusao.html">Inclusão</a>
+        <a href="planos-bncc.html">BNCC</a>
+        <a href="recursos-gratuitos.html">Recursos</a>
+        <a href="doar.html">Apoiar</a>
+      </div>
+    </div>
+  </nav>
   <div class="app">
     <section class="hero">
       <h1>Laboratório Virtual UEL + NASA V3</h1>
@@ -782,7 +799,31 @@
 
       `;
       const win = window.open('', '_blank');
-      win.document.write(`<!DOCTYPE html><html><head><title>Resultado do Laboratório</title><style>body{font-family:Arial,sans-serif;padding:30px;line-height:1.7}h1{color:#0f3b66}pre{white-space:pre-wrap;font-family:Arial,sans-serif}</style></head><body><h1>Resultado do Laboratório</h1><pre>${content}</pre><script>window.onload = () => { window.print(); }<\/script></body></html>`);
+      win.document.write(`<!DOCTYPE html><html><head><title>Resultado do Laboratório</title><style>body{font-family:Arial,sans-serif;padding:30px;line-height:1.7}h1{color:#0f3b66}pre{white-space:pre-wrap;font-family:Arial,sans-serif}</style>  <link rel="stylesheet" href="styles.css">
+</head><body>
+  <nav>
+    <div class="nav-inner">
+      <a href="Home.html" class="nav-logo">📚 Portal PR</a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">&#9776;</button>
+      <div class="nav-links">
+        <a href="Home.html">Início</a>
+        <a href="calendario.html">Calendário</a>
+        <a href="ia-geral.html">IA</a>
+        <a href="assistentes.html">Assistentes</a>
+        <a href="inclusao.html">Inclusão</a>
+        <a href="planos-bncc.html">BNCC</a>
+        <a href="recursos-gratuitos.html">Recursos</a>
+        <a href="doar.html">Apoiar</a>
+      </div>
+    </div>
+  </nav><h1>Resultado do Laboratório</h1><pre>${content}</pre><script>window.onload = () => { window.print(); }<\/script>  <script src="script.js"></script>
+
+  <footer>
+    <p>© 2026 Professores do Paraná</p>
+    <p>Criado com amor para a comunidade docente</p>
+    <p>Colégio Estadual Professor José Carlos Pinotti – Londrina / PR</p>
+  </footer>
+</body></html>`);
       win.document.close();
       addLog('Janela de impressão/PDF aberta.');
       updateObservation('Exportando PDF');
@@ -824,5 +865,12 @@
     updatePhysics();
     updateTeacherMode();
   </script>
+  <script src="script.js"></script>
+
+  <footer>
+    <p>© 2026 Professores do Paraná</p>
+    <p>Criado com amor para a comunidade docente</p>
+    <p>Colégio Estadual Professor José Carlos Pinotti – Londrina / PR</p>
+  </footer>
 </body>
 </html>
